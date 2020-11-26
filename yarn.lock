@@ -354,8 +354,6 @@ chokidar@^3.4.0:
     is-glob "~4.0.1"
     normalize-path "~3.0.0"
     readdirp "~3.5.0"
-  optionalDependencies:
-    fsevents "~2.1.2"
 
 chownr@^1.1.1:
   version "1.1.4"
