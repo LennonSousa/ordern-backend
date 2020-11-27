@@ -1,3 +1,4 @@
+require('dotenv/config');
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
@@ -8,7 +9,6 @@ import jwt from 'jsonwebtoken';
 //import mailer from '../modules/mailer';
 
 import UsersModel from '../models/UsersModel';
-let environment = require('dotenv').config();
 
 export default {
     async create(request: Request, response: Response) {
@@ -49,13 +49,19 @@ export default {
                 error: 'User e-mail or password dosen\'t exists.'
             });
 
-        const token = jwt.sign({ id: userAuth.id }, environment.parsed.JWT_SECRET, {
-            expiresIn: "1d"
+        if (process.env.JWT_SECRET) {
+            const token = jwt.sign({ id: userAuth.id }, process.env.JWT_SECRET, {
+                expiresIn: "1d"
+            });
+
+            const { id, name } = userAuth;
+
+            return response.status(201).json({ id, name, email, token: token });
+        }
+
+        return response.status(400).json({
+            error: 'Internal error.'
         });
-
-        const { id, name } = userAuth;
-
-        return response.status(201).json({ id, name, email, token: token });
     },
 
     async update(request: Request, response: Response) {
