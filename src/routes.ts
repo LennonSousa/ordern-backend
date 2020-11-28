@@ -24,7 +24,7 @@ import Orders from './controllers/OrdersController';
 const routes = express.Router();
 const upload = multer(uploadConfig);
 
-//routes.use(authMiddleware);
+routes.use(authMiddleware);
 
 routes.get('/restaurants', RestaurantsController.index);
 routes.get('/restaurants/:id', RestaurantsController.show);
