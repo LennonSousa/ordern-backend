@@ -19,6 +19,7 @@ export default {
                 'categoriesAdditional',
                 'categoriesAdditional.productAdditional',
                 'categoriesAdditional.productAdditional.additional',
+                'categoriesAdditional.productAdditional.categoryAdditional',
                 'availables'
             ]
         });
