@@ -43,7 +43,7 @@ export default {
             ]
         });
 
-        product.image = product.image ? `http://${request.headers.host}${request.url}/uploads/${product.image}` : product.image;
+        product.image = product.image ? `http://${request.headers.host}/uploads/${product.image}` : product.image;
 
         return response.json(productView.render(product));
     },
