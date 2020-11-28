@@ -1,13 +1,12 @@
+require('dotenv/config');
 import { NextFunction, Request, Response } from 'express';
 import jwt from "jsonwebtoken";
-
-let environment = require('dotenv').config();
 
 export default (request: Request, response: Response, next: NextFunction) => {
     const authHeader = request.headers.authorization;
 
-    if(request.path === "/users/authenticate" || request.path === "/clients/authenticate")
-    return next();
+    if (request.path === "/users/authenticate" || request.path === "/clients/authenticate")
+        return next();
 
     if (!authHeader)
         return response.status(401).send({ error: 'No token provided' });
@@ -22,11 +21,15 @@ export default (request: Request, response: Response, next: NextFunction) => {
     if (!/^Bearer$/i.test(scheme))
         return response.status(401).send({ error: 'Token malformated' });
 
-    jwt.verify(token, environment.parsed.JWT_SECRET, (err: any, decoded: any) => {
-        if(err) return response.status(401).send({ error: 'Token invalid' });
+    if (process.env.JWT_SECRET) {
+        jwt.verify(token, process.env.JWT_SECRET, (err: any, decoded: any) => {
+            if (err) return response.status(401).send({ error: 'Token invalid' });
 
-        request = decoded.id;
-        
-        return next();
-    })
+            request = decoded.id;
+
+            return next();
+        });
+    }
+
+    return response.status(500).json({ message: 'Internal server error' });
 };
