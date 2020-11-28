@@ -30,6 +30,4 @@ export default (request: Request, response: Response, next: NextFunction) => {
             return next();
         });
     }
-
-    return response.status(500).json({ message: 'Internal server error' });
 };
