@@ -5,7 +5,7 @@ export default {
         return {
             id: productAdditional.id,
             pdv: productAdditional.pdv,
-            value: productAdditional.price,
+            price: productAdditional.price,
             order: productAdditional.order,
             additional: productAdditional.additional,
             categoryAdditional: productAdditional.categoryAdditional,
