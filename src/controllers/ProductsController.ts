@@ -120,6 +120,17 @@ export default {
 
             await productsRepository.save(product);
 
+            const productAvailabelsRepository = getRepository(ProductAvailabelsModel);
+
+            for (let x = 0; x < 7; x++) {
+                const productAvailable = productAvailabelsRepository.create({
+                    week_day: x,
+                    product: product
+                });
+
+                await productAvailabelsRepository.save(productAvailable);
+            }
+
             return response.status(201).json(productView.render(product));
         }
         else {

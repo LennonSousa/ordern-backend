@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 
 import restaurantView from '../views/restaurantView';
 import RestaurantsModel from '../models/RestaurantsModel';
+import OpenedDaysModel from '../models/OpenedDaysModel';
+import DaySchedules from '../models/DaySchedulesModel';
 
 export default {
     async index(request: Request, response: Response) {
@@ -81,6 +83,23 @@ export default {
         const restaurant = restaurantsRepository.create(data);
 
         await restaurantsRepository.save(restaurant);
+
+        const openedDaysRepository = getRepository(OpenedDaysModel);
+        const daySchedulesRepository = getRepository(DaySchedules);
+
+        // Creating seven days default.
+        for (let x = 0; x < 7; x++) {
+            const openedDay = openedDaysRepository.create({
+                week_day: x
+            });
+
+            await openedDaysRepository.save(openedDay);
+
+            // Creating for each ond day a schedule default.
+            const daySchedule = daySchedulesRepository.create({ weedDay: openedDay })
+
+            await daySchedulesRepository.save(daySchedule);
+        }
 
         return response.status(201).json(restaurant);
     },

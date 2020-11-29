@@ -16,11 +16,13 @@ export class createRestaurantDaySchedules1606348266485 implements MigrationInter
                 },
                 {
                     name: 'from',
-                    type: 'integer'
+                    type: 'integer',
+                    default: 0
                 },
                 {
                     name: 'to',
-                    type: 'integer'
+                    type: 'integer',
+                    default: 0
                 },
                 {
                     name: 'paused',
