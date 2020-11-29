@@ -18,6 +18,7 @@ import ProductsController from './controllers/ProductsController';
 import ProductValuesController from './controllers/ProductValuesController';
 import ProductCategoriesAdditionalController from './controllers/ProductCategoriesAdditionalController';
 import ProductAdditionalsController from './controllers/ProductAdditionalsController';
+import ProductAvailablesController from './controllers/ProductAvailablesController';
 import OrderStatus from './controllers/OrderStatusController';
 import Orders from './controllers/OrdersController';
 
@@ -94,6 +95,8 @@ routes.get('/product/additionals/:id', ProductAdditionalsController.show);
 routes.post('/product/additionals', ProductAdditionalsController.create);
 routes.put('/product/additionals/:id', ProductAdditionalsController.update);
 routes.delete('/product/additionals/:id', ProductAdditionalsController.delete);
+
+routes.put('/product/availables/:id', ProductAvailablesController.update);
 
 routes.get('/order-status', OrderStatus.index);
 
