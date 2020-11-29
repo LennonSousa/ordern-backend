@@ -24,7 +24,8 @@ export class createOrderItems1606348579867 implements MigrationInterface {
                 },
                 {
                     name: 'value',
-                    type: 'decimal'
+                    type: 'decimal',
+                    scale: 2
                 },
                 {
                     name: 'additional',
@@ -33,7 +34,7 @@ export class createOrderItems1606348579867 implements MigrationInterface {
                 },
                 {
                     name: 'additional_item',
-                    type: 'decimal',
+                    type: 'integer',
                     isNullable: true
                 },
                 {
