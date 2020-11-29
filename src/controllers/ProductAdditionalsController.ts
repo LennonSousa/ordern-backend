@@ -65,6 +65,8 @@ export default {
     async update(request: Request, response: Response) {
         const { id } = request.params;
 
+        console.log(request.body);
+
         const {
             pdv,
             price,
