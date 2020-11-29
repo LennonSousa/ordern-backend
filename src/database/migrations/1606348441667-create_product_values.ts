@@ -21,7 +21,9 @@ export class createProductValues1606348441667 implements MigrationInterface {
                 },
                 {
                     name: 'value',
-                    type: 'integer'
+                    type: 'decimal',
+                    scale: 2,
+                    default: 0.00
                 },
                 {
                     name: 'order',

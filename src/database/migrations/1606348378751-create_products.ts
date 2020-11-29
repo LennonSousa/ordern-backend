@@ -45,7 +45,8 @@ export class createProducts1606348378751 implements MigrationInterface {
                 },
                 {
                     name: 'price',
-                    type: 'decimal'
+                    type: 'decimal',
+                    scale: 2
                 },
                 {
                     name: 'discount',
@@ -55,6 +56,7 @@ export class createProducts1606348378751 implements MigrationInterface {
                 {
                     name: 'discount_price',
                     type: 'decimal',
+                    scale: 2,
                     default: 0.00
                 },
                 {

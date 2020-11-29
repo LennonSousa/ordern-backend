@@ -28,7 +28,8 @@ export class createRestaurants1606348202264 implements MigrationInterface {
                 },
                 {
                     name: 'min_order',
-                    type: 'decimal'
+                    type: 'decimal',
+                    scale: 2
                 },
                 {
                     name: 'cover',

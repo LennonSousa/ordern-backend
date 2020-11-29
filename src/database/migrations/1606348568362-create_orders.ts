@@ -36,7 +36,8 @@ export class createOrders1606348568362 implements MigrationInterface {
                 },
                 {
                     name: 'sub_total',
-                    type: 'decimal'
+                    type: 'decimal',
+                    scale: 2
                 },
                 {
                     name: 'cupom',
@@ -44,19 +45,23 @@ export class createOrders1606348568362 implements MigrationInterface {
                 },
                 {
                     name: 'delivery_tax',
-                    type: 'decimal'
+                    type: 'decimal',
+                    scale: 2
                 },
                 {
                     name: 'descount',
-                    type: 'decimal'
+                    type: 'decimal',
+                    scale: 2
                 },
                 {
                     name: 'fee',
-                    type: 'decimal'
+                    type: 'decimal',
+                    scale: 2
                 },
                 {
                     name: 'total',
-                    type: 'decimal'
+                    type: 'decimal',
+                    scale: 2
                 },
                 {
                     name: 'payment',
