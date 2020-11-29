@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 
 import productView from '../views/productView';
 import ProductsModel from '../models/ProductsModel';
+import ProductAvailabelsModel from '../models/ProductAvailablesModel';
 
 export default {
     async index(request: Request, response: Response) {
@@ -160,6 +161,14 @@ export default {
             const product = productsRepository.create(data);
 
             await productsRepository.save(product);
+
+            const productAvailabelsRepository = getRepository(ProductAvailabelsModel);
+
+            for (let x = 0; x < 7; x++) {
+                const productAvailable = productAvailabelsRepository.create({ week_day: x });
+
+                await productAvailabelsRepository.save(productAvailable);
+            }
 
             return response.status(201).json(productView.render(product));
         }

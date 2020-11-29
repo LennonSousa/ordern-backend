@@ -35,11 +35,13 @@ export class createProductAvailables1606348416426 implements MigrationInterface 
                 },
                 {
                     name: 'shift_01_from',
-                    type: 'integer'
+                    type: 'integer',
+                    default: 0
                 },
                 {
                     name: 'shift_01_to',
-                    type: 'integer'
+                    type: 'integer',
+                    default: 0
                 },
                 {
                     name: 'shift_02',
@@ -48,11 +50,13 @@ export class createProductAvailables1606348416426 implements MigrationInterface 
                 },
                 {
                     name: 'shift_02_from',
-                    type: 'integer'
+                    type: 'integer',
+                    default: 0
                 },
                 {
                     name: 'shift_02_to',
-                    type: 'integer'
+                    type: 'integer',
+                    default: 0
                 }
                 ,
                 {
