@@ -25,13 +25,15 @@ export default {
     },
 
     async create(request: Request, response: Response) {
-        const {
+        let {
             pdv,
             price,
             order,
             additional,
             categoryAdditional
         } = request.body;
+
+        price = Number(price);
 
         const productAdditionalsRepository = getRepository(ProductAdditionalsModel);
 
@@ -65,15 +67,15 @@ export default {
     async update(request: Request, response: Response) {
         const { id } = request.params;
 
-        console.log(request.body);
-
-        const {
+        let {
             pdv,
             price,
             order,
             additional,
             categoryAdditional
         } = request.body;
+
+        price = Number(price);
 
         const productAdditionalsRepository = getRepository(ProductAdditionalsModel);
 
