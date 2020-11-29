@@ -41,7 +41,7 @@ export class createProducts1606348378751 implements MigrationInterface {
                 {
                     name: 'price_one',
                     type: 'boolean',
-                    default: false
+                    default: true
                 },
                 {
                     name: 'price',
