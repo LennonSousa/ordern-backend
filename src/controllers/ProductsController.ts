@@ -165,7 +165,10 @@ export default {
             const productAvailabelsRepository = getRepository(ProductAvailabelsModel);
 
             for (let x = 0; x < 7; x++) {
-                const productAvailable = productAvailabelsRepository.create({ week_day: x });
+                const productAvailable = productAvailabelsRepository.create({
+                    week_day: x,
+                    product: product
+                });
 
                 await productAvailabelsRepository.save(productAvailable);
             }
