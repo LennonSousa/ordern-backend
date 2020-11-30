@@ -33,11 +33,13 @@ export class createRestaurants1606348202264 implements MigrationInterface {
                 },
                 {
                     name: 'cover',
-                    type:'varchar'
+                    type:'varchar',
+                    isNullable: true
                 },
                 {
                     name: 'avatar',
-                    type:'varchar'
+                    type:'varchar',
+                    isNullable: true
                 },
                 {
                     name: 'zip_code',
