@@ -2,10 +2,19 @@ require('dotenv/config');
 import { NextFunction, Request, Response } from 'express';
 import jwt from "jsonwebtoken";
 
+const publicRoutes = [
+    '/users/authenticate',
+    '/clients/authenticate',
+    '/restaurants',
+    '/product',
+    '/products',
+    '/uploads'
+]
+
 export default (request: Request, response: Response, next: NextFunction) => {
     const authHeader = request.headers.authorization;
 
-    if (request.path === "/users/authenticate" || request.path === "/clients/authenticate")
+    if (publicRoutes.find(item => { return item === request.path }))
         return next();
 
     if (!authHeader)
