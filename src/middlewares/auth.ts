@@ -6,6 +6,7 @@ const publicRoutes = [
     '/users/authenticate',
     '/clients/authenticate',
     '/restaurants',
+    '/restaurant',
     '/product',
     '/products',
     '/uploads'
@@ -13,6 +14,8 @@ const publicRoutes = [
 
 export default (request: Request, response: Response, next: NextFunction) => {
     const authHeader = request.headers.authorization;
+
+    console.log(request.path.slice(0, request.path.indexOf('/', 1)));
 
     if (publicRoutes.find(item => { return item === request.path.slice(0, request.path.indexOf('/', 1)) }))
         return next();
