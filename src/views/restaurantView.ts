@@ -1,3 +1,4 @@
+require('dotenv/config');
 import Restaurant from '../models/RestaurantsModel'
 
 export default {
@@ -8,8 +9,8 @@ export default {
             phone: restaurant.phone,
             description: restaurant.description,
             min_order: restaurant.min_order,
-            cover: `http://localhost:3333/uploads/${restaurant.cover}`,
-            avatar: `http://localhost:3333/uploads/${restaurant.avatar}`,
+            cover: `http://${process.env.HOST_API}/uploads/${restaurant.cover}`,
+            avatar: `http://${process.env.HOST_API}/uploads/${restaurant.avatar}`,
             zip_code: restaurant.zip_code,
             street: restaurant.street,
             number: restaurant.number,

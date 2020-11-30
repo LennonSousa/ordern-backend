@@ -1,8 +1,9 @@
+require('dotenv/config');
 import Product from '../models/ProductsModel'
 
 export default {
     render(product: Product) {
-        const image = product.image ? `http://localhost:3333/uploads/${product.image}` : product.image;
+        const image = product.image ? `http://${process.env.HOST_API}/uploads/${product.image}` : product.image;
         return {
             id: product.id,
             title: product.title,

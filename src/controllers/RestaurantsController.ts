@@ -13,15 +13,7 @@ export default {
 
         const restaurants = await restaurantsRepository.find();
 
-        const restaurantsUpdated = restaurants.map(restaurant => {
-            return {
-                ...restaurant,
-                cover: restaurant.cover ? `http://${request.headers.host}/uploads/${restaurant.cover}` : restaurant.cover,
-                avatar: restaurant.avatar ? `http://${request.headers.host}/uploads/${restaurant.avatar}` : restaurant.avatar
-            }
-        })
-
-        return response.json(restaurantView.renderMany(restaurantsUpdated));
+        return response.json(restaurantView.renderMany(restaurants));
     },
 
     async show(request: Request, response: Response) {
@@ -31,11 +23,7 @@ export default {
 
         const restaurant = await restaurantsRepository.findOneOrFail(id);
 
-        return response.json(restaurantView.render({
-            ...restaurant,
-            cover: restaurant.cover ? `http://${request.headers.host}/uploads/${restaurant.cover}` : restaurant.cover,
-            avatar: restaurant.avatar ? `http://${request.headers.host}/uploads/${restaurant.avatar}` : restaurant.avatar
-        }));
+        return response.json(restaurantView.render(restaurant));
     },
 
     async create(request: Request, response: Response) {
