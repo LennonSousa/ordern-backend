@@ -15,9 +15,9 @@ const publicRoutes = [
 export default (request: Request, response: Response, next: NextFunction) => {
     const authHeader = request.headers.authorization;
 
-    console.log(request.path.slice(0, request.path.indexOf('/', 1)));
+    console.log(request.originalUrl);
 
-    if (publicRoutes.find(item => { return item === request.path.slice(0, request.path.indexOf('/', 1)) }))
+    if (publicRoutes.find(item => { return item === request.originalUrl }))
         return next();
 
     if (!authHeader)
