@@ -8,7 +8,6 @@ const publicRoutes = [
     '/restaurants',
     '/restaurant',
     '/categories',
-    '/product',
     '/products',
     '/uploads'
 ]
