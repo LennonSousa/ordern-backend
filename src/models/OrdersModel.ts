@@ -44,7 +44,7 @@ export default class ProductModel {
     address: string;
 
     @Column()
-    reason_cancellation: boolean;
+    reason_cancellation: string;
 
     @ManyToOne(() => OrderStatus, orderStatus => orderStatus.orders)
     @JoinColumn({ name: 'order_status_id'})
