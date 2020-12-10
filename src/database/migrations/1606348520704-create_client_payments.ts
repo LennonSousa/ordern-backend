@@ -15,6 +15,26 @@ export class createClientPayments1606348520704 implements MigrationInterface {
                     generationStrategy: 'increment'
                 },
                 {
+                    name: 'card_number',
+                    type: 'varchar'
+                },
+                {
+                    name: 'valid',
+                    type: 'varchar'
+                },
+                {
+                    name: 'cvv',
+                    type: 'varchar'
+                },
+                {
+                    name: 'name',
+                    type: 'varchar'
+                },
+                {
+                    name: 'cpf',
+                    type: 'varchar'
+                },
+                {
                     name: 'client_id',
                     type: 'integer',
                     unsigned: true,

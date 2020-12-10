@@ -24,15 +24,18 @@ export class createClientAddress1606348499412 implements MigrationInterface {
                 },
                 {
                     name: 'number',
-                    type: 'varchar'
+                    type: 'varchar',
+                    isNullable: true
                 },
                 {
                     name: 'group',
-                    type: 'varchar'
+                    type: 'varchar',
+                    isNullable: true
                 },
                 {
                     name: 'complement',
-                    type: 'varchar'
+                    type: 'varchar',
+                    isNullable: true
                 },
                 {
                     name: 'city',
