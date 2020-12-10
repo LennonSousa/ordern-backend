@@ -21,6 +21,7 @@ import ProductAdditionalsController from './controllers/ProductAdditionalsContro
 import ProductAvailablesController from './controllers/ProductAvailablesController';
 import OrderStatus from './controllers/OrderStatusController';
 import Orders from './controllers/OrdersController';
+import ClientsAuthenticationsController from './controllers/ClientsAuthenticationController';
 import Clients from './controllers/ClientsController';
 
 const routes = express.Router();
@@ -106,6 +107,8 @@ routes.get('/orders/:id', Orders.show);
 routes.post('/orders', Orders.create);
 routes.put('/orders/:id', Orders.update);
 routes.delete('/orders/:id', Orders.delete);
+
+routes.post('/clients/authenticate', ClientsAuthenticationsController.create);
 
 routes.get('/clients', Clients.index);
 routes.get('/clients/:id', Clients.show);

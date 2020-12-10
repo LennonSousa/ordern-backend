@@ -83,8 +83,12 @@ export default {
             ).notRequired(),
             payments: Yup.array(
                 Yup.object().shape({
-
-                }).notRequired()
+                    card_number: Yup.string().required(),
+                    valid: Yup.string().required(),
+                    cvv: Yup.string().required(),
+                    name: Yup.string().required(),
+                    cpf: Yup.string().required(),
+                })
             ).notRequired()
         });
 
