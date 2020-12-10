@@ -21,6 +21,7 @@ import ProductAdditionalsController from './controllers/ProductAdditionalsContro
 import ProductAvailablesController from './controllers/ProductAvailablesController';
 import OrderStatus from './controllers/OrderStatusController';
 import Orders from './controllers/OrdersController';
+import Clients from './controllers/ClientsController';
 
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -105,5 +106,11 @@ routes.get('/orders/:id', Orders.show);
 routes.post('/orders', Orders.create);
 routes.put('/orders/:id', Orders.update);
 routes.delete('/orders/:id', Orders.delete);
+
+routes.get('/clients', Clients.index);
+routes.get('/clients/:id', Clients.show);
+routes.post('/clients', Clients.create);
+routes.put('/clients/:id', Clients.update);
+routes.delete('/clients/:id', Clients.delete);
 
 export default routes;
