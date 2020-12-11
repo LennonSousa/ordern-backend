@@ -9,6 +9,20 @@ import jwt from 'jsonwebtoken';
 import ClientsModel from '../models/ClientsModel';
 
 export default {
+    async show(request: Request, response: Response) {
+        const { email } = request.params;
+
+        const clientsRepository = getRepository(ClientsModel);
+
+        const client = await clientsRepository.findOneOrFail({
+            where: {
+                email
+            }
+        });
+        
+        return response.status(200).json(client.email);
+    },
+
     async create(request: Request, response: Response) {
         const {
             email,

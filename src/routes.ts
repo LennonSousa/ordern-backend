@@ -109,6 +109,7 @@ routes.put('/orders/:id', Orders.update);
 routes.delete('/orders/:id', Orders.delete);
 
 routes.post('/clients/authenticate', ClientsAuthenticationsController.create);
+routes.get('/clients/authenticate/:email', ClientsAuthenticationsController.show);
 
 routes.get('/clients', Clients.index);
 routes.get('/clients/:id', Clients.show);
