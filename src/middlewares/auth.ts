@@ -9,7 +9,8 @@ const publicRoutes = [
     '/restaurant',
     '/categories',
     '/products',
-    '/uploads'
+    '/uploads',
+    '/clients'
 ]
 
 export default (request: Request, response: Response, next: NextFunction) => {
