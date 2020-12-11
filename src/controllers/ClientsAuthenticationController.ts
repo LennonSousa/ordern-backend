@@ -19,7 +19,7 @@ export default {
                 email
             }
         });
-        
+    
         return response.status(200).json(client.email);
     },
 
