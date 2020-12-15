@@ -53,7 +53,9 @@ export default {
 
             if (customerNewExists) {
                 const { id } = customerNewExists;
-                const customerNew = customerNewRepository.create({ token: hash, activated: false });
+                const customerNew = customerNewRepository.create({
+                    token: hash, expire: expireHour, activated: false
+                });
 
                 await customerNewRepository.update(id, customerNew);
             }
@@ -116,6 +118,15 @@ export default {
         if (!await bcrypt.compare(token, customerNewAuth.token))
             return response.status(400).json({
                 error: 'Customer e-mail or token dosen\'t exists.'
+            });
+
+        const now = new Date();
+
+        console.log(now, customerNewAuth.expire);
+
+        if (customerNewAuth.expire > now)
+            return response.status(400).json({
+                error: 'Customer activatiion token expired.'
             });
 
         if (process.env.JWT_SECRET) {
