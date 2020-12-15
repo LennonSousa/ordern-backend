@@ -4,13 +4,13 @@ import jwt from "jsonwebtoken";
 
 const publicRoutes = [
     '/users/authenticate',
+    '/customer/new',
     '/clients/authenticate',
     '/restaurants',
     '/restaurant',
     '/categories',
     '/products',
     '/uploads',
-    '/clients'
 ]
 
 export default (request: Request, response: Response, next: NextFunction) => {

@@ -21,6 +21,7 @@ import ProductAdditionalsController from './controllers/ProductAdditionalsContro
 import ProductAvailablesController from './controllers/ProductAvailablesController';
 import OrderStatus from './controllers/OrderStatusController';
 import Orders from './controllers/OrdersController';
+import NewCustomersAuthenticationController from './controllers/NewCustomerAuthentication';
 import ClientsAuthenticationsController from './controllers/ClientsAuthenticationController';
 import Clients from './controllers/ClientsController';
 
@@ -108,8 +109,12 @@ routes.post('/orders', Orders.create);
 routes.put('/orders/:id', Orders.update);
 routes.delete('/orders/:id', Orders.delete);
 
+routes.post('/customer/new', NewCustomersAuthenticationController.create);
+routes.put('/customer/new', NewCustomersAuthenticationController.update);
+
 routes.post('/clients/authenticate', ClientsAuthenticationsController.create);
 routes.get('/clients/authenticate/:email', ClientsAuthenticationsController.show);
+routes.put('/clients/authenticate', ClientsAuthenticationsController.update);
 
 routes.get('/clients', Clients.index);
 routes.get('/clients/:id', Clients.show);

@@ -12,8 +12,8 @@ import CustomerNewModel from '../models/CustomerNewModel';
 import mailer from '../modules/mailer';
 
 export default {
-    async show(request: Request, response: Response) {
-        const { email } = request.params;
+    async create(request: Request, response: Response) {
+        const { email } = request.body;
 
         const customerRepository = getRepository(CustomersModel);
 
@@ -81,57 +81,6 @@ export default {
         }
 
         return response.status(200).json();
-    },
-
-    async create(request: Request, response: Response) {
-        const {
-            email,
-            password,
-        } = request.body;
-
-        const customerRepository = getRepository(CustomersModel);
-
-        const data = {
-            email,
-            password
-        };
-
-        const schema = Yup.object().shape({
-            email: Yup.string().required(),
-            password: Yup.string().required()
-        });
-
-        await schema.validate(data, {
-            abortEarly: false,
-        });
-
-        const customerAuth = await customerRepository.findOne({
-            where: [
-                { email: email }
-            ]
-        });
-
-        if (!customerAuth)
-            return response.status(400).json({
-                error: 'Customer e-mail or password dosen\'t exists.'
-            });
-
-        if (!await bcrypt.compare(password, customerAuth.password))
-            return response.status(400).json({
-                error: 'Customer e-mail or password dosen\'t exists.'
-            });
-
-        if (process.env.JWT_SECRET) {
-            const token = jwt.sign({ id: customerAuth.id }, process.env.JWT_SECRET, {
-                expiresIn: "1d"
-            });
-
-            const { id, name } = customerAuth;
-
-            return response.status(201).json({ id, name, email, token: token });
-        }
-
-        return response.status(500).json({ message: 'Internal server error' });
     },
 
     async update(request: Request, response: Response) {
