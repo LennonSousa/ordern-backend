@@ -107,6 +107,7 @@ export default {
         });
 
         const customerAuth = await customerRepository.findOne({
+            relations: ['address', 'payments'],
             where: [
                 { email: email }
             ]
