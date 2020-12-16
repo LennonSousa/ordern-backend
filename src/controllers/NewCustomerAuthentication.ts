@@ -122,8 +122,6 @@ export default {
 
         const now = new Date();
 
-        console.log(customerNewAuth.expire, now);
-
         if (customerNewAuth.expire <= now)
             return response.status(400).json({
                 error: 'Customer activatiion token expired.'
