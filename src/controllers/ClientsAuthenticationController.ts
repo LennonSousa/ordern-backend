@@ -7,6 +7,7 @@ import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+import clientView from '../views/clientView';
 import CustomersModel from '../models/ClientsModel';
 import CustomerNewModel from '../models/CustomerNewModel';
 import mailer from '../modules/mailer';
@@ -126,9 +127,7 @@ export default {
                 expiresIn: "1d"
             });
 
-            const { id, name } = customerAuth;
-
-            return response.status(201).json({ id, name, email, token: token });
+            return response.status(201).json({ ...clientView.render(customerAuth), token: token });
         }
 
         return response.status(500).json({ message: 'Internal server error' });

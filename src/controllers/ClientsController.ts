@@ -30,7 +30,7 @@ export default {
     },
 
     async create(request: Request, response: Response) {
-        let {
+        const {
             name,
             cpf,
             birth,
@@ -42,9 +42,6 @@ export default {
             address,
             payments
         } = request.body;
-
-        active = active === 'true' ? true : false;
-        paused = paused === 'true' ? true : false;
 
         const clientsRepository = getRepository(ClientsModel);
 
@@ -109,7 +106,7 @@ export default {
     async update(request: Request, response: Response) {
         const { id } = request.params;
 
-        let {
+        const {
             name,
             cpf,
             birth,
@@ -120,9 +117,6 @@ export default {
             address,
             payments
         } = request.body;
-
-        active = active === 'true' ? true : false;
-        paused = paused === 'true' ? true : false;
 
         const clientsRepository = getRepository(ClientsModel);
 

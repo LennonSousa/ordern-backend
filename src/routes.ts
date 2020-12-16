@@ -113,8 +113,6 @@ routes.post('/customer/new', NewCustomersAuthenticationController.create);
 routes.put('/customer/new', NewCustomersAuthenticationController.update);
 
 routes.post('/clients/authenticate', ClientsAuthenticationsController.create);
-routes.get('/clients/authenticate/:email', ClientsAuthenticationsController.show);
-routes.put('/clients/authenticate', ClientsAuthenticationsController.update);
 
 routes.get('/clients', Clients.index);
 routes.get('/clients/:id', Clients.show);
