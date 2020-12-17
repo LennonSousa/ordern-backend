@@ -39,7 +39,7 @@ export default {
             group: Yup.string().required(),
             complement: Yup.string().notRequired(),
             city: Yup.string().required(),
-            country: Yup.boolean().required(),
+            country: Yup.string().required(),
             type: Yup.string().required(),
             client: Yup.number().required()
         });
@@ -91,7 +91,7 @@ export default {
             group: Yup.string().required(),
             complement: Yup.string().notRequired(),
             city: Yup.string().required(),
-            country: Yup.boolean().required(),
+            country: Yup.string().required(),
             type: Yup.string().required(),
             client: Yup.number().required()
         });
