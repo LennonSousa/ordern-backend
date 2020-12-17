@@ -19,11 +19,12 @@ import ProductValuesController from './controllers/ProductValuesController';
 import ProductCategoriesAdditionalController from './controllers/ProductCategoriesAdditionalController';
 import ProductAdditionalsController from './controllers/ProductAdditionalsController';
 import ProductAvailablesController from './controllers/ProductAvailablesController';
-import OrderStatus from './controllers/OrderStatusController';
-import Orders from './controllers/OrdersController';
+import OrderStatusController from './controllers/OrderStatusController';
+import OrdersController from './controllers/OrdersController';
 import NewCustomersAuthenticationController from './controllers/NewCustomerAuthentication';
 import ClientsAuthenticationsController from './controllers/ClientsAuthenticationController';
-import Clients from './controllers/ClientsController';
+import CustomersController from './controllers/ClientsController';
+import CustomerAddressController from './controllers/CustomerAddressController';
 
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -101,23 +102,27 @@ routes.delete('/product/additionals/:id', ProductAdditionalsController.delete);
 
 routes.put('/product/availables/:id', ProductAvailablesController.update);
 
-routes.get('/order-status', OrderStatus.index);
+routes.get('/order-status', OrderStatusController.index);
 
-routes.get('/orders', Orders.index);
-routes.get('/orders/:id', Orders.show);
-routes.post('/orders', Orders.create);
-routes.put('/orders/:id', Orders.update);
-routes.delete('/orders/:id', Orders.delete);
+routes.get('/orders', OrdersController.index);
+routes.get('/orders/:id', OrdersController.show);
+routes.post('/orders', OrdersController.create);
+routes.put('/orders/:id', OrdersController.update);
+routes.delete('/orders/:id', OrdersController.delete);
 
 routes.post('/customer/new', NewCustomersAuthenticationController.create);
 routes.put('/customer/new', NewCustomersAuthenticationController.update);
 
 routes.post('/clients/authenticate', ClientsAuthenticationsController.create);
 
-routes.get('/clients', Clients.index);
-routes.get('/clients/:id', Clients.show);
-routes.post('/clients', Clients.create);
-routes.put('/clients/:id', Clients.update);
-routes.delete('/clients/:id', Clients.delete);
+routes.get('/clients', CustomersController.index);
+routes.get('/clients/:id', CustomersController.show);
+routes.post('/clients', CustomersController.create);
+routes.put('/clients/:id', CustomersController.update);
+routes.delete('/clients/:id', CustomersController.delete);
+
+routes.post('/customer/address', CustomerAddressController.create);
+routes.put('/customer/address/:id', CustomerAddressController.update);
+routes.delete('/customer/address/:id', CustomerAddressController.delete);
 
 export default routes;

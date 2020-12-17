@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
-import ClientAddress from './ClientAddressModel';
+import ClientAddress from './CustomerAddressModel';
 import ClientPayment from './ClientPaymentsModel';
 
 @Entity('clients')
