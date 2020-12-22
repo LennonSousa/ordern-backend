@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
+import { encrypt } from '../utils/encryptDecrypt';
 
 import CustomerPaymentsModel from '../models/CustomerPaymentsModel';
 
 export default {
     async create(request: Request, response: Response) {
         const {
+            email,
             card_number,
             valid,
             cvv,
@@ -15,10 +17,15 @@ export default {
             client
         } = request.body;
 
+        const emailSchema = Yup.string().email().required();
+        await emailSchema.validate(email, { abortEarly: false });
+
+        const cardNumberEncrypted = encrypt(card_number, email);
+
         const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
 
         const data = {
-            card_number,
+            card_number: cardNumberEncrypted,
             valid,
             cvv,
             name,
@@ -50,6 +57,7 @@ export default {
         const { id } = request.params;
 
         const {
+            email,
             card_number,
             valid,
             cvv,
@@ -58,10 +66,15 @@ export default {
             client
         } = request.body;
 
+        const emailSchema = Yup.string().email().required();
+        await emailSchema.validate(email, { abortEarly: false });
+
+        const cardNumberEncrypted = encrypt(card_number, email);
+
         const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
 
         const data = {
-            card_number,
+            card_number: cardNumberEncrypted,
             valid,
             cvv,
             name,

@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt'
 
 import clientView from '../views/clientView';
 import ClientsModel from '../models/ClientsModel';
+import { decrypt } from '../utils/encryptDecrypt';
 
 export default {
     async index(request: Request, response: Response) {
@@ -22,9 +23,15 @@ export default {
 
         const clientsRepository = getRepository(ClientsModel);
 
-        const client = await clientsRepository.findOneOrFail(id, {
+        let client = await clientsRepository.findOneOrFail(id, {
             relations: ['address', 'payments']
         });
+
+        client = {
+            ...client, payments: client.payments.map(payment => {
+                return {...payment, card_number: decrypt(payment.card_number, client.email)};
+            })
+        }
 
         return response.json(clientView.render(client));
     },

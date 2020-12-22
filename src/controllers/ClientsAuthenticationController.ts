@@ -73,7 +73,7 @@ export default {
                 from: 'lennonsousa@outlook.com',
                 subject: "Bem-vindo(a)",
                 text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tokenEmail}`,
-                html: `<h2>Ficamos felizes de ver você por aqui</h2><p>Use o código a seguir para prosseguir: ${tokenEmail}</p>`,
+                html: `<h2>Ficamos felizes de ver você por aqui</h2><p>Use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
             }, err => {
                 if (err) return response.status(204).json();
             });
