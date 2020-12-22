@@ -4,7 +4,7 @@ import crypto from 'crypto';
 const algorithm = 'aes-256-ctr';
 const ivKey = crypto.randomBytes(16);
 
-export function encrypt(text: string, iv: string) {
+export function encrypt(text: string) {
     if (process.env.JWT_SECRET) {
         const cipher = crypto.createCipheriv(algorithm, process.env.JWT_SECRET, ivKey);
 
@@ -16,7 +16,7 @@ export function encrypt(text: string, iv: string) {
     return text;
 };
 
-export function decrypt(hash: string, iv: string) {
+export function decrypt(hash: string) {
     if (process.env.JWT_SECRET) {
         const decipher = crypto.createDecipheriv(algorithm, process.env.JWT_SECRET, ivKey);
 

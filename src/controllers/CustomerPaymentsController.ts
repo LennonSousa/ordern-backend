@@ -8,7 +8,6 @@ import CustomerPaymentsModel from '../models/CustomerPaymentsModel';
 export default {
     async create(request: Request, response: Response) {
         const {
-            email,
             card_number,
             valid,
             cvv,
@@ -17,10 +16,7 @@ export default {
             client
         } = request.body;
 
-        const emailSchema = Yup.string().email().required();
-        await emailSchema.validate(email, { abortEarly: false });
-
-        const cardNumberEncrypted = encrypt(card_number, email);
+        const cardNumberEncrypted = encrypt(card_number);
 
         const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
 
@@ -57,7 +53,6 @@ export default {
         const { id } = request.params;
 
         const {
-            email,
             card_number,
             valid,
             cvv,
@@ -66,10 +61,7 @@ export default {
             client
         } = request.body;
 
-        const emailSchema = Yup.string().email().required();
-        await emailSchema.validate(email, { abortEarly: false });
-
-        const cardNumberEncrypted = encrypt(card_number, email);
+        const cardNumberEncrypted = encrypt(card_number);
 
         const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
 
