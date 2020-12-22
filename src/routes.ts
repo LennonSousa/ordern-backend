@@ -113,13 +113,13 @@ routes.delete('/orders/:id', OrdersController.delete);
 routes.post('/customer/new', NewCustomersAuthenticationController.create);
 routes.put('/customer/new', NewCustomersAuthenticationController.update);
 
-routes.post('/clients/authenticate', ClientsAuthenticationsController.create);
+routes.post('/customer/authenticate', ClientsAuthenticationsController.create);
 
-routes.get('/clients', CustomersController.index);
-routes.get('/clients/:id', CustomersController.show);
-routes.post('/clients', CustomersController.create);
-routes.put('/clients/:id', CustomersController.update);
-routes.delete('/clients/:id', CustomersController.delete);
+routes.get('/customer', CustomersController.index);
+routes.get('/customer/:id', CustomersController.show);
+routes.post('/customer', CustomersController.create);
+routes.put('/customer/:id', CustomersController.update);
+routes.delete('/customer/:id', CustomersController.delete);
 
 routes.post('/customer/address', CustomerAddressController.create);
 routes.put('/customer/address/:id', CustomerAddressController.update);
