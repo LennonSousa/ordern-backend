@@ -29,7 +29,7 @@ export default {
 
         client = {
             ...client, payments: client.payments.map(payment => {
-                return {...payment, card_number: decrypt(payment.card_number, client.email)};
+                return {...payment, card_number: decrypt(payment.card_number)};
             })
         }
 
