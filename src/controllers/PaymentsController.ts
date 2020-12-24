@@ -6,11 +6,13 @@ export default {
         if (process.env.STRIP_SECRET_KEY) {
             const stripe = require('stripe')(process.env.STRIP_SECRET_KEY);
 
+            const { amount, tokenId } = request.body;
+
             return stripe.charges
                 .create({
-                    amount: request.body.amount, // Unit: cents
+                    amount, // Unit: cents
                     currency: 'brl',
-                    source: request.body.tokenId,
+                    source: tokenId,
                     description: 'Test payment',
                 })
                 .then((result: any) => response.status(200).json(result));
