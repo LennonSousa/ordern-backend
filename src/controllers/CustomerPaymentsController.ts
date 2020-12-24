@@ -10,7 +10,6 @@ export default {
         const {
             card_number,
             valid,
-            cvv,
             name,
             cpf,
             client
@@ -23,7 +22,7 @@ export default {
         const data = {
             card_number: cardNumberEncrypted,
             valid,
-            cvv,
+            cvv: '',
             name,
             cpf,
             client
@@ -55,7 +54,6 @@ export default {
         const {
             card_number,
             valid,
-            cvv,
             name,
             cpf,
             client
@@ -68,7 +66,7 @@ export default {
         const data = {
             card_number: cardNumberEncrypted,
             valid,
-            cvv,
+            cvv: '',
             name,
             cpf,
             client
