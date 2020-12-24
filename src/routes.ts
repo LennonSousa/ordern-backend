@@ -26,6 +26,7 @@ import ClientsAuthenticationsController from './controllers/ClientsAuthenticatio
 import CustomersController from './controllers/ClientsController';
 import CustomerAddressController from './controllers/CustomerAddressController';
 import CustomerPaymentsController from './controllers/CustomerPaymentsController';
+import PaymentsController from './controllers/PaymentsController';
 
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -129,5 +130,7 @@ routes.delete('/customer/address/:id', CustomerAddressController.delete);
 routes.post('/customer/payments', CustomerPaymentsController.create);
 routes.put('/customer/payments/:id', CustomerPaymentsController.update);
 routes.delete('/customer/payments/:id', CustomerPaymentsController.delete);
+
+routes.post('/dopayments', PaymentsController.create);
 
 export default routes;
