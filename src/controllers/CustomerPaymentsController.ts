@@ -31,7 +31,7 @@ export default {
         const schema = Yup.object().shape({
             card_number: Yup.string().required(),
             valid: Yup.string().required(),
-            cvv: Yup.string().required(),
+            cvv: Yup.string().notRequired(),
             name: Yup.string().required(),
             cpf: Yup.string().required(),
             client: Yup.number().required()
@@ -75,7 +75,7 @@ export default {
         const schema = Yup.object().shape({
             card_number: Yup.string().required(),
             valid: Yup.string().required(),
-            cvv: Yup.string().required(),
+            cvv: Yup.string().notRequired(),
             name: Yup.string().required(),
             cpf: Yup.string().required(),
             client: Yup.number().required()
