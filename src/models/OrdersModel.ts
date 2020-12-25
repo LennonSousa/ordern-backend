@@ -41,6 +41,9 @@ export default class ProductModel {
     payment: string;
 
     @Column()
+    paid: boolean;
+
+    @Column()
     address: string;
 
     @Column()

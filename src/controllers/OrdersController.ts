@@ -58,6 +58,7 @@ export default {
             fee,
             total,
             payment,
+            paid,
             address,
             reason_cancellation
         } = request.body;
@@ -76,6 +77,7 @@ export default {
             fee,
             total,
             payment,
+            paid,
             address,
             reason_cancellation
         };
@@ -92,6 +94,7 @@ export default {
             fee: Yup.number().required(),
             total: Yup.number().required(),
             payment: Yup.string().required(),
+            paid: Yup.boolean().notRequired(),
             address: Yup.string().required(),
             reason_cancellation: Yup.string().notRequired()
         });
@@ -122,6 +125,7 @@ export default {
             fee,
             total,
             payment,
+            paid,
             address,
             reason_cancellation
         } = request.body;
@@ -140,6 +144,7 @@ export default {
             fee,
             total,
             payment,
+            paid,
             address,
             reason_cancellation
         };
@@ -156,6 +161,7 @@ export default {
             fee: Yup.number().required(),
             total: Yup.number().required(),
             payment: Yup.string().required(),
+            paid: Yup.boolean().notRequired(),
             address: Yup.string().required(),
             reason_cancellation: Yup.string().notRequired()
         });

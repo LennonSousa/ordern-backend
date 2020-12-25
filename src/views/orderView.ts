@@ -15,6 +15,7 @@ export default {
             fee: order.fee,
             total: order.total,
             payment: order.payment,
+            paid: order.paid,
             address: order.address,
             reason_cancellation: order.reason_cancellation,
             orderStatus: order.orderStatus,
