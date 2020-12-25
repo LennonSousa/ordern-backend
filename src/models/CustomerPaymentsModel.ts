@@ -23,5 +23,5 @@ export default class ClientPaymentsModel {
 
     @ManyToOne(() => Customer, customer => customer.payments)
     @JoinColumn({ name: 'client_id' })
-    customer: Customer;
+    client: Customer;
 }
