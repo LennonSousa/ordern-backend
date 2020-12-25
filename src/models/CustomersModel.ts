@@ -6,7 +6,6 @@ import CustomerPayment from './CustomerPaymentsModel';
 export default class ClientsModel {
     @PrimaryGeneratedColumn()
     id: number;
-
     @Column()
     name: string;
 
