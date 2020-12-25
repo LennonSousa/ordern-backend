@@ -10,6 +10,9 @@ export default class ClientPaymentsModel {
     card_number: string;
 
     @Column()
+    brand: string;
+
+    @Column()
     exp_month: string;
 
     @Column()

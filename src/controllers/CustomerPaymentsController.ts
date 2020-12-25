@@ -9,6 +9,7 @@ export default {
     async create(request: Request, response: Response) {
         const {
             card_number,
+            brand,
             exp_month,
             exp_year,
             name,
@@ -22,6 +23,7 @@ export default {
 
         const data = {
             card_number: cardNumberEncrypted,
+            brand,
             exp_month,
             exp_year,
             name,
@@ -31,6 +33,7 @@ export default {
 
         const schema = Yup.object().shape({
             card_number: Yup.string().required(),
+            brand: Yup.string().required(),
             exp_month: Yup.string().required(),
             exp_year: Yup.string().required(),
             name: Yup.string().required(),
@@ -54,6 +57,7 @@ export default {
 
         const {
             card_number,
+            brand,
             exp_month,
             exp_year,
             name,
@@ -67,6 +71,7 @@ export default {
 
         const data = {
             card_number: cardNumberEncrypted,
+            brand,
             exp_month,
             exp_year,
             name,
@@ -76,6 +81,7 @@ export default {
 
         const schema = Yup.object().shape({
             card_number: Yup.string().required(),
+            brand: Yup.string().required(),
             exp_month: Yup.string().required(),
             exp_year: Yup.string().required(),
             name: Yup.string().required(),
