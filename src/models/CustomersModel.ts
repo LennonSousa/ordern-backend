@@ -31,13 +31,13 @@ export default class ClientsModel {
     @Column()
     paused: boolean;
 
-    @OneToMany(() => CustomerAddress, customerAddress => customerAddress.client, {
+    @OneToMany(() => CustomerAddress, customerAddress => customerAddress.customer, {
         cascade: ['insert', 'update', 'remove']
     })
     @JoinColumn({ name: 'id' })
     address: CustomerAddress[];
 
-    @OneToMany(() => CustomerPayment, customerPayment => customerPayment.client, {
+    @OneToMany(() => CustomerPayment, customerPayment => customerPayment.customer, {
         cascade: ['insert', 'update', 'remove']
     })
     @JoinColumn({ name: 'id' })

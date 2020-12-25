@@ -32,5 +32,5 @@ export default class ClientAddressModel {
 
     @ManyToOne(() => Customer, customer => customer.address)
     @JoinColumn({ name: 'client_id' })
-    client: Customer;
+    customer: Customer;
 }
