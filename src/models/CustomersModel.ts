@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
-import ClientAddress from './CustomerAddressModel';
-import ClientPayment from './CustomerPaymentsModel';
+import CustomerAddress from './CustomerAddressModel';
+import CustomerPayment from './CustomerPaymentsModel';
 
-@Entity('clients')
+@Entity('customers')
 export default class ClientsModel {
     @PrimaryGeneratedColumn()
     id: number;
@@ -31,15 +31,15 @@ export default class ClientsModel {
     @Column()
     paused: boolean;
 
-    @OneToMany(() => ClientAddress, clientAddress => clientAddress.client, {
+    @OneToMany(() => CustomerAddress, customerAddress => customerAddress.customer, {
         cascade: ['insert', 'update', 'remove']
     })
     @JoinColumn({ name: 'id' })
-    address: ClientAddress[];
+    address: CustomerAddress[];
 
-    @OneToMany(() => ClientPayment, clientPayment => clientPayment.client, {
+    @OneToMany(() => CustomerPayment, customerPayment => customerPayment.customer, {
         cascade: ['insert', 'update', 'remove']
     })
     @JoinColumn({ name: 'id' })
-    payments: ClientPayment[];
+    payments: CustomerPayment[];
 }

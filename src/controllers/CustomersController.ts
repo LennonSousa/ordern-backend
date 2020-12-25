@@ -3,37 +3,37 @@ import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
 import bcrypt from 'bcrypt'
 
-import clientView from '../views/clientView';
-import ClientsModel from '../models/ClientsModel';
+import customerView from '../views/customersView';
+import CustomersModel from '../models/CustomersModel';
 import { decrypt } from '../utils/encryptDecrypt';
 
 export default {
     async index(request: Request, response: Response) {
-        const clientsRepository = getRepository(ClientsModel);
+        const clientsRepository = getRepository(CustomersModel);
 
-        const clients = await clientsRepository.find({
+        const customers = await clientsRepository.find({
             relations: ['address', 'payments']
         });
 
-        return response.json(clientView.renderMany(clients));
+        return response.json(customerView.renderMany(customers));
     },
 
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const clientsRepository = getRepository(ClientsModel);
+        const customersRepository = getRepository(CustomersModel);
 
-        let client = await clientsRepository.findOneOrFail(id, {
+        let customer = await customersRepository.findOneOrFail(id, {
             relations: ['address', 'payments']
         });
 
-        client = {
-            ...client, payments: client.payments.map(payment => {
+        customer = {
+            ...customer, payments: customer.payments.map(payment => {
                 return {...payment, card_number: decrypt(payment.card_number)};
             })
         }
 
-        return response.json(clientView.render(client));
+        return response.json(customerView.render(customer));
     },
 
     async create(request: Request, response: Response) {
@@ -50,7 +50,7 @@ export default {
             payments
         } = request.body;
 
-        const clientsRepository = getRepository(ClientsModel);
+        const customersRepository = getRepository(CustomersModel);
 
         const hash = await bcrypt.hash(password, 10);
 
@@ -103,9 +103,9 @@ export default {
             abortEarly: false,
         });
 
-        const client = clientsRepository.create(data);
+        const client = customersRepository.create(data);
 
-        await clientsRepository.save(client);
+        await customersRepository.save(client);
 
         return response.status(201).send();
     },
@@ -125,7 +125,7 @@ export default {
             payments
         } = request.body;
 
-        const clientsRepository = getRepository(ClientsModel);
+        const customersRepository = getRepository(CustomersModel);
 
         const data = {
             name,
@@ -170,19 +170,19 @@ export default {
             abortEarly: false,
         });
 
-        const client = clientsRepository.create(data);
+        const customer = customersRepository.create(data);
 
-        await clientsRepository.update(id, client);
+        await customersRepository.update(id, customer);
 
-        return response.status(204).json(client);
+        return response.status(204).json(customer);
     },
 
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const clientsRepository = getRepository(ClientsModel);
+        const customersRepository = getRepository(CustomersModel);
 
-        await clientsRepository.delete(id);
+        await customersRepository.delete(id);
 
         return response.status(204).send();
     }

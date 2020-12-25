@@ -7,7 +7,7 @@ import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import CustomersModel from '../models/ClientsModel';
+import CustomersModel from '../models/CustomersModel';
 import CustomerNewModel from '../models/CustomerNewModel';
 import mailer from '../modules/mailer';
 

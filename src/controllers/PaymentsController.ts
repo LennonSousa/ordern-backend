@@ -14,6 +14,7 @@ export default {
                     currency: 'brl',
                     source: tokenId,
                     description: 'Test payment',
+                    receipt_email: 'lennonsousa@outlook.com'
                 })
                 .then((result: any) => response.status(200).json(result));
         }

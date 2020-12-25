@@ -9,10 +9,11 @@ export default {
     async create(request: Request, response: Response) {
         const {
             card_number,
-            valid,
+            exp_month,
+            exp_year,
             name,
             cpf,
-            client
+            customer
         } = request.body;
 
         const cardNumberEncrypted = encrypt(card_number);
@@ -21,20 +22,20 @@ export default {
 
         const data = {
             card_number: cardNumberEncrypted,
-            valid,
-            cvv: '',
+            exp_month,
+            exp_year,
             name,
             cpf,
-            client
+            customer
         };
 
         const schema = Yup.object().shape({
             card_number: Yup.string().required(),
-            valid: Yup.string().required(),
-            cvv: Yup.string().notRequired(),
+            exp_month: Yup.string().required(),
+            exp_year: Yup.string().required(),
             name: Yup.string().required(),
             cpf: Yup.string().required(),
-            client: Yup.number().required()
+            customer: Yup.number().required()
         });
 
         await schema.validate(data, {
@@ -53,10 +54,11 @@ export default {
 
         const {
             card_number,
-            valid,
+            exp_month,
+            exp_year,
             name,
             cpf,
-            client
+            customer
         } = request.body;
 
         const cardNumberEncrypted = encrypt(card_number);
@@ -65,20 +67,20 @@ export default {
 
         const data = {
             card_number: cardNumberEncrypted,
-            valid,
-            cvv: '',
+            exp_month,
+            exp_year,
             name,
             cpf,
-            client
+            customer
         };
 
         const schema = Yup.object().shape({
             card_number: Yup.string().required(),
-            valid: Yup.string().required(),
-            cvv: Yup.string().notRequired(),
+            exp_month: Yup.string().required(),
+            exp_year: Yup.string().required(),
             name: Yup.string().required(),
             cpf: Yup.string().required(),
-            client: Yup.number().required()
+            customer: Yup.number().required()
         });
 
         await schema.validate(data, {

@@ -7,10 +7,11 @@ import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import clientView from '../views/clientView';
-import CustomersModel from '../models/ClientsModel';
+import customerView from '../views/customersView';
+import CustomersModel from '../models/CustomersModel';
 import CustomerNewModel from '../models/CustomerNewModel';
 import mailer from '../modules/mailer';
+import { decrypt } from '../utils/encryptDecrypt';
 
 export default {
     async show(request: Request, response: Response) {
@@ -106,7 +107,7 @@ export default {
             abortEarly: false,
         });
 
-        const customerAuth = await customerRepository.findOne({
+        let customerAuth = await customerRepository.findOne({
             relations: ['address', 'payments'],
             where: [
                 { email: email }
@@ -128,7 +129,13 @@ export default {
                 expiresIn: "1d"
             });
 
-            return response.status(201).json({ ...clientView.render(customerAuth), token: token });
+            customerAuth = {
+                ...customerAuth, payments: customerAuth.payments.map(payment => {
+                    return {...payment, card_number: decrypt(payment.card_number)};
+                })
+            }
+
+            return response.status(201).json({ ...customerView.render(customerAuth), token: token });
         }
 
         return response.status(500).json({ message: 'Internal server error' });

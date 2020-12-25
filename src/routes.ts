@@ -22,8 +22,8 @@ import ProductAvailablesController from './controllers/ProductAvailablesControll
 import OrderStatusController from './controllers/OrderStatusController';
 import OrdersController from './controllers/OrdersController';
 import NewCustomersAuthenticationController from './controllers/NewCustomerAuthentication';
-import ClientsAuthenticationsController from './controllers/ClientsAuthenticationController';
-import CustomersController from './controllers/ClientsController';
+import ClientsAuthenticationsController from './controllers/CustomersAuthenticationController';
+import CustomersController from './controllers/CustomersController';
 import CustomerAddressController from './controllers/CustomerAddressController';
 import CustomerPaymentsController from './controllers/CustomerPaymentsController';
 import PaymentsController from './controllers/PaymentsController';

@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import Client from './ClientsModel';
+import Customer from './CustomersModel';
 
-@Entity('client_payments')
+@Entity('customer_payments')
 export default class ClientPaymentsModel {
     @PrimaryGeneratedColumn()
     id: number;
@@ -10,10 +10,10 @@ export default class ClientPaymentsModel {
     card_number: string;
 
     @Column()
-    valid: string;
+    exp_month: string;
 
     @Column()
-    cvv: string;
+    exp_year: string;
 
     @Column()
     name: string;
@@ -21,7 +21,7 @@ export default class ClientPaymentsModel {
     @Column()
     cpf: string;
 
-    @ManyToOne(() => Client, client => client.payments)
+    @ManyToOne(() => Customer, customer => customer.payments)
     @JoinColumn({ name: 'client_id' })
-    client: Client;
+    customer: Customer;
 }

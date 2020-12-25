@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import Client from './ClientsModel';
+import Customer from './CustomersModel';
 
-@Entity('client_address')
+@Entity('customer_address')
 export default class ClientAddressModel {
     @PrimaryGeneratedColumn()
     id: number;
@@ -30,7 +30,7 @@ export default class ClientAddressModel {
     @Column()
     type: string;
 
-    @ManyToOne(() => Client, client => client.address)
+    @ManyToOne(() => Customer, customer => customer.address)
     @JoinColumn({ name: 'client_id' })
-    client: Client;
+    customer: Customer;
 }
