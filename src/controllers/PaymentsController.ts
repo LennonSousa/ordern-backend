@@ -20,7 +20,7 @@ export default {
                 amount: Yup.number().required(),
                 tokenId: Yup.string().required(),
                 description: Yup.string().required(),
-                email: Yup.string().email().required()
+                email: Yup.string().required()
             });
 
             await schema.validate(data, {
