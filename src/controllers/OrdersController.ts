@@ -47,6 +47,7 @@ export default {
 
     async create(request: Request, response: Response) {
         const {
+            tracker,
             client_id,
             client,
             ordered,
@@ -66,6 +67,7 @@ export default {
         const orderRepository = getRepository(OrderModel);
 
         const data = {
+            tracker,
             client_id,
             client,
             ordered,
@@ -83,6 +85,7 @@ export default {
         };
 
         const schema = Yup.object().shape({
+            tracker: Yup.string().required(),
             client_id: Yup.number().required(),
             client: Yup.string().required(),
             ordered: Yup.date().required(),
@@ -114,6 +117,7 @@ export default {
         const { id } = request.params;
 
         const {
+            tracker,
             client_id,
             client,
             ordered,
@@ -133,6 +137,7 @@ export default {
         const orderRepository = getRepository(OrderModel);
 
         const data = {
+            tracker,
             client_id,
             client,
             ordered,
@@ -150,6 +155,7 @@ export default {
         };
 
         const schema = Yup.object().shape({
+            tracker: Yup.string().required(),
             client_id: Yup.number().required(),
             client: Yup.string().required(),
             ordered: Yup.date().required(),

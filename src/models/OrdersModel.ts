@@ -11,6 +11,9 @@ export default class ProductModel {
     client_id: number;
 
     @Column()
+    tracker: string;
+
+    @Column()
     client: string;
 
     @Column()

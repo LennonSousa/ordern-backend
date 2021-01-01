@@ -3,6 +3,7 @@ import Order from '../models/OrdersModel'
 export default {
     render(order: Order) {
         return {
+            tracker: order.tracker,
             id: order.id,
             client_id: order.client_id,
             client: order.client,
