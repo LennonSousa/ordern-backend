@@ -7,6 +7,7 @@ import uploadConfig from './config/upload';
 import RestaurantsController from './controllers/RestaurantsController';
 import RestaurantsCoverController from './controllers/RestaurantsCoverController';
 import RestaurantsAvatarController from './controllers/RestaurantsAvatarController';
+import RestaurantDeliveryGroupsController from './controllers/RestaurantDeliveryGroupsController';
 import UsersAuthenticationsController from './controllers/UsersAuthenticationController';
 import UserTypesController from './controllers/UserTypesController';
 import UsersController from './controllers/UsersController';
@@ -65,6 +66,12 @@ routes.get('/restaurant/opened-day/schedules/:id', DaySchedulesController.show);
 routes.post('/restaurant/opened-day/schedules', DaySchedulesController.create);
 routes.put('/restaurant/opened-day/schedules/:id', DaySchedulesController.update);
 routes.delete('/restaurant/opened-day/schedules/:id', DaySchedulesController.delete);
+
+routes.get('/restaurant/delivery-groups', RestaurantDeliveryGroupsController.index);
+routes.get('/restaurant/delivery-groups/:id', RestaurantDeliveryGroupsController.show);
+routes.post('/restaurant/delivery-groups', RestaurantDeliveryGroupsController.create);
+routes.put('/restaurant/delivery-groups/:id', RestaurantDeliveryGroupsController.update);
+routes.delete('/restaurant/delivery-groups/:id', RestaurantDeliveryGroupsController.delete);
 
 routes.get('/categories', CategoriesController.index);
 routes.get('/categories/:id', CategoriesController.show);
