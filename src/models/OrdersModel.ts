@@ -35,6 +35,9 @@ export default class ProductModel {
     delivery_tax: number;
 
     @Column()
+    descount: number;
+
+    @Column()
     fee: number;
 
     @Column()
@@ -53,10 +56,12 @@ export default class ProductModel {
     reason_cancellation: string;
 
     @ManyToOne(() => OrderStatus, orderStatus => orderStatus.orders)
-    @JoinColumn({ name: 'order_status_id'})
+    @JoinColumn({ name: 'order_status_id' })
     orderStatus: OrderStatus;
 
-    @OneToMany(() => OrderItem, orderItem => orderItem.order)
-    @JoinColumn({ name: 'id' })
+    @OneToMany(() => OrderItem, orderItem => orderItem.order, {
+        cascade: ['insert', 'update', 'remove']
+    })
+    @JoinColumn({ name: 'order_id' })
     orderItems: OrderItem[];
 }

@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 't
 import Order from './OrdersModel';
 
 @Entity('order_items')
-export default class ProductModel {
+export default class OrderItemsModel {
     @PrimaryGeneratedColumn()
     id: number;
 

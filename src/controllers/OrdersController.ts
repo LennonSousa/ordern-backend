@@ -56,12 +56,15 @@ export default {
             sub_total,
             cupom,
             delivery_tax,
+            descount,
             fee,
             total,
             payment,
             paid,
             address,
-            reason_cancellation
+            reason_cancellation,
+            orderStatus,
+            orderItems
         } = request.body;
 
         const orderRepository = getRepository(OrderModel);
@@ -76,12 +79,15 @@ export default {
             sub_total,
             cupom,
             delivery_tax,
+            descount,
             fee,
             total,
             payment,
             paid,
             address,
-            reason_cancellation
+            reason_cancellation,
+            orderStatus,
+            orderItems
         };
 
         const schema = Yup.object().shape({
@@ -94,12 +100,23 @@ export default {
             sub_total: Yup.number().required(),
             cupom: Yup.string().notRequired(),
             delivery_tax: Yup.number().required(),
+            descount: Yup.number().required(),
             fee: Yup.number().required(),
             total: Yup.number().required(),
             payment: Yup.string().required(),
             paid: Yup.boolean().notRequired(),
             address: Yup.string().required(),
-            reason_cancellation: Yup.string().notRequired()
+            reason_cancellation: Yup.string().notRequired(),
+            orderStatus: Yup.number().required(),
+            orderItems: Yup.array(
+                Yup.object().shape({
+                    amount: Yup.number().required(),
+                    name: Yup.string().required(),
+                    value: Yup.number().required(),
+                    additional: Yup.boolean().notRequired(),
+                    additional_item: Yup.number().notRequired()
+                })
+            ).required()
         });
 
         await schema.validate(data, {
@@ -126,12 +143,15 @@ export default {
             sub_total,
             cupom,
             delivery_tax,
+            descount,
             fee,
             total,
             payment,
             paid,
             address,
-            reason_cancellation
+            reason_cancellation,
+            orderStatus,
+            orderItems
         } = request.body;
 
         const orderRepository = getRepository(OrderModel);
@@ -146,12 +166,15 @@ export default {
             sub_total,
             cupom,
             delivery_tax,
+            descount,
             fee,
             total,
             payment,
             paid,
             address,
-            reason_cancellation
+            reason_cancellation,
+            orderStatus,
+            orderItems
         };
 
         const schema = Yup.object().shape({
@@ -164,12 +187,24 @@ export default {
             sub_total: Yup.number().required(),
             cupom: Yup.string().notRequired(),
             delivery_tax: Yup.number().required(),
+            descount: Yup.number().required(),
             fee: Yup.number().required(),
             total: Yup.number().required(),
             payment: Yup.string().required(),
             paid: Yup.boolean().notRequired(),
             address: Yup.string().required(),
-            reason_cancellation: Yup.string().notRequired()
+            reason_cancellation: Yup.string().notRequired(),
+            orderStatus: Yup.number().required(),
+            orderItems: Yup.array(
+                Yup.object().shape({
+                    amount: Yup.number().required(),
+                    name: Yup.string().required(),
+                    value: Yup.number().required(),
+                    additional: Yup.boolean().notRequired(),
+                    additional_item: Yup.number().notRequired(),
+                    order_id: Yup.number().required()
+                })
+            ).required()
         });
 
         await schema.validate(data, {
