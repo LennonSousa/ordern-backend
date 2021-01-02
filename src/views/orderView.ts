@@ -13,6 +13,7 @@ export default {
             sub_total: order.sub_total,
             cupom: order.cupom,
             delivery_tax: order.delivery_tax,
+            discount: order.discount,
             fee: order.fee,
             total: order.total,
             payment: order.payment,

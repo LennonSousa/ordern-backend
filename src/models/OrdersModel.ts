@@ -35,7 +35,7 @@ export default class ProductModel {
     delivery_tax: number;
 
     @Column()
-    descount: number;
+    discount: number;
 
     @Column()
     fee: number;
