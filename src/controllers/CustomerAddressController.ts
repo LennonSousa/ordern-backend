@@ -15,7 +15,7 @@ export default {
             city,
             country,
             type,
-            client
+            customer
         } = request.body;
 
         const customerAddressRepository = getRepository(CustomerAddressModel);
@@ -29,7 +29,7 @@ export default {
             city,
             country,
             type,
-            client
+            customer
         };
 
         const schema = Yup.object().shape({
@@ -41,7 +41,7 @@ export default {
             city: Yup.string().required(),
             country: Yup.string().required(),
             type: Yup.string().required(),
-            client: Yup.number().required()
+            customer: Yup.number().required()
         });
 
         await schema.validate(data, {
@@ -67,7 +67,7 @@ export default {
             city,
             country,
             type,
-            client
+            customer
         } = request.body;
 
         const customerAddressRepository = getRepository(CustomerAddressModel);
@@ -81,7 +81,7 @@ export default {
             city,
             country,
             type,
-            client
+            customer
         };
 
         const schema = Yup.object().shape({
@@ -93,7 +93,7 @@ export default {
             city: Yup.string().required(),
             country: Yup.string().required(),
             type: Yup.string().required(),
-            client: Yup.number().required()
+            customer: Yup.number().required()
         });
 
         await schema.validate(data, {
