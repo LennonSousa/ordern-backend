@@ -19,7 +19,7 @@ export default {
         const orderStatus = await orderRepository.find({
             where: { ordered: Between(dateStart, dateEnd) },
             order: {
-                ordered: "ASC"
+                ordered: "DESC"
             },
             relations: [
                 'orderStatus',
