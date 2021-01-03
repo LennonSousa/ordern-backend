@@ -35,6 +35,9 @@ export default class ProductModel {
     delivery_tax: number;
 
     @Column()
+    delivery_type: string;
+
+    @Column()
     discount: number;
 
     @Column()
