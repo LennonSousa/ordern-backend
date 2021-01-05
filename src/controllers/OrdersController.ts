@@ -12,8 +12,6 @@ export default {
 
         let dateEnd = new Date();
 
-        console.log(dateStart, dateEnd);
-
         const orderRepository = getRepository(OrderModel);
 
         const orderStatus = await orderRepository.find({

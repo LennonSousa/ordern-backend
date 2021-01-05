@@ -28,6 +28,7 @@ import CustomersController from './controllers/CustomersController';
 import CustomerAddressController from './controllers/CustomerAddressController';
 import CustomerPaymentsController from './controllers/CustomerPaymentsController';
 import PaymentsController from './controllers/PaymentsController';
+import CustomerOrdersController from './controllers/CustomerOrdersController';
 
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -137,6 +138,8 @@ routes.delete('/customer/address/:id', CustomerAddressController.delete);
 routes.post('/customer/payments', CustomerPaymentsController.create);
 routes.put('/customer/payments/:id', CustomerPaymentsController.update);
 routes.delete('/customer/payments/:id', CustomerPaymentsController.delete);
+
+routes.get('/customer/orders/:id', CustomerOrdersController.index);
 
 routes.post('/dopayments', PaymentsController.create);
 
