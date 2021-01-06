@@ -23,20 +23,24 @@ export function encrypt(text: string) {
 
 export function decrypt(hash: string) {
     if (process.env.PRIVATE_KEY) {
-        const decryptedData = crypto.privateDecrypt(
-            {
-                key: process.env.PRIVATE_KEY.replace(/\\n/gm, '\n'),
-                // In order to decrypt the data, we need to specify the
-                // same hashing function and padding scheme that we used to
-                // encrypt the data in the previous step
-                padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
-                oaepHash: algorithm,
-            },
-            Buffer.from(hash, 'base64')
-        );
+        try {
+            const decryptedData = crypto.privateDecrypt(
+                {
+                    key: process.env.PRIVATE_KEY.replace(/\\n/gm, '\n'),
+                    // In order to decrypt the data, we need to specify the
+                    // same hashing function and padding scheme that we used to
+                    // encrypt the data in the previous step
+                    padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+                    oaepHash: algorithm,
+                },
+                Buffer.from(hash, 'base64')
+            );
 
-        return decryptedData.toString();
-
+            return decryptedData.toString();
+        }
+        catch {
+            return hash;
+        }
     }
 
     return hash;
