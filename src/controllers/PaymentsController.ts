@@ -35,7 +35,10 @@ export default {
                     description: description,
                     receipt_email: email
                 })
-                .then((result: any) => response.status(200).json(result));
+                .then((result: any) => response.status(200).json(result))
+                .catch((err: any) => {
+                    response.status(400).json(err);
+                });
         }
     },
 
