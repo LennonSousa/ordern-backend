@@ -118,11 +118,8 @@ export default {
             cpf,
             birth,
             phone,
-            email,
             active,
-            paused,
-            address,
-            payments
+            paused
         } = request.body;
 
         const customersRepository = getRepository(CustomersModel);
@@ -132,11 +129,8 @@ export default {
             cpf,
             birth,
             phone,
-            email,
             active,
-            paused,
-            address,
-            payments
+            paused
         };
 
         const schema = Yup.object().shape({
@@ -144,26 +138,8 @@ export default {
             cpf: Yup.string().notRequired(),
             birth: Yup.date().required(),
             phone: Yup.string().notRequired(),
-            email: Yup.string().required(),
             active: Yup.boolean().required(),
-            paused: Yup.boolean().required(),
-            address: Yup.array(
-                Yup.object().shape({
-                    zip_code: Yup.string().required(),
-                    street: Yup.string().required(),
-                    number: Yup.string().notRequired(),
-                    group: Yup.string().notRequired(),
-                    complement: Yup.string().notRequired(),
-                    city: Yup.string().required(),
-                    country: Yup.string().required(),
-                    type: Yup.string().required(),
-                })
-            ).notRequired(),
-            payments: Yup.array(
-                Yup.object().shape({
-
-                }).notRequired()
-            ).notRequired()
+            paused: Yup.boolean().required()
         });
 
         await schema.validate(data, {
