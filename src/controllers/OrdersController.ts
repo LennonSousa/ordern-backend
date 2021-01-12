@@ -181,22 +181,22 @@ export default {
         };
 
         const schema = Yup.object().shape({
-            tracker: Yup.string().required(),
-            client_id: Yup.number().required(),
+            tracker: Yup.string().notRequired(),
+            client_id: Yup.number().notRequired(),
             client: Yup.string().required(),
-            ordered: Yup.date().required(),
-            delivery: Yup.date().required(),
-            delivered: Yup.date().required(),
-            sub_total: Yup.number().required(),
+            ordered: Yup.date().notRequired(),
+            delivery: Yup.date().notRequired(),
+            delivered: Yup.date().notRequired(),
+            sub_total: Yup.number().notRequired(),
             cupom: Yup.string().notRequired(),
-            delivery_tax: Yup.number().required(),
+            delivery_tax: Yup.number().notRequired(),
             delivery_type: Yup.string().notRequired(),
-            discount: Yup.number().required(),
-            fee: Yup.number().required(),
-            total: Yup.number().required(),
-            payment: Yup.string().required(),
+            discount: Yup.number().notRequired(),
+            fee: Yup.number().notRequired(),
+            total: Yup.number().notRequired(),
+            payment: Yup.string().notRequired(),
             paid: Yup.boolean().notRequired(),
-            address: Yup.string().required(),
+            address: Yup.string().notRequired(),
             reason_cancellation: Yup.string().notRequired(),
             orderStatus: Yup.number().required(),
             orderItems: Yup.array(
@@ -208,7 +208,7 @@ export default {
                     additional_item: Yup.number().notRequired(),
                     order_id: Yup.number().required()
                 })
-            ).required()
+            ).notRequired()
         });
 
         await schema.validate(data, {
