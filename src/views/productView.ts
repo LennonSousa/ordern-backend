@@ -3,12 +3,11 @@ import Product from '../models/ProductsModel'
 
 export default {
     render(product: Product) {
-        const image = product.image ? `http://${process.env.HOST_API}/uploads/${product.image}` : product.image;
         return {
             id: product.id,
             title: product.title,
             description: product.description,
-            image,
+            image: product.image,
             maiority: product.maiority,
             code: product.code,
             price_one: product.price_one,

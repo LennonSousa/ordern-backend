@@ -11,6 +11,7 @@ const publicRoutes = [
     '/categories',
     '/products',
     '/uploads',
+    '/users',
 ]
 
 export default (request: Request, response: Response, next: NextFunction) => {

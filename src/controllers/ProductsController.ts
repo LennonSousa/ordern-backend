@@ -66,12 +66,9 @@ export default {
             category
         } = request.body;
 
-        maiority = maiority === 'true' ? true : false;
-        price_one = price_one === 'true' ? true : false;
-        discount = discount === 'true' ? true : false;
-        available_all = available_all === 'true' ? true : false;
         price = Number(price);
         discount_price = discount_price && Number(discount_price);
+        category = Number(category);
 
         const productsRepository = getRepository(ProductsModel);
 
@@ -206,12 +203,14 @@ export default {
             category
         } = request.body;
 
-        maiority = maiority === 'true' ? true : false;
-        price_one = price_one === 'true' ? true : false;
-        discount = discount === 'true' ? true : false;
-        available_all = available_all === 'true' ? true : false;
+        maiority = maiority === 'false' ? false : true;
+        price_one = price_one === 'false' ? false : true;
+        discount = discount && discount === 'false' ? false : true;
+        available_all = available_all && available_all === 'false' ? false : true;
+
         price = Number(price);
         discount_price = discount_price && Number(discount_price);
+        category = Number(category);
 
         const productsRepository = getRepository(ProductsModel);
 
