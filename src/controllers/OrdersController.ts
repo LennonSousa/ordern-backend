@@ -21,7 +21,8 @@ export default {
             },
             relations: [
                 'orderStatus',
-                'orderItems'
+                'orderItems',
+                'orderItems.orderItemAdditionals'
             ]
         });
 
@@ -36,7 +37,8 @@ export default {
         const order = await orderRepository.findOneOrFail(id, {
             relations: [
                 'orderStatus',
-                'orderItems'
+                'orderItems',
+                'orderItems.orderItemAdditionals'
             ]
         });
 
@@ -114,10 +116,15 @@ export default {
                     amount: Yup.number().required(),
                     name: Yup.string().required(),
                     value: Yup.number().required(),
-                    additional: Yup.boolean().notRequired(),
-                    additional_item: Yup.number().notRequired()
+                    orderItemAdditionals: Yup.array(
+                        Yup.object().shape({
+                            amount: Yup.number().required(),
+                            name: Yup.string().required(),
+                            value: Yup.number().required(),
+                        })
+                    ).notRequired(),
                 })
-            ).required()
+            ).required(),
         });
 
         await schema.validate(data, {
@@ -204,11 +211,15 @@ export default {
                     amount: Yup.number().required(),
                     name: Yup.string().required(),
                     value: Yup.number().required(),
-                    additional: Yup.boolean().notRequired(),
-                    additional_item: Yup.number().notRequired(),
-                    order_id: Yup.number().required()
+                    orderItemAdditionals: Yup.array(
+                        Yup.object().shape({
+                            amount: Yup.number().required(),
+                            name: Yup.string().required(),
+                            value: Yup.number().required(),
+                        })
+                    ).notRequired(),
                 })
-            ).notRequired()
+            ).notRequired(),
         });
 
         await schema.validate(data, {
