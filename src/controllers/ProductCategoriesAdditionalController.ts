@@ -35,6 +35,7 @@ export default {
             title,
             min,
             max,
+            repeat,
             order,
             product
         } = request.body;
@@ -45,6 +46,7 @@ export default {
             title,
             min,
             max,
+            repeat,
             order,
             product
         };
@@ -53,6 +55,7 @@ export default {
             title: Yup.string().notRequired(),
             min: Yup.number().required(),
             max: Yup.number().required(),
+            repeat: Yup.boolean().notRequired(),
             order: Yup.number().required(),
             product: Yup.number().required()
         });
@@ -75,6 +78,7 @@ export default {
             title,
             min,
             max,
+            repeat,
             order,
             product
         } = request.body;
@@ -85,6 +89,7 @@ export default {
             title,
             min,
             max,
+            repeat,
             order,
             product
         };
@@ -93,6 +98,7 @@ export default {
             title: Yup.string().notRequired(),
             min: Yup.number().required(),
             max: Yup.number().required(),
+            repeat: Yup.boolean().notRequired(),
             order: Yup.number().required(),
             product: Yup.number().required()
         });

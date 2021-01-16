@@ -17,6 +17,9 @@ export default class ProductCateoriesAdditional {
     max: number;
 
     @Column()
+    repeat: boolean;
+
+    @Column()
     order: number;
 
     @ManyToOne(() => Product, userType => userType.categoriesAdditional)

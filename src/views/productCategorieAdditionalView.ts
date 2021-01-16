@@ -7,6 +7,7 @@ export default {
             title: category.title,
             min: category.min,
             max: category.max,
+            repeat: category.repeat,
             order: category.order,
             product: category.product,
             productAdditional: category.productAdditional
