@@ -119,6 +119,7 @@ export default {
                     amount: Yup.number().required(),
                     name: Yup.string().required(),
                     value: Yup.number().required(),
+                    notes: Yup.string().notRequired(),
                     orderItemAdditionals: Yup.array(
                         Yup.object().shape({
                             amount: Yup.number().required(),
@@ -217,6 +218,7 @@ export default {
                     amount: Yup.number().required(),
                     name: Yup.string().required(),
                     value: Yup.number().required(),
+                    notes: Yup.string().notRequired(),
                     orderItemAdditionals: Yup.array(
                         Yup.object().shape({
                             amount: Yup.number().required(),
