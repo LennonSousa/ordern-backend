@@ -22,7 +22,6 @@ export default {
             paid: order.paid,
             address: order.address,
             reason_cancellation: order.reason_cancellation,
-            notes: order.notes,
             orderStatus: order.orderStatus,
             orderItems: order.orderItems
         }

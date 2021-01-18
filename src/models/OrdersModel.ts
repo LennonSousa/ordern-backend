@@ -59,9 +59,6 @@ export default class ProductModel {
     address: string;
 
     @Column()
-    notes: string;
-
-    @Column()
     reason_cancellation: string;
 
     @ManyToOne(() => OrderStatus, orderStatus => orderStatus.orders)

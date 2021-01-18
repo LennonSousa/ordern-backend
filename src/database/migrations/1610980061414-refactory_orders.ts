@@ -7,7 +7,7 @@ export class refactoryOrders1610980061414 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE \`order_items\` DROP COLUMN \`payment_type\` , DROP COLUMN \`notes\` ;`);
+        await queryRunner.query(`ALTER TABLE \`orders\` DROP COLUMN \`payment_type\` , DROP COLUMN \`notes\` ;`);
     }
 
 }

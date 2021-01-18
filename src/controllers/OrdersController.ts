@@ -64,7 +64,6 @@ export default {
             payment_type,
             paid,
             address,
-            notes,
             reason_cancellation,
             orderStatus,
             orderItems
@@ -87,6 +86,7 @@ export default {
             fee,
             total,
             payment,
+            payment_type,
             paid,
             address,
             reason_cancellation,
@@ -112,7 +112,6 @@ export default {
             payment_type: Yup.string().required(),
             paid: Yup.boolean().notRequired(),
             address: Yup.string().required(),
-            notes: Yup.string().notRequired(),
             reason_cancellation: Yup.string().notRequired(),
             orderStatus: Yup.number().required(),
             orderItems: Yup.array(
@@ -163,7 +162,6 @@ export default {
             payment_type,
             paid,
             address,
-            notes,
             reason_cancellation,
             orderStatus,
             orderItems
@@ -189,7 +187,6 @@ export default {
             payment_type,
             paid,
             address,
-            notes,
             reason_cancellation,
             orderStatus,
             orderItems
@@ -213,7 +210,6 @@ export default {
             payment_type: Yup.string().required(),
             paid: Yup.boolean().notRequired(),
             address: Yup.string().notRequired(),
-            notes: Yup.string().notRequired(),
             reason_cancellation: Yup.string().notRequired(),
             orderStatus: Yup.number().required(),
             orderItems: Yup.array(

@@ -16,6 +16,9 @@ export default class OrderItemsModel {
     @Column()
     value: number;
 
+    @Column()
+    notes: string;
+
     @ManyToOne(() => Order, order => order.orderItems)
     @JoinColumn({ name: 'order_id'})
     order: Order;
