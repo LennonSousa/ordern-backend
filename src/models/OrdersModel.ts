@@ -50,10 +50,16 @@ export default class ProductModel {
     payment: string;
 
     @Column()
+    payment_type: string;
+
+    @Column()
     paid: boolean;
 
     @Column()
     address: string;
+
+    @Column()
+    notes: string;
 
     @Column()
     reason_cancellation: string;
