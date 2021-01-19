@@ -63,6 +63,7 @@ export default {
             paused,
             order,
             available_all,
+            on_request,
             category
         } = request.body;
 
@@ -90,6 +91,7 @@ export default {
                 paused,
                 order,
                 available_all,
+                on_request,
                 category
             };
 
@@ -101,11 +103,12 @@ export default {
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
                 price: Yup.number().required(),
-                discount: Yup.boolean().notRequired(),
+                paused: Yup.boolean().required(),
+                discount: Yup.boolean().required(),
                 discount_price: Yup.number().notRequired(),
-                paused: Yup.boolean().notRequired(),
                 order: Yup.number().required(),
-                available_all: Yup.boolean().notRequired(),
+                available_all: Yup.boolean().required(),
+                on_request: Yup.boolean().required(),
                 category: Yup.number().required()
             });
 
@@ -143,6 +146,7 @@ export default {
                 paused,
                 order,
                 available_all,
+                on_request,
                 category
             };
 
@@ -154,11 +158,12 @@ export default {
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
                 price: Yup.number().required(),
-                discount: Yup.boolean().notRequired(),
+                paused: Yup.boolean().required(),
+                discount: Yup.boolean().required(),
                 discount_price: Yup.number().notRequired(),
-                paused: Yup.boolean().notRequired(),
                 order: Yup.number().required(),
-                available_all: Yup.boolean().notRequired(),
+                available_all: Yup.boolean().required(),
+                on_request: Yup.boolean().required(),
                 category: Yup.number().required()
             });
 
@@ -200,13 +205,9 @@ export default {
             paused,
             order,
             available_all,
+            on_request,
             category
         } = request.body;
-
-        maiority = maiority === 'false' ? false : true;
-        price_one = price_one === 'false' ? false : true;
-        discount = discount && discount === 'false' ? false : true;
-        available_all = available_all && available_all === 'false' ? false : true;
 
         price = Number(price);
         discount_price = discount_price && Number(discount_price);
@@ -232,6 +233,7 @@ export default {
                 paused,
                 order,
                 available_all,
+                on_request,
                 category
             };
 
@@ -243,11 +245,12 @@ export default {
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
                 price: Yup.number().required(),
-                discount: Yup.boolean().notRequired(),
+                paused: Yup.boolean().required(),
+                discount: Yup.boolean().required(),
                 discount_price: Yup.number().notRequired(),
-                paused: Yup.boolean().notRequired(),
                 order: Yup.number().required(),
-                available_all: Yup.boolean().notRequired(),
+                available_all: Yup.boolean().required(),
+                on_request: Yup.boolean().required(),
                 category: Yup.number().required()
             });
 
@@ -274,6 +277,7 @@ export default {
                 paused,
                 order,
                 available_all,
+                on_request,
                 category
             };
 
@@ -285,11 +289,12 @@ export default {
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
                 price: Yup.number().required(),
-                paused: Yup.boolean().notRequired(),
-                discount: Yup.boolean().notRequired(),
+                paused: Yup.boolean().required(),
+                discount: Yup.boolean().required(),
                 discount_price: Yup.number().notRequired(),
                 order: Yup.number().required(),
-                available_all: Yup.boolean().notRequired(),
+                available_all: Yup.boolean().required(),
+                on_request: Yup.boolean().required(),
                 category: Yup.number().required()
             });
 

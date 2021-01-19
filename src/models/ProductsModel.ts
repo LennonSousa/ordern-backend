@@ -45,6 +45,9 @@ export default class ProductModel {
     @Column()
     available_all: boolean;
 
+    @Column()
+    on_request: boolean;
+
     @ManyToOne(() => Category, category => category.products)
     @JoinColumn({ name: 'category_id'})
     category: Category;
