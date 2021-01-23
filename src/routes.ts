@@ -29,6 +29,8 @@ import CustomerAddressController from './controllers/CustomerAddressController';
 import CustomerPaymentsController from './controllers/CustomerPaymentsController';
 import PaymentsController from './controllers/PaymentsController';
 import CustomerOrdersController from './controllers/CustomerOrdersController';
+import CreditBrandsController from './controllers/CreditBrandsController';
+import DebitBrandsController from './controllers/DebitBrandsController';
 
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -142,5 +144,17 @@ routes.delete('/customer/payments/:id', CustomerPaymentsController.delete);
 routes.get('/customer/orders/:id', CustomerOrdersController.index);
 
 routes.post('/dopayments', PaymentsController.create);
+
+routes.get('/restaurant/credit-brands', CreditBrandsController.index);
+routes.get('/restaurant/credit-brands/:id', CreditBrandsController.show);
+routes.post('/restaurant/credit-brands', CreditBrandsController.create);
+routes.put('/restaurant/credit-brands/:id', CreditBrandsController.update);
+routes.delete('/restaurant/credit-brands/:id', CreditBrandsController.delete);
+
+routes.get('/restaurant/debit-brands', DebitBrandsController.index);
+routes.get('/restaurant/debit-brands/:id', DebitBrandsController.show);
+routes.post('/restaurant/debit-brands', DebitBrandsController.create);
+routes.put('/restaurant/debit-brands/:id', DebitBrandsController.update);
+routes.delete('/restaurant/debit-brands/:id', DebitBrandsController.delete);
 
 export default routes;

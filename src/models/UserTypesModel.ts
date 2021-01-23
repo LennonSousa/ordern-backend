@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 't
 import User from './UsersModel'
 
 @Entity('user_types')
-export default class RestaurantsModel {
+export default class UserTypesModel {
     @PrimaryGeneratedColumn()
     id: number;
 

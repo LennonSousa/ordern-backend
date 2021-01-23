@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 't
 import Order from './OrdersModel'
 
 @Entity('order_status')
-export default class RestaurantsModel {
+export default class OrderStatusModel {
     @PrimaryGeneratedColumn()
     id: number;
 

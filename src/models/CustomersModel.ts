@@ -3,7 +3,7 @@ import CustomerAddress from './CustomerAddressModel';
 import CustomerPayment from './CustomerPaymentsModel';
 
 @Entity('customers')
-export default class ClientsModel {
+export default class CustomersModel {
     @PrimaryGeneratedColumn()
     id: number;
     @Column()

@@ -3,7 +3,7 @@ import OrderStatus from './OrderStatusModel';
 import OrderItem from './OrderItemsModel';
 
 @Entity('orders')
-export default class ProductModel {
+export default class OrdersModel {
     @PrimaryGeneratedColumn()
     id: number;
 
