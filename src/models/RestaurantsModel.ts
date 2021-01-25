@@ -40,4 +40,13 @@ export default class RestaurantsModel {
 
     @Column()
     country: string;
+
+    @Column()
+    latitude: string;
+
+    @Column()
+    longitude: string;
+
+    @Column()
+    free_shipping: number;
 }

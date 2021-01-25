@@ -17,6 +17,9 @@ export default {
             group: restaurant.group,
             city: restaurant.city,
             country: restaurant.country,
+            latitude: restaurant.latitude,
+            longitude: restaurant.longitude,
+            free_shipping: restaurant.free_shipping
         }
     },
 

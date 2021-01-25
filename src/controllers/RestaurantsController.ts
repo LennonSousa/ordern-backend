@@ -37,7 +37,10 @@ export default {
             number,
             group,
             city,
-            country
+            country,
+            latitude,
+            longitude,
+            free_shipping
         } = request.body;
 
         const restaurantsRepository = getRepository(RestaurantsModel);
@@ -58,7 +61,10 @@ export default {
             number,
             group,
             city,
-            country
+            country,
+            latitude,
+            longitude,
+            free_shipping
         };
 
         const schema = Yup.object().shape({
@@ -73,7 +79,10 @@ export default {
             number: Yup.string().required(),
             group: Yup.string().required(),
             city: Yup.string().required(),
-            country: Yup.string().required()
+            country: Yup.string().required(),
+            latitude: Yup.string().required(),
+            longitude: Yup.string().required(),
+            free_shipping: Yup.number().required()
         });
 
         await schema.validate(data, {
@@ -117,7 +126,10 @@ export default {
             number,
             group,
             city,
-            country
+            country,
+            latitude,
+            longitude,
+            free_shipping
         } = request.body;
 
         const restaurantsRepository = getRepository(RestaurantsModel);
@@ -132,7 +144,10 @@ export default {
             number,
             group,
             city,
-            country
+            country,
+            latitude,
+            longitude,
+            free_shipping
         };
 
         const schema = Yup.object().shape({
@@ -145,7 +160,10 @@ export default {
             number: Yup.string().required(),
             group: Yup.string().required(),
             city: Yup.string().required(),
-            country: Yup.string().required()
+            country: Yup.string().required(),
+            latitude: Yup.string().required(),
+            longitude: Yup.string().required(),
+            free_shipping: Yup.number().required()
         });
 
         await schema.validate(data, {
