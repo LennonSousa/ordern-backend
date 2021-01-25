@@ -40,7 +40,7 @@ export default {
         if (!customer) {
             const customerNewRepository = getRepository(CustomerNewModel);
 
-            const tokenEmail = crypto.randomBytes(2).toString('hex');
+            const tokenEmail = crypto.randomBytes(3).toString('hex');
 
             const expireHour = new Date();
             expireHour.setHours(expireHour.getHours() + 1);
@@ -76,13 +76,13 @@ export default {
                 text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tokenEmail}`,
                 html: `<h2>Ficamos felizes de ver você por aqui</h2><p>Use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
             }, err => {
-                if (err) return response.status(204).json();
+                console.log('erro no envido do e-mail: ', err);
             });
 
             return response.status(204).json();
         }
-
-        return response.status(200).json();
+        else
+            return response.status(200).json();
     },
 
     async create(request: Request, response: Response) {
@@ -131,7 +131,7 @@ export default {
 
             customerAuth = {
                 ...customerAuth, payments: customerAuth.payments.map(payment => {
-                    return {...payment, card_number: decrypt(payment.card_number)};
+                    return { ...payment, card_number: decrypt(payment.card_number) };
                 })
             }
 

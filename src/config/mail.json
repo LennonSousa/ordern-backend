@@ -1,6 +1,6 @@
 {
-    "host": "smtp.umbler.com",
+    "host": "smtp.a.com",
     "port": 587,
-    "user": "nao-responda@casadecarnesisrael.com.br",
-    "pass": "Nao@responda-54321"
+    "user": "a@a.com.br",
+    "pass": "a"
 }

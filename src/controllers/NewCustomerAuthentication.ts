@@ -38,7 +38,7 @@ export default {
         if (!customer) {
             const customerNewRepository = getRepository(CustomerNewModel);
 
-            const tokenEmail = crypto.randomBytes(2).toString('hex');
+            const tokenEmail = crypto.randomBytes(3).toString('hex');
 
             const expireHour = new Date();
             expireHour.setHours(expireHour.getHours() + 1);
@@ -69,20 +69,37 @@ export default {
                 await customerNewRepository.save(customerNew);
             }
 
-            mailer.sendMail({
-                to: email,
-                from: 'lennonsousa@outlook.com',
-                subject: "Bem-vindo(a)",
-                text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tokenEmail}`,
-                html: `<h2>Ficamos felizes de ver você por aqui</h2><p>Use o código a seguir para prosseguir: ${tokenEmail}</p>`,
-            }, err => {
-                if (err) return response.status(204).json();
-            });
+            if (process.env.USER) {
+                try {
+                    mailer.sendMail({
+                        to: email,
+                        from: process.env.USER,
+                        subject: "Bem-vindo(a)",
+                        text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tokenEmail}`,
+                        html: `<h2>Ficamos felizes de ver você por aqui</h2><p>No aplicatico, use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
+                    }, err => {
+                        if (err) {
+                            console.log('E-mail send error: ', err);
 
-            return response.status(204).json();
+                            return response.status(500).json({ message: 'Internal server error' });
+                        }
+                        else
+                            return response.status(204).json();
+                    });
+
+
+                }
+                catch (err) {
+                    return response.status(500).json({ message: 'Internal server error' });
+                }
+
+            }
+            else
+                return response.status(500).json({ message: 'Internal server error' });
+
         }
-
-        return response.status(200).json();
+        else
+            return response.status(200).json();
     },
 
     async update(request: Request, response: Response) {
