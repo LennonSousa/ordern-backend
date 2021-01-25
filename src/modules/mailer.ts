@@ -4,11 +4,11 @@ import nodemailer from 'nodemailer';
 const { host, port, user, pass } = require('../config/mail');
 
 const transport = nodemailer.createTransport({
-    host: process.env.HOST ? process.env.HOST : host,
-    port: process.env.HOST_PORT ? process.env.HOST_PORT : port,
+    host: process.env.EMAIL_HOST ? process.env.EMAIL_HOST : host,
+    port: process.env.EMAIL_PORT ? process.env.EMAIL_PORT : port,
     auth: {
-        user: process.env.USER ? process.env.USER : user,
-        pass: process.env.PASS ? process.env.PASS : pass
+        user: process.env.EMAIL_USER ? process.env.EMAIL_USER : user,
+        pass: process.env.EMAIL_PASS ? process.env.EMAIL_PASS : pass
     }
 });
 

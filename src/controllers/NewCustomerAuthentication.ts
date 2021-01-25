@@ -69,11 +69,11 @@ export default {
                 await customerNewRepository.save(customerNew);
             }
 
-            if (process.env.USER) {
+            if (process.env.EMAIL_USER) {
                 try {
                     mailer.sendMail({
                         to: email,
-                        from: process.env.USER,
+                        from: process.env.EMAIL_USER,
                         subject: "Bem-vindo(a)",
                         text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tokenEmail}`,
                         html: `<h2>Ficamos felizes de ver você por aqui</h2><p>No aplicatico, use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
