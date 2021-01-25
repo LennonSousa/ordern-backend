@@ -22,7 +22,8 @@ import ProductAdditionalsController from './controllers/ProductAdditionalsContro
 import ProductAvailablesController from './controllers/ProductAvailablesController';
 import OrderStatusController from './controllers/OrderStatusController';
 import OrdersController from './controllers/OrdersController';
-import NewCustomersAuthenticationController from './controllers/NewCustomerAuthentication';
+import CustomerNewAuthenticationController from './controllers/CustomerNewAuthentication';
+import CustomerResetAuthenticationController from './controllers/CustomerResetAuthentication';
 import ClientsAuthenticationsController from './controllers/CustomersAuthenticationController';
 import CustomersController from './controllers/CustomersController';
 import CustomerAddressController from './controllers/CustomerAddressController';
@@ -122,8 +123,11 @@ routes.post('/orders', OrdersController.create);
 routes.put('/orders/:id', OrdersController.update);
 routes.delete('/orders/:id', OrdersController.delete);
 
-routes.post('/customer/new', NewCustomersAuthenticationController.create);
-routes.put('/customer/new', NewCustomersAuthenticationController.update);
+routes.post('/customer/new', CustomerNewAuthenticationController.create);
+routes.put('/customer/new', CustomerNewAuthenticationController.update);
+
+routes.post('/customer/reset', CustomerResetAuthenticationController.create);
+routes.put('/customer/reset', CustomerResetAuthenticationController.update);
 
 routes.post('/customer/authenticate', ClientsAuthenticationsController.create);
 
