@@ -1,6 +1,6 @@
 {
-    "host": "smtp.mailtrap.io",
-    "port": 2525,
-    "user": "a6f3e4ae96c036",
-    "pass": "8610b8978e4546"
+    "host": "smtp.umbler.com",
+    "port": 587,
+    "user": "nao-responda@casadecarnesisrael.com.br",
+    "pass": "Nao@responda-54321"
 }
