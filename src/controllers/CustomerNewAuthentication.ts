@@ -73,8 +73,7 @@ export default {
                 try {
                     mailer.sendMail({
                         to: email,
-                        from: process.env.RESTAURANT_NAME,
-                        sender: process.env.RESTAURANT_NAME,
+                        from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
                         subject: "Bem-vindo(a)",
                         text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tokenEmail}`,
                         html: `<h2>Ficamos felizes de ver você por aqui.</h2><p>No aplicativo, use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,

@@ -73,8 +73,7 @@ export default {
                 try {
                     mailer.sendMail({
                         to: email,
-                        from: process.env.EMAIL_USER,
-                        sender: process.env.RESTAURANT_NAME,
+                        from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
                         subject: "Olá",
                         text: `Você solicitou a mudança da sua senha. Use o código a seguir para prosseguir: ${tokenEmail}`,
                         html: `<h2>Você solicitou a mudança da sua senha.</h2><p>No aplicativo, use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
