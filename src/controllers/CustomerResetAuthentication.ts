@@ -164,7 +164,7 @@ export default {
 
             const { id, email } = customerResetAuth;
 
-            const customerReset = customerResetRepository.create({ activated: true });
+            const customerReset = customerResetRepository.create({ activated: false });
 
             await customerResetRepository.update(id, customerReset);
 

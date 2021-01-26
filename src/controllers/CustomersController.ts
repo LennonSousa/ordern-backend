@@ -29,7 +29,7 @@ export default {
 
         customer = {
             ...customer, payments: customer.payments.map(payment => {
-                return {...payment, card_number: decrypt(payment.card_number)};
+                return { ...payment, card_number: decrypt(payment.card_number) };
             })
         }
 
@@ -118,17 +118,23 @@ export default {
             cpf,
             birth,
             phone,
+            email,
+            password,
             active,
             paused
         } = request.body;
 
         const customersRepository = getRepository(CustomersModel);
 
+        const hash = await bcrypt.hash(password, 10);
+
         const data = {
             name,
             cpf,
             birth,
             phone,
+            email,
+            password: hash,
             active,
             paused
         };
@@ -138,6 +144,8 @@ export default {
             cpf: Yup.string().notRequired(),
             birth: Yup.date().required(),
             phone: Yup.string().notRequired(),
+            email: Yup.string().required(),
+            password: Yup.string().required(),
             active: Yup.boolean().required(),
             paused: Yup.boolean().required()
         });
