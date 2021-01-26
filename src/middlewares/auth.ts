@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 const publicRoutes = [
     '/users/authenticate',
     '/customer/new',
+    '/customer/reset',
     '/customer/authenticate',
     '/restaurants',
     '/restaurant',
