@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('customer_new')
+@Entity('customer_reset')
 export default class CustomerNewModel {
     @PrimaryGeneratedColumn()
     id: number;
