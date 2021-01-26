@@ -35,7 +35,7 @@ export default {
             ]
         });
 
-        if (!customer) {
+        if (customer) {
             const customerResetRepository = getRepository(CustomerResetModel);
 
             const tokenEmail = crypto.randomBytes(3).toString('hex');
@@ -84,7 +84,7 @@ export default {
                             return response.status(500).json({ message: 'Internal server error' });
                         }
                         else
-                            return response.status(204).json();
+                            return response.status(200).json();
                     });
 
 
@@ -99,7 +99,7 @@ export default {
 
         }
         else
-            return response.status(200).json();
+            return response.status(204).json();
     },
 
     async update(request: Request, response: Response) {
