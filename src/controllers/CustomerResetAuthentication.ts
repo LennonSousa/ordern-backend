@@ -69,14 +69,15 @@ export default {
                 await customerResetRepository.save(customerReset);
             }
 
-            if (process.env.RESTAURANT_NAME) {
+            if (process.env.EMAIL_USER && process.env.RESTAURANT_NAME) {
                 try {
                     mailer.sendMail({
                         to: email,
-                        from: process.env.RESTAURANT_NAME,
+                        from: process.env.EMAIL_USER,
+                        sender: process.env.RESTAURANT_NAME,
                         subject: "Olá",
                         text: `Você solicitou a mudança da sua senha. Use o código a seguir para prosseguir: ${tokenEmail}`,
-                        html: `<h2>Você solicitou a mudança da sua senha.</h2><p>No aplicatico, use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
+                        html: `<h2>Você solicitou a mudança da sua senha.</h2><p>No aplicativo, use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
                     }, err => {
                         if (err) {
                             console.log('E-mail send error: ', err);
