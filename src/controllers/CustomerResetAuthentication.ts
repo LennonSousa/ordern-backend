@@ -105,6 +105,7 @@ export default {
     async update(request: Request, response: Response) {
         const { email, token } = request.body;
 
+        const customerRepository = getRepository(CustomersModel);
         const customerResetRepository = getRepository(CustomerResetModel);
 
         const data = {
@@ -121,11 +122,22 @@ export default {
             abortEarly: false,
         });
 
+        const customer = await customerRepository.findOne({
+            where: [
+                { email: email }
+            ]
+        });
+
         const customerResetAuth = await customerResetRepository.findOne({
             where: [
                 { email: email }
             ]
         });
+
+        if (!customer)
+            return response.status(400).json({
+                error: 'Customer e-mail or token dosen\'t exists.'
+            });
 
         if (!customerResetAuth)
             return response.status(400).json({
@@ -155,7 +167,7 @@ export default {
 
             await customerResetRepository.update(id, customerReset);
 
-            return response.status(201).json({ id, email, token: resetToken });
+            return response.status(201).json({ id, email, token: resetToken, customer });
         }
 
         return response.status(500).json({ message: 'Internal server error' });
