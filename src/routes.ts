@@ -24,6 +24,7 @@ import OrderStatusController from './controllers/OrderStatusController';
 import OrdersController from './controllers/OrdersController';
 import CustomerNewAuthenticationController from './controllers/CustomerNewAuthentication';
 import CustomerResetAuthenticationController from './controllers/CustomerResetAuthentication';
+import CustomerPasswordController from './controllers/CustomerPasswordController';
 import ClientsAuthenticationsController from './controllers/CustomersAuthenticationController';
 import CustomersController from './controllers/CustomersController';
 import CustomerAddressController from './controllers/CustomerAddressController';
@@ -128,6 +129,8 @@ routes.put('/customer/new', CustomerNewAuthenticationController.update);
 
 routes.post('/customer/reset', CustomerResetAuthenticationController.create);
 routes.put('/customer/reset', CustomerResetAuthenticationController.update);
+
+routes.put('/customer/password/:id', CustomerPasswordController.update);
 
 routes.post('/customer/authenticate', ClientsAuthenticationsController.create);
 
