@@ -208,7 +208,7 @@ export default {
             fee: Yup.number().notRequired(),
             total: Yup.number().notRequired(),
             payment: Yup.string().notRequired(),
-            payment_type: Yup.string().required(),
+            payment_type: Yup.string().notRequired(),
             paid: Yup.boolean().notRequired(),
             address: Yup.string().notRequired(),
             reason_cancellation: Yup.string().notRequired(),
