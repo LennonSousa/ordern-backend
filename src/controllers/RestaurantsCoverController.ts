@@ -8,8 +8,6 @@ export default {
     async update(request: Request, response: Response) {
         const { id } = request.params;
 
-        console.log(request.file);
-
         const cover = request.file as Express.Multer.File ;
 
         const restaurantsRepository = getRepository(RestaurantsModel);
