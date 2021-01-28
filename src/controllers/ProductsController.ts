@@ -103,12 +103,12 @@ export default {
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
                 price: Yup.number().required(),
-                paused: Yup.boolean().required(),
-                discount: Yup.boolean().required(),
+                paused: Yup.boolean().notRequired(),
+                discount: Yup.boolean().notRequired(),
                 discount_price: Yup.number().notRequired(),
                 order: Yup.number().required(),
-                available_all: Yup.boolean().required(),
-                on_request: Yup.boolean().required(),
+                available_all: Yup.boolean().notRequired(),
+                on_request: Yup.boolean().notRequired(),
                 category: Yup.number().required()
             });
 
@@ -158,12 +158,12 @@ export default {
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
                 price: Yup.number().required(),
-                paused: Yup.boolean().required(),
-                discount: Yup.boolean().required(),
+                paused: Yup.boolean().notRequired(),
+                discount: Yup.boolean().notRequired(),
                 discount_price: Yup.number().notRequired(),
                 order: Yup.number().required(),
-                available_all: Yup.boolean().required(),
-                on_request: Yup.boolean().required(),
+                available_all: Yup.boolean().notRequired(),
+                on_request: Yup.boolean().notRequired(),
                 category: Yup.number().required()
             });
 
@@ -245,12 +245,12 @@ export default {
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
                 price: Yup.number().required(),
-                paused: Yup.boolean().required(),
-                discount: Yup.boolean().required(),
+                paused: Yup.boolean().notRequired(),
+                discount: Yup.boolean().notRequired(),
                 discount_price: Yup.number().notRequired(),
                 order: Yup.number().required(),
-                available_all: Yup.boolean().required(),
-                on_request: Yup.boolean().required(),
+                available_all: Yup.boolean().notRequired(),
+                on_request: Yup.boolean().notRequired(),
                 category: Yup.number().required()
             });
 
@@ -289,12 +289,12 @@ export default {
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
                 price: Yup.number().required(),
-                paused: Yup.boolean().required(),
-                discount: Yup.boolean().required(),
+                paused: Yup.boolean().notRequired(),
+                discount: Yup.boolean().notRequired(),
                 discount_price: Yup.number().notRequired(),
                 order: Yup.number().required(),
-                available_all: Yup.boolean().required(),
-                on_request: Yup.boolean().required(),
+                available_all: Yup.boolean().notRequired(),
+                on_request: Yup.boolean().notRequired(),
                 category: Yup.number().required()
             });
 
