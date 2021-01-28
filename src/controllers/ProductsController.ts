@@ -1,3 +1,4 @@
+require('dotenv/config');
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
@@ -45,7 +46,7 @@ export default {
             ]
         });
 
-        product.image = product.image ? `${request.headers.host}/uploads/${product.image}` : product.image;
+        product.image = product.image ? `${process.env.HOST_API}/uploads/${product.image}` : product.image;
 
         return response.json(productView.render(product));
     },
