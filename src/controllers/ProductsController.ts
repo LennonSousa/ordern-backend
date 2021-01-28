@@ -72,6 +72,21 @@ export default {
         discount_price = discount_price && Number(discount_price);
         category = Number(category);
 
+        if (price_one)
+            price_one = Yup.boolean().cast(price_one);
+
+        if (discount)
+            discount = Yup.boolean().cast(discount);
+
+        if (paused)
+            paused = Yup.boolean().cast(paused);
+
+        if (available_all)
+            available_all = Yup.boolean().cast(available_all);
+
+        if (on_request)
+            on_request = Yup.boolean().cast(on_request);
+
         const productsRepository = getRepository(ProductsModel);
 
         if (request.file) {
@@ -213,6 +228,21 @@ export default {
         price = Number(price);
         discount_price = discount_price && Number(discount_price);
         category = Number(category);
+
+        if (price_one)
+            price_one = Yup.boolean().cast(price_one);
+
+        if (discount)
+            discount = Yup.boolean().cast(discount);
+
+        if (paused)
+            paused = Yup.boolean().cast(paused);
+
+        if (available_all)
+            available_all = Yup.boolean().cast(available_all);
+
+        if (on_request)
+            on_request = Yup.boolean().cast(on_request);
 
         const productsRepository = getRepository(ProductsModel);
 
