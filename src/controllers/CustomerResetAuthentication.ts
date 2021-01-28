@@ -169,24 +169,7 @@ export default {
 
             return response.status(201).json({ id, email, token: resetToken, customer });
         }
-
-        if (process.env.EMAIL_USER && process.env.RESTAURANT_NAME) {
-            try {
-                mailer.sendMail({
-                    to: email,
-                    from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
-                    subject: "Alteração da senha.",
-                    text: "A sua senha do Casa de carnes Israel foi alterada, caso não tenha solicitado, entre em contato com o estabelecimento.",
-                    html: "<h2>A sua senha do Casa de carnes Israel foi alterada.</h2><p>Caso não tenha solicitado, entre em contato com o estabelecimento.</p>",
-                }, err => {
-                    if (err)
-                        console.log('E-mail send error: ', err);
-                });
-
-            }
-            catch (err) { 'E-mail catch error.' }
-        }
-
+        
         return response.status(500).json({ message: 'Internal server error' });
     }
 }
