@@ -28,7 +28,7 @@ export default {
 
         const categoriesSorted = categories.map(category => {
             const productsUpdated = category.products.map(product => {
-                const productUpdated = { ...product, image: product.image ? `http://${process.env.HOST_API}/uploads/${product.image}` : product.image };
+                const productUpdated = { ...product, image: product.image ? `${process.env.HOST_API}/uploads/${product.image}` : product.image };
 
                 const productCategoriesAdditional = productUpdated.categoriesAdditional.map(categoryAdditional => {
                     // Sorting additionals
