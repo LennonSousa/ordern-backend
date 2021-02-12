@@ -1,6 +1,6 @@
 {
-    "host": "smtp.a.com",
+    "host": "smtp.exemple.com",
     "port": 587,
-    "user": "a@a.com.br",
-    "pass": "a"
+    "user": "exemple@exemple.com.br",
+    "pass": "exemple"
 }
