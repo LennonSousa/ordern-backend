@@ -39,6 +39,10 @@ const upload = multer(uploadConfig);
 
 routes.use(authMiddleware);
 
+routes.get('/', function (request, response) {
+    return response.status(202).json();
+})
+
 routes.get('/restaurants', RestaurantsController.index);
 routes.get('/restaurants/:id', RestaurantsController.show);
 routes.post('/restaurants', upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), RestaurantsController.create);
