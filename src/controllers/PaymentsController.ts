@@ -2,10 +2,14 @@ require('dotenv/config');
 import { Request, Response } from 'express';
 import * as Yup from 'yup';
 
+import PaymentStripeController from './PaymentStripeController';
+
 export default {
     async create(request: Request, response: Response) {
-        if (process.env.STRIP_SECRET_KEY) {
-            const stripe = require('stripe')(process.env.STRIP_SECRET_KEY);
+        const paymentStripe = await PaymentStripeController.show();
+
+        if (paymentStripe) {
+            const stripe = require('stripe')(paymentStripe.sk_live);
 
             const { amount, tokenId, description, email } = request.body;
 

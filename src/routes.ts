@@ -33,6 +33,7 @@ import PaymentsController from './controllers/PaymentsController';
 import CustomerOrdersController from './controllers/CustomerOrdersController';
 import CreditBrandsController from './controllers/CreditBrandsController';
 import DebitBrandsController from './controllers/DebitBrandsController';
+import PaymentStripeController from './controllers/PaymentStripeController';
 
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -167,5 +168,10 @@ routes.get('/restaurant/debit-brands/:id', DebitBrandsController.show);
 routes.post('/restaurant/debit-brands', DebitBrandsController.create);
 routes.put('/restaurant/debit-brands/:id', DebitBrandsController.update);
 routes.delete('/restaurant/debit-brands/:id', DebitBrandsController.delete);
+
+routes.get('/payment/stripe', PaymentStripeController.index);
+routes.post('/payment/stripe', PaymentStripeController.create);
+routes.put('/payment/stripe/:id', PaymentStripeController.update);
+routes.delete('/payment/stripe/:id', PaymentStripeController.delete);
 
 export default routes;
