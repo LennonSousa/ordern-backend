@@ -34,6 +34,7 @@ import CustomerOrdersController from './controllers/CustomerOrdersController';
 import CreditBrandsController from './controllers/CreditBrandsController';
 import DebitBrandsController from './controllers/DebitBrandsController';
 import PaymentStripeController from './controllers/PaymentStripeController';
+import PaymentsDeliveryController from './controllers/PaymentsDeliveryController';
 
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -155,23 +156,29 @@ routes.delete('/customer/payments/:id', CustomerPaymentsController.delete);
 
 routes.get('/customer/orders/:id', CustomerOrdersController.index);
 
-routes.post('/dopayments', PaymentsController.create);
+routes.post('/payments/dopayments', PaymentsController.create);
 
-routes.get('/restaurant/credit-brands', CreditBrandsController.index);
-routes.get('/restaurant/credit-brands/:id', CreditBrandsController.show);
-routes.post('/restaurant/credit-brands', CreditBrandsController.create);
-routes.put('/restaurant/credit-brands/:id', CreditBrandsController.update);
-routes.delete('/restaurant/credit-brands/:id', CreditBrandsController.delete);
+routes.get('/payments/credit-brands', CreditBrandsController.index);
+routes.get('/payments/credit-brands/:id', CreditBrandsController.show);
+routes.post('/payments/credit-brands', CreditBrandsController.create);
+routes.put('/payments/credit-brands/:id', CreditBrandsController.update);
+routes.delete('/payments/credit-brands/:id', CreditBrandsController.delete);
 
-routes.get('/restaurant/debit-brands', DebitBrandsController.index);
-routes.get('/restaurant/debit-brands/:id', DebitBrandsController.show);
-routes.post('/restaurant/debit-brands', DebitBrandsController.create);
-routes.put('/restaurant/debit-brands/:id', DebitBrandsController.update);
-routes.delete('/restaurant/debit-brands/:id', DebitBrandsController.delete);
+routes.get('/payments/debit-brands', DebitBrandsController.index);
+routes.get('/payments/debit-brands/:id', DebitBrandsController.show);
+routes.post('/payments/debit-brands', DebitBrandsController.create);
+routes.put('/payments/debit-brands/:id', DebitBrandsController.update);
+routes.delete('/payments/debit-brands/:id', DebitBrandsController.delete);
 
-routes.get('/payment/stripe', PaymentStripeController.index);
-routes.post('/payment/stripe', PaymentStripeController.create);
-routes.put('/payment/stripe/:id', PaymentStripeController.update);
-routes.delete('/payment/stripe/:id', PaymentStripeController.delete);
+routes.get('/payments/stripe', PaymentStripeController.index);
+routes.post('/payments/stripe', PaymentStripeController.create);
+routes.put('/payments/stripe/:id', PaymentStripeController.update);
+routes.delete('/payments/stripe/:id', PaymentStripeController.delete);
+
+routes.get('/payments/delivery', PaymentsDeliveryController.index);
+routes.get('/payments/delivery/:id', PaymentsDeliveryController.show);
+routes.post('/payments/delivery', PaymentsDeliveryController.create);
+routes.put('/payments/delivery/:id', PaymentsDeliveryController.update);
+routes.delete('/payments/delivery/:id', PaymentsDeliveryController.delete);
 
 export default routes;
