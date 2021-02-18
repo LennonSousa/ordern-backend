@@ -17,6 +17,17 @@ export default {
             return response.status(204).json();
     },
 
+    async indexSecret(request: Request, response: Response) {
+        const paymentStripeRepository = getRepository(PaymentStripeModel);
+
+        const paymentStripe = await paymentStripeRepository.findOne();
+
+        if (paymentStripe)
+            return response.json(paymentStripeView.renderSecret(paymentStripe));
+        else
+            return response.status(204).json();
+    },
+
     async show() {
         const paymentStripeRepository = getRepository(PaymentStripeModel);
 
@@ -80,7 +91,7 @@ export default {
         const schema = Yup.object().shape({
             pk_live: Yup.string().required(),
             sk_live: Yup.string().required(),
-            active: Yup.boolean().required()
+            active: Yup.boolean().notRequired()
         });
 
         await schema.validate(data, {

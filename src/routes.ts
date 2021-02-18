@@ -171,6 +171,7 @@ routes.put('/payments/debit-brands/:id', DebitBrandsController.update);
 routes.delete('/payments/debit-brands/:id', DebitBrandsController.delete);
 
 routes.get('/payments/stripe', PaymentStripeController.index);
+routes.get('/payments/stripe/secret', PaymentStripeController.indexSecret);
 routes.post('/payments/stripe', PaymentStripeController.create);
 routes.put('/payments/stripe/:id', PaymentStripeController.update);
 routes.delete('/payments/stripe/:id', PaymentStripeController.delete);
