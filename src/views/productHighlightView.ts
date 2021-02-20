@@ -5,7 +5,7 @@ export default {
         return {
             id: productHighlight.id,
             active: productHighlight.active,
-            product: productHighlight.product.id
+            product: productHighlight.product
         }
     },
 
