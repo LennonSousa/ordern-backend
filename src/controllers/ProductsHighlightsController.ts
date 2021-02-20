@@ -10,23 +10,9 @@ export default {
     async index(request: Request, response: Response) {
         const productsHighlightsRepository = getRepository(ProductsHighlightsModel);
 
-        const productsHighlights = await productsHighlightsRepository.find({
-            relations: [
-                'product',
-                'product.values',
-                'product.availables'
-            ]
-        });
+        const productsHighlights = await productsHighlightsRepository.find();
 
-        const productsHighlightsUpdated = productsHighlights.map(highlight => {
-            const product = highlight.product;
-
-            const productUpdated = { ...product, image: product.image ? `${process.env.HOST_API}/uploads/${product.image}` : product.image };
-
-            return { ...highlight, products: productUpdated };
-        });
-
-        return response.json(productHighlightView.renderMany(productsHighlightsUpdated));
+        return response.json(productHighlightView.renderMany(productsHighlights));
     },
 
     async show(request: Request, response: Response) {
