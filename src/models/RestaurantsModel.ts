@@ -51,8 +51,8 @@ export default class RestaurantsModel {
     free_shipping: number;
 
     @Column()
-    highlights: string;
+    highlights: boolean;
 
     @Column()
-    highlights_title: number;
+    highlights_title: string;
 }
