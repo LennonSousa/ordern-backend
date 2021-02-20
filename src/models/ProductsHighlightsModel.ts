@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'ty
 import Product from './ProductsModel';
 
 @Entity('products_highlights')
-export default class CreditBrandsModel {
+export default class ProductsHighlightsModel {
     @PrimaryGeneratedColumn()
     id: number;
 
