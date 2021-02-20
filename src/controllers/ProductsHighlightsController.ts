@@ -13,7 +13,12 @@ export default {
         const productsHighlights = await productsHighlightsRepository.find({
             relations: [
                 'product',
+                'product.category',
                 'product.values',
+                'product.categoriesAdditional',
+                'product.categoriesAdditional.productAdditional',
+                'product.categoriesAdditional.productAdditional.additional',
+                'product.categoriesAdditional.productAdditional.categoryAdditional',
                 'product.availables'
             ]
         });
@@ -37,7 +42,12 @@ export default {
         const productHighlight = await productsHighlightsRepository.findOneOrFail(id, {
             relations: [
                 'product',
+                'product.category',
                 'product.values',
+                'product.categoriesAdditional',
+                'product.categoriesAdditional.productAdditional',
+                'product.categoriesAdditional.productAdditional.additional',
+                'product.categoriesAdditional.productAdditional.categoryAdditional',
                 'product.availables'
             ]
         });
