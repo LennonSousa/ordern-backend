@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
 
-import dayScheduleView from '../views/categoryView';
+import categoryView from '../views/categoryView';
 import CategoriesModel from '../models/CategoriesModel';
 
 export default {
@@ -49,7 +49,7 @@ export default {
             return { ...category, products: productsUpdated };
         })
 
-        return response.json(dayScheduleView.renderMany(categoriesSorted));
+        return response.json(categoryView.renderMany(categoriesSorted));
     },
 
     async show(request: Request, response: Response) {
@@ -61,7 +61,7 @@ export default {
             relations: ['products', 'products.category']
         });
 
-        return response.json(dayScheduleView.render(category));
+        return response.json(categoryView.render(category));
     },
 
     async create(request: Request, response: Response) {

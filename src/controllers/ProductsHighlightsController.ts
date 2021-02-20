@@ -18,7 +18,15 @@ export default {
             ]
         });
 
-        return response.json(productHighlightView.renderMany(productsHighlights));
+        const productsHighlightsUpdated = productsHighlights.map(highlight => {
+            const product = highlight.product;
+
+            const productUpdated = { ...product, image: product.image ? `${process.env.HOST_API}/uploads/${product.image}` : product.image };
+
+            return { ...highlight, products: productUpdated };
+        });
+
+        return response.json(productHighlightView.renderMany(productsHighlightsUpdated));
     },
 
     async show(request: Request, response: Response) {
