@@ -19,7 +19,9 @@ export default {
             country: restaurant.country,
             latitude: restaurant.latitude,
             longitude: restaurant.longitude,
-            free_shipping: restaurant.free_shipping
+            free_shipping: restaurant.free_shipping,
+            highlights: restaurant.highlights,
+            highlights_title: restaurant.highlights_title
         }
     },
 

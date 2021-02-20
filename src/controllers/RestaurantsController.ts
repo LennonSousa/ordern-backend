@@ -40,7 +40,9 @@ export default {
             country,
             latitude,
             longitude,
-            free_shipping
+            free_shipping,
+            highlights,
+            highlights_title
         } = request.body;
 
         const restaurantsRepository = getRepository(RestaurantsModel);
@@ -64,7 +66,9 @@ export default {
             country,
             latitude,
             longitude,
-            free_shipping
+            free_shipping,
+            highlights,
+            highlights_title
         };
 
         const schema = Yup.object().shape({
@@ -82,7 +86,9 @@ export default {
             country: Yup.string().required(),
             latitude: Yup.string().required(),
             longitude: Yup.string().required(),
-            free_shipping: Yup.number().required()
+            free_shipping: Yup.number().required(),
+            highlights: Yup.boolean().notRequired(),
+            highlights_title: Yup.string().notRequired()
         });
 
         await schema.validate(data, {
@@ -129,7 +135,9 @@ export default {
             country,
             latitude,
             longitude,
-            free_shipping
+            free_shipping,
+            highlights,
+            highlights_title
         } = request.body;
 
         const restaurantsRepository = getRepository(RestaurantsModel);
@@ -147,7 +155,9 @@ export default {
             country,
             latitude,
             longitude,
-            free_shipping
+            free_shipping,
+            highlights,
+            highlights_title
         };
 
         const schema = Yup.object().shape({
@@ -163,7 +173,9 @@ export default {
             country: Yup.string().required(),
             latitude: Yup.string().required(),
             longitude: Yup.string().required(),
-            free_shipping: Yup.number().required()
+            free_shipping: Yup.number().required(),
+            highlights: Yup.boolean().notRequired(),
+            highlights_title: Yup.string().notRequired()
         });
 
         await schema.validate(data, {

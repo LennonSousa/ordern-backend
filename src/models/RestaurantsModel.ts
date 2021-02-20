@@ -49,4 +49,10 @@ export default class RestaurantsModel {
 
     @Column()
     free_shipping: number;
+
+    @Column()
+    highlights: string;
+
+    @Column()
+    highlights_title: number;
 }
