@@ -9,6 +9,7 @@ const publicRoutes = [
     '/customer/authenticate',
     '/restaurants',
     '/restaurant',
+    '/highlights/landing',
     '/categories',
     '/products',
     '/uploads',
