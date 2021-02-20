@@ -1,8 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn, OneToOne } from 'typeorm';
 import Category from './CategoriesModel';
 import Value from './ProductValuesModel';
 import CategoryAdditional from './ProductCategoriesAdditionalModel';
 import Available from './ProductAvailablesModel';
+import ProductsHighlights from './ProductsHighlightsModel';
 
 @Entity('products')
 export default class ProductModel {
@@ -65,4 +66,10 @@ export default class ProductModel {
     @OneToMany(() => Available, available => available.product)
     @JoinColumn({ name: 'id' })
     availables: Available[];
+
+    @OneToOne(() => ProductsHighlights, productHighlight => productHighlight.product, {
+        cascade: ['update', 'remove']
+    })
+    @JoinColumn({ name: 'id'})
+    productHighlight: ProductsHighlights;
 }

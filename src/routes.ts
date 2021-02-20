@@ -35,6 +35,7 @@ import CreditBrandsController from './controllers/CreditBrandsController';
 import DebitBrandsController from './controllers/DebitBrandsController';
 import PaymentStripeController from './controllers/PaymentStripeController';
 import PaymentsDeliveryController from './controllers/PaymentsDeliveryController';
+import ProductsHighlightsController from './controllers/ProductsHighlightsController';
 
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -121,6 +122,12 @@ routes.put('/product/additionals/:id', ProductAdditionalsController.update);
 routes.delete('/product/additionals/:id', ProductAdditionalsController.delete);
 
 routes.put('/product/availables/:id', ProductAvailablesController.update);
+
+routes.get('/highlights/landing', ProductsHighlightsController.index);
+routes.get('/highlights/landing/:id', ProductsHighlightsController.show);
+routes.post('/highlights/landing', ProductsHighlightsController.create);
+routes.put('/highlights/landing/:id', ProductsHighlightsController.update);
+routes.delete('/highlights/landing/:id', ProductsHighlightsController.delete);
 
 routes.get('/order-status', OrderStatusController.index);
 
