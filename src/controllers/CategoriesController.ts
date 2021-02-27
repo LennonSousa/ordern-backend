@@ -26,30 +26,7 @@ export default {
             ]
         });
 
-        const categoriesSorted = categories.map(category => {
-            const productsUpdated = category.products.map(product => {
-                const productUpdated = { ...product, image: product.image ? `${process.env.HOST_API}/uploads/${product.image}` : product.image };
-
-                const productCategoriesAdditional = productUpdated.categoriesAdditional.map(categoryAdditional => {
-                    // Sorting additionals
-                    categoryAdditional.productAdditional.sort((a, b) => a.order - b.order);
-
-                    return categoryAdditional;
-                });
-
-                // Sorting categories additional
-                productCategoriesAdditional.sort((a, b) => a.order - b.order);
-
-                return { ...productUpdated, categoriesAdditional: productCategoriesAdditional };
-            });
-
-            // Sorting products
-            productsUpdated.sort((a, b) => a.order - b.order);
-
-            return { ...category, products: productsUpdated };
-        })
-
-        return response.json(categoryView.renderMany(categoriesSorted));
+        return response.json(categoryView.renderMany(categories));
     },
 
     async show(request: Request, response: Response) {
@@ -58,7 +35,16 @@ export default {
         const categoriesRepository = getRepository(CategoriesModel);
 
         const category = await categoriesRepository.findOneOrFail(id, {
-            relations: ['products', 'products.category']
+            relations: [
+                'products',
+                'products.category',
+                'products.values',
+                'products.categoriesAdditional',
+                'products.categoriesAdditional.productAdditional',
+                'products.categoriesAdditional.productAdditional.additional',
+                'products.categoriesAdditional.productAdditional.categoryAdditional',
+                'products.availables'
+            ]
         });
 
         return response.json(categoryView.render(category));

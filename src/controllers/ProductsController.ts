@@ -1,4 +1,3 @@
-require('dotenv/config');
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
@@ -45,8 +44,6 @@ export default {
                 'availables'
             ]
         });
-
-        product.image = product.image ? `${process.env.HOST_API}/uploads/${product.image}` : product.image;
 
         return response.json(productView.render(product));
     },
@@ -147,7 +144,7 @@ export default {
                 await productAvailabelsRepository.save(productAvailable);
             }
 
-            return response.status(201).json(productView.render(product));
+            return response.status(201).json(product.id);
         }
         else {
             const data = {

@@ -1,4 +1,5 @@
-import CategoryAdditional from '../models/ProductCategoriesAdditionalModel'
+import CategoryAdditional from '../models/ProductCategoriesAdditionalModel';
+import productAdditionalsView from '../views/productAdditionalView';
 
 export default {
     render(category: CategoryAdditional) {
@@ -10,11 +11,13 @@ export default {
             repeat: category.repeat,
             order: category.order,
             product: category.product,
-            productAdditional: category.productAdditional
+            productAdditional: productAdditionalsView.renderMany(category.productAdditional)
         }
     },
 
     renderMany(categories: CategoryAdditional[]) {
-        return categories.map(category => this.render(category));
+        const categoriesSorted = categories.sort((a, b) => a.order - b.order);
+
+        return categoriesSorted.map(category => this.render(category));
     }
 }

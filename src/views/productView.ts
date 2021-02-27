@@ -1,5 +1,7 @@
 require('dotenv/config');
-import Product from '../models/ProductsModel'
+import Product from '../models/ProductsModel';
+import productValueView from '../views/productValueView';
+import productCategorieAdditionalView from '../views/productCategorieAdditionalView';
 
 export default {
     render(product: Product) {
@@ -7,7 +9,7 @@ export default {
             id: product.id,
             title: product.title,
             description: product.description,
-            image: product.image,
+            image: `${process.env.HOST_API}/uploads/${product.image}`,
             maiority: product.maiority,
             code: product.code,
             price_one: product.price_one,
@@ -17,14 +19,17 @@ export default {
             paused: product.paused,
             order: product.order,
             available_all: product.available_all,
+            on_request: product.on_request,
             category: product.category,
-            values: product.values,
-            categoriesAdditional: product.categoriesAdditional,
+            values: productValueView.renderMany(product.values),
+            categoriesAdditional: productCategorieAdditionalView.renderMany(product.categoriesAdditional),
             availables: product.availables
         }
     },
 
     renderMany(products: Product[]) {
-        return products.map(product => this.render(product));
+        const productsSorted = products.sort((a, b) => a.order - b.order);
+
+        return productsSorted.map(product => this.render(product));
     }
 }

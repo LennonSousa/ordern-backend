@@ -13,6 +13,8 @@ export default {
     },
 
     renderMany(productAdditionals: ProductAdditionals[]) {
-        return productAdditionals.map(productAdditional => this.render(productAdditional));
+        const productAdditionalsSorted = productAdditionals.sort((a, b) => a.order - b.order);
+
+        return productAdditionalsSorted.map(productAdditional => this.render(productAdditional));
     }
 }

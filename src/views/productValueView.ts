@@ -11,6 +11,8 @@ export default {
     },
 
     renderMany(productValues: ProductValue[]) {
-        return productValues.map(productValue => this.render(productValue));
+        const productValuesSorted = productValues.sort((a, b) => a.order - b.order);
+
+        return productValuesSorted.map(productValue => this.render(productValue));
     }
 }
