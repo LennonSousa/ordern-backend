@@ -7,6 +7,7 @@ import uploadConfig from './config/upload';
 import RestaurantsController from './controllers/RestaurantsController';
 import RestaurantsCoverController from './controllers/RestaurantsCoverController';
 import RestaurantsAvatarController from './controllers/RestaurantsAvatarController';
+import StoreShipmentController from './controllers/StoreShipmentController';
 import RestaurantDeliveryGroupsController from './controllers/RestaurantDeliveryGroupsController';
 import UsersAuthenticationsController from './controllers/UsersAuthenticationController';
 import UserTypesController from './controllers/UserTypesController';
@@ -79,11 +80,17 @@ routes.post('/restaurant/opened-day/schedules', DaySchedulesController.create);
 routes.put('/restaurant/opened-day/schedules/:id', DaySchedulesController.update);
 routes.delete('/restaurant/opened-day/schedules/:id', DaySchedulesController.delete);
 
-routes.get('/restaurant/delivery-groups', RestaurantDeliveryGroupsController.index);
-routes.get('/restaurant/delivery-groups/:id', RestaurantDeliveryGroupsController.show);
-routes.post('/restaurant/delivery-groups', RestaurantDeliveryGroupsController.create);
-routes.put('/restaurant/delivery-groups/:id', RestaurantDeliveryGroupsController.update);
-routes.delete('/restaurant/delivery-groups/:id', RestaurantDeliveryGroupsController.delete);
+routes.get('/store/shipments', StoreShipmentController.index);
+routes.get('/store/shipments/:id', StoreShipmentController.show);
+routes.post('/store/shipments', StoreShipmentController.create);
+routes.put('/store/shipments/:id', StoreShipmentController.update);
+routes.delete('/store/shipments/:id', StoreShipmentController.delete);
+
+routes.get('/store/delivery-groups', RestaurantDeliveryGroupsController.index);
+routes.get('/store/delivery-groups/:id', RestaurantDeliveryGroupsController.show);
+routes.post('/store/delivery-groups', RestaurantDeliveryGroupsController.create);
+routes.put('/store/delivery-groups/:id', RestaurantDeliveryGroupsController.update);
+routes.delete('/store/delivery-groups/:id', RestaurantDeliveryGroupsController.delete);
 
 routes.get('/categories', CategoriesController.index);
 routes.get('/categories/:id', CategoriesController.show);

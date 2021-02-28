@@ -1,15 +1,15 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('payment_stripe')
-export default class PaymentStripeModel {
+@Entity('store_shipments')
+export default class StoreShipmentsModel {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    pk_live: string;
+    name: string;
 
     @Column()
-    sk_live: string;
+    code: string;
 
     @Column()
     active: boolean;

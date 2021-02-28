@@ -5,7 +5,8 @@ export default {
         return {
             id: deliveryGroup.id,
             description: deliveryGroup.description,
-            price: deliveryGroup.price
+            price: deliveryGroup.price,
+            estimated: deliveryGroup.estimated
         }
     },
 

@@ -27,19 +27,22 @@ export default {
     async create(request: Request, response: Response) {
         const {
             description,
-            price
+            price,
+            estimated
         } = request.body;
 
         const deliveryGroupRepository = getRepository(RestaurantDeliveryGroupsModel);
 
         const data = {
             description,
-            price
+            price,
+            estimated
         };
 
         const schema = Yup.object().shape({
             description: Yup.string().required(),
-            price: Yup.number().required()
+            price: Yup.number().required(),
+            estimated: Yup.string().required(),
         });
 
         await schema.validate(data, {
@@ -58,19 +61,22 @@ export default {
 
         const {
             description,
-            price
+            price,
+            estimated
         } = request.body;
 
         const deliveryGroupRepository = getRepository(RestaurantDeliveryGroupsModel);
 
         const data = {
             description,
-            price
+            price,
+            estimated
         };
 
         const schema = Yup.object().shape({
             description: Yup.string().required(),
-            price: Yup.number().required()
+            price: Yup.number().required(),
+            estimated: Yup.string().required(),
         });
 
         await schema.validate(data, {
