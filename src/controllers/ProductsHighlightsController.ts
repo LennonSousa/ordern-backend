@@ -11,6 +11,9 @@ export default {
         const productsHighlightsRepository = getRepository(ProductsHighlightsModel);
 
         const productHighlights = await productsHighlightsRepository.find({
+            order: {
+                id: "ASC"
+            },
             relations: [
                 'product',
                 'product.category',

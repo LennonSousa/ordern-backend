@@ -13,6 +13,8 @@ export default {
     },
 
     renderMany(categories: Category[]) {
-        return categories.map(category => this.render(category));
+        const categoriesSorted = categories.sort((a, b) => a.order - b.order);
+
+        return categoriesSorted.map(category => this.render(category));
     }
 }
