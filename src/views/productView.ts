@@ -28,8 +28,6 @@ export default {
     },
 
     renderMany(products: Product[]) {
-        const productsSorted = products.sort((a, b) => a.order - b.order);
-
-        return productsSorted.map(product => this.render(product));
+        return products.map(product => this.render(product));
     }
 }
