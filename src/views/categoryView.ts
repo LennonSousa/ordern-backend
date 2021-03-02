@@ -1,4 +1,4 @@
-import Category from '../models/CategoriesModel'
+import Category from '../models/CategoriesModel';
 import productsView from '../views/productView';
 
 export default {

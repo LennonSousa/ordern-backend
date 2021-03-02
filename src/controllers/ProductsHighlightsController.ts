@@ -10,7 +10,7 @@ export default {
     async index(request: Request, response: Response) {
         const productsHighlightsRepository = getRepository(ProductsHighlightsModel);
 
-        const productsHighlights = await productsHighlightsRepository.find({
+        const productHighlights = await productsHighlightsRepository.find({
             relations: [
                 'product',
                 'product.category',
@@ -23,15 +23,7 @@ export default {
             ]
         });
 
-        const productsHighlightsUpdated = productsHighlights.map(highlight => {
-            return {
-                ...highlight, product: {
-                    ...highlight.product, image: highlight.product.image ? `${process.env.HOST_API}/uploads/${highlight.product.image}` : highlight.product.image
-                }
-            };
-        });
-
-        return response.json(productHighlightView.renderMany(productsHighlightsUpdated));
+        return response.json(productHighlightView.renderMany(productHighlights));
     },
 
     async show(request: Request, response: Response) {
