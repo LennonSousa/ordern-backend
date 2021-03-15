@@ -110,7 +110,7 @@ export default {
         let customerAuth = await customerRepository.findOne({
             relations: ['address', 'payments'],
             where: [
-                { email: email }
+                { email: email, active: 1, paused: 0 }
             ]
         });
 

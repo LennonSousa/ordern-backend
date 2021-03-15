@@ -7,15 +7,12 @@ import OrderModel from '../models/OrdersModel';
 
 export default {
     async index(request: Request, response: Response) {
-        let dateStart = new Date();
-        dateStart.setHours(dateStart.getHours() - 24, dateStart.getMinutes(), 0, 0);
-
-        let dateEnd = new Date();
+        const { start, end } = request.query;
 
         const orderRepository = getRepository(OrderModel);
 
         const orderStatus = await orderRepository.find({
-            where: { ordered: Between(dateStart, dateEnd) },
+            where: { ordered: Between(start, end) },
             order: {
                 ordered: "DESC"
             },

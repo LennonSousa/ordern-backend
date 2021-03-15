@@ -31,7 +31,7 @@ export default {
 
         const customer = await customerRepository.findOne({
             where: [
-                { email: email }
+                { email }
             ]
         });
 
@@ -47,7 +47,7 @@ export default {
 
             const customerNewExists = await customerNewRepository.findOne({
                 where: [
-                    { email: email }
+                    { email }
                 ]
             });
 

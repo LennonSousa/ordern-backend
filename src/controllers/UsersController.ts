@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
+import crypto from 'crypto';
 import bcrypt from 'bcrypt';
+import mailer from '../modules/mailer';
 
 import userView from '../views/userView';
 import UsersModel from '../models/UsersModel';
@@ -22,7 +24,7 @@ export default {
 
         const usersRepository = getRepository(UsersModel);
 
-        const user = await usersRepository.findOneOrFail(id,{
+        const user = await usersRepository.findOneOrFail(id, {
             relations: ['type']
         });
 
@@ -32,41 +34,24 @@ export default {
     async create(request: Request, response: Response) {
         const {
             name,
-            cpf,
             birth,
-            phone,
             email,
-            password,
-            active,
-            paused,
             type
         } = request.body;
 
         const usersRepository = getRepository(UsersModel);
 
-        const hash = await bcrypt.hash(password, 10);
-
         const data = {
             name,
-            cpf,
             birth,
-            phone,
             email,
-            password: hash,
-            active,
-            paused,
             type
         };
 
         const schema = Yup.object().shape({
             name: Yup.string().required(),
-            cpf: Yup.string().notRequired(),
             birth: Yup.date().required(),
-            phone: Yup.string().notRequired(),
             email: Yup.string().required(),
-            password: Yup.string().required(),
-            active: Yup.boolean().required(),
-            paused: Yup.boolean().required(),
             type: Yup.number().required()
         });
 
@@ -74,11 +59,53 @@ export default {
             abortEarly: false,
         });
 
-        const user = usersRepository.create(data);
+        const findedUser = await usersRepository.findOne({
+            where: [
+                { email, active: 1 }
+            ]
+        });
 
-        await usersRepository.save(user);
+        if (!findedUser) {
+            const tempPassword = crypto.randomBytes(6).toString('hex');
+            const hash = await bcrypt.hash(tempPassword, 10);
 
-        return response.status(201).send();
+            const newUser = usersRepository.create({
+                name,
+                birth,
+                email,
+                active: false,
+                paused: false,
+                type
+            });
+
+            await usersRepository.save(newUser);
+
+            try {
+                mailer.sendMail({
+                    to: email,
+                    from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
+                    subject: "Bem-vindo(a)",
+                    text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${hash}`,
+                    html: `<h2>Ficamos felizes de ver você por aqui.</h2><p>No aplicativo, use o link para prosseguir: <a> href="${process.env.HOST_API}/${hash}"</a></p>`,
+                }, err => {
+                    if (err) {
+                        console.log('E-mail send error: ', err);
+
+                        return response.status(500).json({ message: 'Internal server error' });
+                    }
+                    else
+                        return response.status(204).json();
+                });
+
+
+            }
+            catch (err) {
+                return response.status(500).json({ message: 'Internal server error' });
+            }
+
+        }
+        else
+            return response.status(200).json();
     },
 
     async update(request: Request, response: Response) {

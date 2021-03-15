@@ -35,7 +35,7 @@ export default {
 
         const userAuth = await usersRepository.findOne({
             where: [
-                { email: email }
+                { email: email, active: 1, paused: 0 }
             ]
         });
 

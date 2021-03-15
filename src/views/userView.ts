@@ -1,4 +1,5 @@
-import User from '../models/UsersModel'
+import User from '../models/UsersModel';
+import userTypeView from '../views/userTypeView';
 
 export default {
     render(user: User) {
@@ -11,7 +12,7 @@ export default {
             email: user.email,
             active: user.active,
             paused: user.paused,
-            type: user.type
+            type: userTypeView.render(user.type)
         }
     },
 
