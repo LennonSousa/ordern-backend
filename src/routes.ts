@@ -10,7 +10,7 @@ import RestaurantsAvatarController from './controllers/RestaurantsAvatarControll
 import StoreShipmentController from './controllers/StoreShipmentController';
 import RestaurantDeliveryGroupsController from './controllers/RestaurantDeliveryGroupsController';
 import UsersAuthenticationsController from './controllers/UsersAuthenticationController';
-import UsersNewAuthenticationsController from './controllers/UserNewAuthenticationController';
+import UserNewAuthenticationController from './controllers/UserNewAuthenticationController';
 import UserTypesController from './controllers/UserTypesController';
 import UsersController from './controllers/UsersController';
 import OpenedDaysController from './controllers/OpenedDaysController';
@@ -38,7 +38,6 @@ import DebitBrandsController from './controllers/DebitBrandsController';
 import PaymentStripeController from './controllers/PaymentStripeController';
 import PaymentsDeliveryController from './controllers/PaymentsDeliveryController';
 import ProductsHighlightsController from './controllers/ProductsHighlightsController';
-import UserNewAuthenticationController from './controllers/UserNewAuthenticationController';
 
 const routes = express.Router();
 const upload = multer(uploadConfig);
@@ -47,7 +46,7 @@ routes.use(authMiddleware);
 
 routes.get('/', function (request, response) {
     return response.status(202).json();
-})
+});
 
 routes.get('/restaurants', RestaurantsController.index);
 routes.get('/restaurants/:id', RestaurantsController.show);

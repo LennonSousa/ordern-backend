@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import { Between, getRepository } from 'typeorm';
 import * as Yup from 'yup';
+import { format } from 'date-fns';
 
+import OrderWebSocketHandler from './OrderWebSocketHandlers';
 import orderView from '../views/orderView';
 import OrderModel from '../models/OrdersModel';
 
@@ -11,7 +13,7 @@ export default {
 
         const orderRepository = getRepository(OrderModel);
 
-        const orderStatus = await orderRepository.find({
+        const orders = await orderRepository.find({
             where: { ordered: Between(start, end) },
             order: {
                 ordered: "DESC"
@@ -23,7 +25,7 @@ export default {
             ]
         });
 
-        return response.json(orderView.renderMany(orderStatus));
+        return response.json(orderView.renderMany(orders));
     },
 
     async show(request: Request, response: Response) {
@@ -47,9 +49,6 @@ export default {
             tracker,
             client_id,
             client,
-            ordered,
-            delivery,
-            delivered,
             sub_total,
             cupom,
             delivery_tax,
@@ -72,9 +71,9 @@ export default {
             tracker,
             client_id,
             client,
-            ordered,
-            delivery,
-            delivered,
+            ordered: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+            delivery: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+            delivered: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             sub_total,
             cupom,
             delivery_tax,
@@ -135,6 +134,8 @@ export default {
         const order = orderRepository.create(data);
 
         await orderRepository.save(order);
+
+        OrderWebSocketHandler.index();
 
         return response.status(201).json(order);
     },
@@ -234,6 +235,8 @@ export default {
         const order = orderRepository.create(data);
 
         await orderRepository.update(id, order);
+
+        OrderWebSocketHandler.index();
 
         return response.status(204).json(order);
     },
