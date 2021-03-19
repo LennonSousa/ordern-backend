@@ -1,4 +1,4 @@
-import { Socket, Server } from 'socket.io';
+import { Socket } from 'socket.io';
 
 import OrderWebSocketHandler from './OrderWebSocketHandlers';
 

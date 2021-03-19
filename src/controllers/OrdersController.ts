@@ -135,7 +135,7 @@ export default {
 
         await orderRepository.save(order);
 
-        OrderWebSocketHandler.index();
+        OrderWebSocketHandler.create();
 
         return response.status(201).json(order);
     },
@@ -236,7 +236,7 @@ export default {
 
         await orderRepository.update(id, order);
 
-        OrderWebSocketHandler.index();
+        OrderWebSocketHandler.update();
 
         return response.status(204).json(order);
     },
