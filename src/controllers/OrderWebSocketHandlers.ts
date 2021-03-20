@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io';
 import { Between, getRepository } from 'typeorm';
-import { endOfDay, addHours } from 'date-fns';
+import { endOfToday, addHours } from 'date-fns';
 
 import { io } from '../server'
 import orderView from '../views/orderView';
@@ -10,35 +10,35 @@ export default {
     async index() {
         console.log("Orders reading...");
 
-        ordersRead("read", addHours(new Date(), -24), endOfDay(new Date()));
+        ordersRead("read");
     },
 
     async create() {
         console.log("Orders creating...");
 
-        ordersRead("create", addHours(new Date(), -24), endOfDay(new Date()));
+        ordersRead("create");
     },
 
     async update() {
         console.log("Orders updating...");
 
-        ordersRead("update", addHours(new Date(), -24), endOfDay(new Date()));
+        ordersRead("update");
     },
 
     show(socket: Socket) {
-        socket.on("orders:read", (start: Date, end: Date) => {
+        socket.on("orders:read", () => {
             console.log("Orders reading...");
 
-            ordersRead("read", start, end, socket);
+            ordersRead("read", socket);
         });
     }
 }
 
-const ordersRead = async (mode: "read" | "create" | "update", start: Date, end: Date, socket?: Socket) => {
+const ordersRead = async (mode: "read" | "create" | "update", socket?: Socket) => {
     const orderRepository = getRepository(OrderModel);
 
     const orderStatus = await orderRepository.find({
-        where: { ordered: Between(start, end) },
+        where: { ordered: Between(addHours(new Date(), -24), endOfToday()) },
         order: {
             ordered: "DESC"
         },
