@@ -185,7 +185,7 @@ export default {
         const restaurant = restaurantsRepository.create(data);
 
         await restaurantsRepository.update(id, restaurant);
-
+        
         return response.status(204).json(restaurant);
     },
 

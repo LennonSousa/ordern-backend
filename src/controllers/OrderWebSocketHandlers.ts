@@ -8,26 +8,26 @@ import OrderModel from '../models/OrdersModel';
 
 export default {
     async index() {
-        console.log("Orders reading...");
+        //console.log("Orders reading...");
 
         ordersRead("read");
     },
 
     async create() {
-        console.log("Orders creating...");
+        //console.log("Orders creating...");
 
         ordersRead("create");
     },
 
     async update() {
-        console.log("Orders updating...");
+        //console.log("Orders updating...");
 
         ordersRead("update");
     },
 
     show(socket: Socket) {
         socket.on("orders:read", () => {
-            console.log("Orders reading...");
+            //console.log("Orders reading...");
 
             ordersRead("read", socket);
         });
