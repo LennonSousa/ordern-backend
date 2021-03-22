@@ -13,7 +13,7 @@ export default {
         const customerOrders = await customerOrdersRepository.find({
             where: { client_id: id },
             order: {
-                ordered: "DESC"
+                ordered_at: "DESC"
             },
             relations: [
                 'orderStatus',
