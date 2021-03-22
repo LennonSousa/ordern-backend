@@ -30,6 +30,9 @@ export default class UsersModel {
     @Column()
     paused: boolean;
 
+    @Column()
+    created_at: Date;
+
     @ManyToOne(() => UserType, userType => userType.user)
     @JoinColumn({ name: 'type_id'})
     type: UserType;

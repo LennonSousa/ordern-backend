@@ -17,13 +17,16 @@ export default class OrdersModel {
     client: string;
 
     @Column()
-    ordered: Date;
+    ordered_at: Date;
 
     @Column()
-    delivery: Date;
+    delivery_in: Date;
 
     @Column()
-    delivered: Date;
+    placed_at: Date;
+
+    @Column()
+    delivered_at: Date;
 
     @Column()
     sub_total: number;
@@ -60,6 +63,9 @@ export default class OrdersModel {
 
     @Column()
     reason_cancellation: string;
+
+    @Column()
+    cancelled_at: Date;
 
     @ManyToOne(() => OrderStatus, orderStatus => orderStatus.orders)
     @JoinColumn({ name: 'order_status_id' })

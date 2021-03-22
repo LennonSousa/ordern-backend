@@ -12,6 +12,7 @@ export default {
             email: user.email,
             active: user.active,
             paused: user.paused,
+            created_at: user.created_at,
             type: userTypeView.render(user.type)
         }
     },

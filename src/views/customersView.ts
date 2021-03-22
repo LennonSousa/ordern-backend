@@ -11,8 +11,8 @@ export default {
             email: customer.email,
             active: customer.active,
             paused: customer.paused,
+            created_at: customer.created_at,
             address: customer.address,
-            payment: customer.payments,
         }
     },
 

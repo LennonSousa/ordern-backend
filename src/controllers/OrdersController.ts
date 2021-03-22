@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Between, getRepository } from 'typeorm';
 import * as Yup from 'yup';
 import { format } from 'date-fns';
+import crypto from 'crypto';
 
 import OrderWebSocketHandler from './OrderWebSocketHandlers';
 import orderView from '../views/orderView';
@@ -14,9 +15,9 @@ export default {
         const orderRepository = getRepository(OrderModel);
 
         const orders = await orderRepository.find({
-            where: { ordered: Between(start, end) },
+            where: { ordered_at: Between(start, end) },
             order: {
-                ordered: "DESC"
+                ordered_at: "DESC"
             },
             relations: [
                 'orderStatus',
@@ -46,9 +47,9 @@ export default {
 
     async create(request: Request, response: Response) {
         const {
-            tracker,
             client_id,
             client,
+            delivery_in,
             sub_total,
             cupom,
             delivery_tax,
@@ -68,12 +69,13 @@ export default {
         const orderRepository = getRepository(OrderModel);
 
         const data = {
-            tracker,
+            tracker: `${crypto.randomBytes(3).toString('hex')}${total.toFixed(2).replace('.', '').replace(',', '')}`,
             client_id,
             client,
-            ordered: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-            delivery: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-            delivered: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+            ordered_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+            delivery_in,
+            placed_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+            delivered_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             sub_total,
             cupom,
             delivery_tax,
@@ -86,6 +88,7 @@ export default {
             paid,
             address,
             reason_cancellation,
+            cancelled_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             orderStatus,
             orderItems
         };
@@ -94,9 +97,10 @@ export default {
             tracker: Yup.string().required(),
             client_id: Yup.number().required(),
             client: Yup.string().required(),
-            ordered: Yup.date().required(),
-            delivery: Yup.date().required(),
-            delivered: Yup.date().required(),
+            ordered_at: Yup.date().required(),
+            delivery_in: Yup.date().required(),
+            placed_at: Yup.date().required(),
+            delivered_at: Yup.date().required(),
             sub_total: Yup.number().required(),
             cupom: Yup.string().notRequired(),
             delivery_tax: Yup.number().required(),
@@ -109,6 +113,7 @@ export default {
             paid: Yup.boolean().notRequired(),
             address: Yup.string().required(),
             reason_cancellation: Yup.string().notRequired(),
+            cancelled_at: Yup.date().required(),
             orderStatus: Yup.number().required(),
             orderItems: Yup.array(
                 Yup.object().shape({
@@ -147,9 +152,8 @@ export default {
             tracker,
             client_id,
             client,
-            ordered,
-            delivery,
-            delivered,
+            placed_at,
+            delivered_at,
             sub_total,
             cupom,
             delivery_tax,
@@ -162,6 +166,7 @@ export default {
             paid,
             address,
             reason_cancellation,
+            cancelled_at,
             orderStatus,
             orderItems
         } = request.body;
@@ -172,9 +177,8 @@ export default {
             tracker,
             client_id,
             client,
-            ordered,
-            delivery,
-            delivered,
+            placed_at,
+            delivered_at,
             sub_total,
             cupom,
             delivery_tax,
@@ -187,6 +191,7 @@ export default {
             paid,
             address,
             reason_cancellation,
+            cancelled_at,
             orderStatus,
             orderItems
         };
@@ -195,9 +200,8 @@ export default {
             tracker: Yup.string().notRequired(),
             client_id: Yup.number().notRequired(),
             client: Yup.string().required(),
-            ordered: Yup.date().notRequired(),
-            delivery: Yup.date().notRequired(),
-            delivered: Yup.date().notRequired(),
+            placed_at: Yup.date().required(),
+            delivered_at: Yup.date().required(),
             sub_total: Yup.number().notRequired(),
             cupom: Yup.string().notRequired(),
             delivery_tax: Yup.number().notRequired(),
@@ -210,6 +214,7 @@ export default {
             paid: Yup.boolean().notRequired(),
             address: Yup.string().notRequired(),
             reason_cancellation: Yup.string().notRequired(),
+            cancelled_at: Yup.date().required(),
             orderStatus: Yup.number().required(),
             orderItems: Yup.array(
                 Yup.object().shape({

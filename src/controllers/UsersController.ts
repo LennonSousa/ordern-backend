@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import mailer from '../modules/mailer';
+import { format } from 'date-fns';
 
 import userView from '../views/userView';
 import UsersModel from '../models/UsersModel';
@@ -45,6 +46,7 @@ export default {
             name,
             birth,
             email,
+            created_at : format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             type
         };
 
@@ -52,6 +54,7 @@ export default {
             name: Yup.string().required(),
             birth: Yup.date().required(),
             email: Yup.string().required(),
+            created_at: Yup.date().required(),
             type: Yup.number().required()
         });
 

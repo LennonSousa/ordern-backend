@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { Between, getRepository } from 'typeorm';
 import * as Yup from 'yup';
 import bcrypt from 'bcrypt'
+import { format } from 'date-fns';
 
 import customerView from '../views/customersView';
 import CustomersModel from '../models/CustomersModel';
@@ -9,13 +10,28 @@ import { decrypt } from '../utils/encryptDecrypt';
 
 export default {
     async index(request: Request, response: Response) {
+        const { start, end } = request.query;
+
         const clientsRepository = getRepository(CustomersModel);
 
-        const customers = await clientsRepository.find({
-            relations: ['address', 'payments']
-        });
+        if (start && end) {
+            const customers = await clientsRepository.find({
+                where: { created_at: Between(start, end) },
+                order: {
+                    created_at: "DESC"
+                },
+                relations: ['address']
+            });
 
-        return response.json(customerView.renderMany(customers));
+            return response.json(customerView.renderMany(customers));
+        }
+        else {
+            const customers = await clientsRepository.find({
+                relations: ['address']
+            });
+
+            return response.json(customerView.renderMany(customers));
+        }
     },
 
     async show(request: Request, response: Response) {
@@ -63,6 +79,7 @@ export default {
             password: hash,
             active,
             paused,
+            created_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             address,
             payments
         };
@@ -76,6 +93,7 @@ export default {
             password: Yup.string().required(),
             active: Yup.boolean().required(),
             paused: Yup.boolean().required(),
+            created_at: Yup.date().required(),
             address: Yup.array(
                 Yup.object().shape({
                     zip_code: Yup.string().required(),

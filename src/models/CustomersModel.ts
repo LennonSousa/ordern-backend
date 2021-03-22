@@ -30,6 +30,9 @@ export default class CustomersModel {
     @Column()
     paused: boolean;
 
+    @Column()
+    created_at: Date;
+
     @OneToMany(() => CustomerAddress, customerAddress => customerAddress.customer, {
         cascade: ['insert', 'update', 'remove']
     })

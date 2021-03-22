@@ -7,9 +7,10 @@ export default {
             id: order.id,
             client_id: order.client_id,
             client: order.client,
-            ordered: order.ordered,
-            delivery: order.delivery,
-            delivered: order.delivered,
+            ordered_at: order.ordered_at,
+            delivery_in: order.delivery_in,
+            placed_at: order.placed_at,
+            delivered_at: order.delivered_at,
             sub_total: order.sub_total,
             cupom: order.cupom,
             delivery_tax: order.delivery_tax,
@@ -22,6 +23,7 @@ export default {
             paid: order.paid,
             address: order.address,
             reason_cancellation: order.reason_cancellation,
+            cancelled_at: order.cancelled_at,
             orderStatus: order.orderStatus,
             orderItems: order.orderItems
         }

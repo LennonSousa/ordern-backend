@@ -38,9 +38,9 @@ const ordersRead = async (mode: "read" | "create" | "update", socket?: Socket) =
     const orderRepository = getRepository(OrderModel);
 
     const orderStatus = await orderRepository.find({
-        where: { ordered: Between(addHours(new Date(), -24), endOfToday()) },
+        where: { ordered_at: Between(addHours(new Date(), -24), endOfToday()) },
         order: {
-            ordered: "DESC"
+            ordered_at: "DESC"
         },
         relations: [
             'orderStatus',
