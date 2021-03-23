@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { Between, getRepository } from 'typeorm';
 import * as Yup from 'yup';
 import { format } from 'date-fns';
-import crypto from 'crypto';
 
 import OrderWebSocketHandler from './OrderWebSocketHandlers';
 import orderView from '../views/orderView';
@@ -47,6 +46,7 @@ export default {
 
     async create(request: Request, response: Response) {
         const {
+            tracker,
             client_id,
             client,
             delivery_in,
@@ -69,7 +69,7 @@ export default {
         const orderRepository = getRepository(OrderModel);
 
         const data = {
-            tracker: `${crypto.randomBytes(3).toString('hex')}${total.toFixed(2).replace('.', '').replace(',', '')}`,
+            tracker,
             client_id,
             client,
             ordered_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
@@ -149,7 +149,6 @@ export default {
         const { id } = request.params;
 
         const {
-            tracker,
             client_id,
             client,
             placed_at,
@@ -174,7 +173,6 @@ export default {
         const orderRepository = getRepository(OrderModel);
 
         const data = {
-            tracker,
             client_id,
             client,
             placed_at,
@@ -197,7 +195,6 @@ export default {
         };
 
         const schema = Yup.object().shape({
-            tracker: Yup.string().notRequired(),
             client_id: Yup.number().notRequired(),
             client: Yup.string().required(),
             placed_at: Yup.date().required(),

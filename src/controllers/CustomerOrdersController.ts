@@ -17,7 +17,8 @@ export default {
             },
             relations: [
                 'orderStatus',
-                'orderItems'
+                'orderItems',
+                'orderItems.orderItemAdditionals'
             ]
         });
 

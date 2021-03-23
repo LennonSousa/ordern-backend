@@ -169,6 +169,8 @@ routes.post('/customer/address', CustomerAddressController.create);
 routes.put('/customer/address/:id', CustomerAddressController.update);
 routes.delete('/customer/address/:id', CustomerAddressController.delete);
 
+routes.get('/customer/payments/:id', CustomerPaymentsController.index);
+routes.get('/customer/payment/:id', CustomerPaymentsController.show);
 routes.post('/customer/payments', CustomerPaymentsController.create);
 routes.put('/customer/payments/:id', CustomerPaymentsController.update);
 routes.delete('/customer/payments/:id', CustomerPaymentsController.delete);

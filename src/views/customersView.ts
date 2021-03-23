@@ -1,4 +1,6 @@
-import Customer from '../models/CustomersModel'
+import Customer from '../models/CustomersModel';
+
+import customerPaymentView from '../views/customerPaymentView';
 
 export default {
     render(customer: Customer) {
@@ -12,6 +14,7 @@ export default {
             active: customer.active,
             paused: customer.paused,
             created_at: customer.created_at,
+            payment: customerPaymentView.renderMany(customer.payments),
             address: customer.address,
         }
     },

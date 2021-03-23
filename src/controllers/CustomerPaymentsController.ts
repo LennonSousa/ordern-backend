@@ -4,8 +4,31 @@ import * as Yup from 'yup';
 import { encrypt } from '../utils/encryptDecrypt';
 
 import CustomerPaymentsModel from '../models/CustomerPaymentsModel';
+import customerPaymentView from '../views/customerPaymentView';
 
 export default {
+    async index(request: Request, response: Response) {
+        const { id } = request.params;
+
+        const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
+
+        const customerPayments = await customerPaymentsRepository.find({
+            where: { customer: id }
+        });
+
+        return response.json(customerPaymentView.renderMany(customerPayments));
+    },
+
+    async show(request: Request, response: Response) {
+        const { id } = request.params;
+
+        const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
+
+        const customerPayment = await customerPaymentsRepository.findOneOrFail(id);
+
+        return response.json(customerPaymentView.render(customerPayment));
+    },
+
     async create(request: Request, response: Response) {
         const {
             card_number,
