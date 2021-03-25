@@ -12,5 +12,5 @@ export default class RestaurantDeliveryGroupsModel {
     price: number;
 
     @Column()
-    estimated: string;
+    estimated: number;
 }

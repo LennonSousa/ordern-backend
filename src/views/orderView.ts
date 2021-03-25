@@ -15,6 +15,7 @@ export default {
             cupom: order.cupom,
             delivery_tax: order.delivery_tax,
             delivery_type: order.delivery_type,
+            delivery_estimated: order.delivery_estimated,
             discount: order.discount,
             fee: order.fee,
             total: order.total,

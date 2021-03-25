@@ -41,6 +41,9 @@ export default class OrdersModel {
     delivery_type: string;
 
     @Column()
+    delivery_estimated: number;
+
+    @Column()
     discount: number;
 
     @Column()

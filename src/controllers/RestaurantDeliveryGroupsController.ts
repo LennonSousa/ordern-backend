@@ -42,7 +42,7 @@ export default {
         const schema = Yup.object().shape({
             description: Yup.string().required(),
             price: Yup.number().required(),
-            estimated: Yup.string().required(),
+            estimated: Yup.number().required(),
         });
 
         await schema.validate(data, {
@@ -76,7 +76,7 @@ export default {
         const schema = Yup.object().shape({
             description: Yup.string().required(),
             price: Yup.number().required(),
-            estimated: Yup.string().required(),
+            estimated: Yup.number().required(),
         });
 
         await schema.validate(data, {

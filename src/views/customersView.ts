@@ -14,7 +14,7 @@ export default {
             active: customer.active,
             paused: customer.paused,
             created_at: customer.created_at,
-            payment: customerPaymentView.renderMany(customer.payments),
+            payment: customer.payments ? customerPaymentView.renderMany(customer.payments) : [],
             address: customer.address,
         }
     },
