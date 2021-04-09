@@ -176,6 +176,8 @@ routes.put('/customer/payments/:id', CustomerPaymentsController.update);
 routes.delete('/customer/payments/:id', CustomerPaymentsController.delete);
 
 routes.get('/customer/orders/:id', CustomerOrdersController.index);
+routes.get('/customer/orders/tracker/:tracker', CustomerOrdersController.tracker);
+routes.get('/customer/orders/customer/:customer', CustomerOrdersController.customer);
 
 routes.post('/payments/dopayments', PaymentsController.create);
 
