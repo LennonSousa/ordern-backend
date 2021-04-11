@@ -46,8 +46,8 @@ export default {
                 error: 'User e-mail or token dosen\'t exists.'
             });
 
-        if (process.env.JWT_SECRET) {
-            const newToken = jwt.sign({ id: userNewAuth.id }, process.env.JWT_SECRET, {
+        if (process.env.USER_JWT_SECRET) {
+            const newToken = jwt.sign({ id: userNewAuth.id }, process.env.USER_JWT_SECRET, {
                 expiresIn: "1h"
             });
 

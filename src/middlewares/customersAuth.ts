@@ -1,35 +1,21 @@
-require('dotenv/config');
 import { NextFunction, Request, Response } from 'express';
 import jwt from "jsonwebtoken";
 
-const publicRoutes = [
-    '/users/authenticate',
-    '/users/new',
-    '/customer/new',
-    '/customer/reset',
-    '/customer/authenticate',
-    '/restaurants',
-    '/restaurant',
-    '/highlights/landing',
-    '/categories',
-    '/products',
-    '/uploads',
-    '/users',
-]
+require('dotenv/config');
 
 export default (request: Request, response: Response, next: NextFunction) => {
     const authHeader = request.headers.authorization;
 
     //console.log(request.originalUrl);
 
-    if (publicRoutes.find(item => {
-        return item === request.originalUrl.slice(0, request.originalUrl.lastIndexOf('/') === 0 ? undefined : request.originalUrl.lastIndexOf('/'))
-    }))
-        return next();
-    else if (publicRoutes.find(item => {
-        return item === request.originalUrl
-    }))
-        return next();
+    // if (publicRoutes.find(item => {
+    //     return item === request.originalUrl.slice(0, request.originalUrl.lastIndexOf('/') === 0 ? undefined : request.originalUrl.lastIndexOf('/'))
+    // }))
+    //     return next();
+    // else if (publicRoutes.find(item => {
+    //     return item === request.originalUrl
+    // }))
+    //     return next();
 
     if (!authHeader)
         return response.status(401).send({ error: 'No token provided' });
@@ -44,8 +30,8 @@ export default (request: Request, response: Response, next: NextFunction) => {
     if (!/^Bearer$/i.test(scheme))
         return response.status(401).send({ error: 'Token malformated' });
 
-    if (process.env.JWT_SECRET) {
-        jwt.verify(token, process.env.JWT_SECRET, (err: any, decoded: any) => {
+    if (process.env.CUSTOMER_JWT_SECRET) {
+        jwt.verify(token, process.env.CUSTOMER_JWT_SECRET, (err: any, decoded: any) => {
             if (err) return response.status(401).send({ error: 'Token invalid' });
 
             request = decoded.id;

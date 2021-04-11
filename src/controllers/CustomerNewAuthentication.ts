@@ -1,4 +1,3 @@
-require('dotenv/config');
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
@@ -10,6 +9,8 @@ import jwt from 'jsonwebtoken';
 import CustomersModel from '../models/CustomersModel';
 import CustomerNewModel from '../models/CustomerNewModel';
 import mailer from '../modules/mailer';
+
+require('dotenv/config');
 
 export default {
     async create(request: Request, response: Response) {
@@ -144,8 +145,8 @@ export default {
                 error: 'Customer activatiion token expired.'
             });
 
-        if (process.env.JWT_SECRET) {
-            const newToken = jwt.sign({ id: customerNewAuth.id }, process.env.JWT_SECRET, {
+        if (process.env.CUSTOMER_JWT_SECRET) {
+            const newToken = jwt.sign({ id: customerNewAuth.id }, process.env.CUSTOMER_JWT_SECRET, {
                 expiresIn: "1h"
             });
 

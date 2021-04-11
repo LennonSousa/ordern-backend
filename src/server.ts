@@ -5,8 +5,13 @@ import cors from 'cors';
 import path from 'path';
 import 'express-async-errors';
 
-import './database/connection'
-import routes from './routes';
+import './database/connection';
+
+import publicRoutes from './routes/public.routes';
+import userPublicRoutes from './routes/user.public.routes';
+import userAuthRoutes from './routes/user.auth.routes';
+import customerPublicRoutes from './routes/customer.public.routes';
+import customerAuthRoutes from './routes/customer.auth.routes';
 import errorHandler from './errors/handler';
 import WsItem from './controllers/WebSocket';
 
@@ -22,7 +27,13 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use(routes);
+
+app.use(publicRoutes);
+app.use(userPublicRoutes);
+app.use(customerPublicRoutes);
+app.use(customerAuthRoutes);
+app.use(userAuthRoutes);
+
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 app.use(errorHandler);
 
