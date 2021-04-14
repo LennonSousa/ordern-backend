@@ -1,4 +1,3 @@
-require('dotenv/config');
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -14,6 +13,8 @@ import customerPublicRoutes from './routes/customer.public.routes';
 import customerAuthRoutes from './routes/customer.auth.routes';
 import errorHandler from './errors/handler';
 import WsItem from './controllers/WebSocket';
+
+require('dotenv/config');
 
 const app = express();
 const httpServer = http.createServer(app);

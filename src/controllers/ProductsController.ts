@@ -219,7 +219,7 @@ export default {
             order,
             available_all,
             on_request,
-            category
+            category,
         } = request.body;
 
         price = Number(price);
@@ -262,7 +262,7 @@ export default {
                 order,
                 available_all,
                 on_request,
-                category
+                category,
             };
 
             const schema = Yup.object().shape({
@@ -279,7 +279,7 @@ export default {
                 order: Yup.number().required(),
                 available_all: Yup.boolean().notRequired(),
                 on_request: Yup.boolean().notRequired(),
-                category: Yup.number().required()
+                category: Yup.number().required(),
             });
 
             await schema.validate(data, {
@@ -306,7 +306,7 @@ export default {
                 order,
                 available_all,
                 on_request,
-                category
+                category,
             };
 
             const schema = Yup.object().shape({
@@ -323,7 +323,7 @@ export default {
                 order: Yup.number().required(),
                 available_all: Yup.boolean().notRequired(),
                 on_request: Yup.boolean().notRequired(),
-                category: Yup.number().required()
+                category: Yup.number().required(),
             });
 
             await schema.validate(data, {
