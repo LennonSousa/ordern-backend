@@ -42,12 +42,12 @@ export default {
         });
 
         if (!customerAuth)
-            return response.status(400).json({
+            return response.status(401).json({
                 error: 'Customer e-mail or password dosen\'t exists.'
             });
 
         if (!await bcrypt.compare(password, customerAuth.password))
-            return response.status(400).json({
+            return response.status(401).json({
                 error: 'Customer e-mail or password dosen\'t exists.'
             });
 

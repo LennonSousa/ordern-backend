@@ -41,12 +41,12 @@ export default {
         });
 
         if (!userAuth)
-            return response.status(400).json({
+            return response.status(401).json({
                 error: 'User e-mail or password dosen\'t exists.'
             });
 
         if (!await bcrypt.compare(password, userAuth.password))
-            return response.status(400).json({
+            return response.status(401).json({
                 error: 'User e-mail or password dosen\'t exists.'
             });
 

@@ -15,11 +15,12 @@ import CreditBrandsController from '../controllers/CreditBrandsController';
 import DebitBrandsController from '../controllers/DebitBrandsController';
 import PaymentsDeliveryController from '../controllers/PaymentsDeliveryController';
 import ProductsHighlightsController from '../controllers/ProductsHighlightsController';
+import OrderStatusController from '../controllers/OrderStatusController';
 
 const publicRoutes = express.Router();
 
-publicRoutes.get('/restaurants', RestaurantsController.index);
-publicRoutes.get('/restaurants/:id', RestaurantsController.show);
+publicRoutes.get('/stores', RestaurantsController.index);
+publicRoutes.get('/stores/:id', RestaurantsController.show);
 
 publicRoutes.get('/restaurant/opened-days', OpenedDaysController.index);
 publicRoutes.get('/restaurant/opened-days/:id', OpenedDaysController.show);
@@ -62,5 +63,8 @@ publicRoutes.get('/payments/debit-brands/:id', DebitBrandsController.show);
 
 publicRoutes.get('/payments/delivery', PaymentsDeliveryController.index);
 publicRoutes.get('/payments/delivery/:id', PaymentsDeliveryController.show);
+
+publicRoutes.get('/order-status', OrderStatusController.index);
+
 
 export default publicRoutes;
