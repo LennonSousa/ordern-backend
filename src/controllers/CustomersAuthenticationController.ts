@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 
 import customerView from '../views/customersView';
 import CustomersModel from '../models/CustomersModel';
+import OrderModel from '../models/OrdersModel';
 import { decrypt } from '../utils/encryptDecrypt';
 
 require('dotenv/config');
@@ -56,13 +57,29 @@ export default {
                 expiresIn: "1d"
             });
 
+            const customerOrdersRepository = getRepository(OrderModel);
+
+            const customerOrders = await customerOrdersRepository.find({
+                where: { client_id: customerAuth.id },
+                order: {
+                    ordered_at: "DESC"
+                },
+                relations: [
+                    'orderStatus',
+                    'orderItems',
+                    'orderItems.orderItemAdditionals'
+                ]
+            });
+
             customerAuth = {
-                ...customerAuth, payments: customerAuth.payments.map(payment => {
+                ...customerAuth,
+                payments: customerAuth.payments.map(payment => {
                     return { ...payment, card_number: decrypt(payment.card_number) };
-                })
+                }),
+                orders: customerOrders,
             }
 
-            return response.status(201).json({ ...customerView.render(customerAuth), token: token });
+            return response.status(201).json({ customer: customerView.render(customerAuth), token: token });
         }
 
         return response.status(500).json({ message: 'Internal server error' });

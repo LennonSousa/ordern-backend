@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 
 import customerView from '../views/customersView';
 import CustomersModel from '../models/CustomersModel';
+import OrderModel from '../models/OrdersModel';
 import { decrypt } from '../utils/encryptDecrypt';
 
 export default {
@@ -43,10 +44,26 @@ export default {
             relations: ['address', 'payments']
         });
 
+        const customerOrdersRepository = getRepository(OrderModel);
+
+        const customerOrders = await customerOrdersRepository.find({
+            where: { client_id: customer.id },
+            order: {
+                ordered_at: "DESC"
+            },
+            relations: [
+                'orderStatus',
+                'orderItems',
+                'orderItems.orderItemAdditionals'
+            ]
+        });
+
         customer = {
-            ...customer, payments: customer.payments.map(payment => {
+            ...customer,
+            payments: customer.payments.map(payment => {
                 return { ...payment, card_number: decrypt(payment.card_number) };
-            })
+            }),
+            orders: customerOrders,
         }
 
         return response.json(customerView.render(customer));

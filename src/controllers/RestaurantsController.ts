@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
 
-import restaurantView from '../views/restaurantView';
+import restaurantView from '../views/storeView';
 import RestaurantsModel from '../models/RestaurantsModel';
 import OpenedDaysModel from '../models/OpenedDaysModel';
 import DaySchedules from '../models/DaySchedulesModel';

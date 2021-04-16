@@ -29,10 +29,9 @@ customerAuthRoutes.post('/customer/payments', customersAuthMiddleware, CustomerP
 customerAuthRoutes.put('/customer/payments/:id', customersAuthMiddleware, CustomerPaymentsController.update);
 customerAuthRoutes.delete('/customer/payments/:id', customersAuthMiddleware, CustomerPaymentsController.delete);
 
-customerAuthRoutes.get('/customer/payments/stripe', customersAuthMiddleware, PaymentStripeController.index);
+customerAuthRoutes.get('/stripe/customers', customersAuthMiddleware, PaymentStripeController.index);
 customerAuthRoutes.post('/customer/payments/dopayments', customersAuthMiddleware, PaymentsController.create);
 
-customerAuthRoutes.get('/customer/orders/:id', customersAuthMiddleware, CustomerOrdersController.index);
 customerAuthRoutes.post('/customer/orders', customersAuthMiddleware, OrdersController.create);
 customerAuthRoutes.put('/customer/orders/:id', customersAuthMiddleware, OrdersController.update);
 

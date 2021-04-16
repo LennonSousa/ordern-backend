@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
 import CustomerAddress from './CustomerAddressModel';
 import CustomerPayment from './CustomerPaymentsModel';
+import Orders from './OrdersModel';
 
 @Entity('customers')
 export default class CustomersModel {
@@ -44,4 +45,6 @@ export default class CustomersModel {
     })
     @JoinColumn({ name: 'id' })
     payments: CustomerPayment[];
+
+    orders: Orders[];
 }
