@@ -1,0 +1,79 @@
+<html lang="pt-BR">
+
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,700;1,100&display=swap"
+        rel="stylesheet">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body,
+        button,
+        input,
+        textarea {
+            font: 300 14px Nunito, sans-serif;
+        }
+
+        .container {
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .email-head {
+            height: 100px;
+            background-color: #fe3807;
+            color: #fff;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        .content {
+            margin-top: 15px;
+        }
+
+        .email-footer {
+            height: 70px;
+            background-color: #dbdbdb;
+            color: #fe3807;
+            width: 100%;
+            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <div class="container">
+        <div class="email-head">
+            <h1>{{store_name}}</h1>
+        </div>
+
+        <div class="content">
+            <h2 style="font-family: 700 18px Nunito, sans-serif;">Olá {{name}}</h2>
+            <p>Bem-vindo a {{store_name}}.</p>
+            <p>Para confirmar o seu e-mail,</p>
+            <p>digite no aplicativo o código a seguir: <strong>{{token}}</strong></p>
+            
+        </div>
+
+        <div class="email-footer" style="font-family: 100 12px Nunito, sans-serif;">
+            <span>{{store_name}}</span>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -6,6 +6,8 @@ import { format } from 'date-fns';
 import OrderWebSocketHandler from './OrderWebSocketHandlers';
 import orderView from '../views/orderView';
 import OrderModel from '../models/OrdersModel';
+import CustomersModel from '../models/CustomersModel';
+import OrderStatusModel from '../models/OrderStatusModel';
 
 export default {
     async index(request: Request, response: Response) {
@@ -45,10 +47,14 @@ export default {
     },
 
     async create(request: Request, response: Response) {
+        const { customerId } = request.params;
+
+        const customersRepository = getRepository(CustomersModel);
+
+        const customer = await customersRepository.findOneOrFail(customerId);
+
         const {
             tracker,
-            client_id,
-            client,
             delivery_in,
             sub_total,
             cupom,
@@ -62,17 +68,19 @@ export default {
             payment_type,
             paid,
             address,
-            reason_cancellation,
-            orderStatus,
             orderItems
         } = request.body;
 
         const orderRepository = getRepository(OrderModel);
 
+        const orderStatusRepository = getRepository(OrderStatusModel);
+
+        const orderStatusToSave = await orderStatusRepository.findOneOrFail({ where: { order: 1 } });
+
         const data = {
             tracker,
-            client_id,
-            client,
+            client_id: customer.id,
+            client: customer.name,
             ordered_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             delivery_in,
             placed_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
@@ -89,9 +97,8 @@ export default {
             payment_type,
             paid,
             address,
-            reason_cancellation,
             cancelled_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-            orderStatus,
+            orderStatus: orderStatusToSave.order as any,
             orderItems
         };
 
@@ -115,7 +122,6 @@ export default {
             payment_type: Yup.string().required(),
             paid: Yup.boolean().notRequired(),
             address: Yup.string().required(),
-            reason_cancellation: Yup.string().notRequired(),
             cancelled_at: Yup.date().required(),
             orderStatus: Yup.number().required(),
             orderItems: Yup.array(
@@ -149,91 +155,32 @@ export default {
     },
 
     async update(request: Request, response: Response) {
-        const { id } = request.params;
+        const { customerId, id } = request.params;
 
         const {
-            client_id,
-            client,
-            placed_at,
-            delivered_at,
-            sub_total,
-            cupom,
-            delivery_tax,
-            delivery_type,
-            delivery_estimated,
-            discount,
-            fee,
-            total,
-            payment,
-            payment_type,
-            paid,
-            address,
             reason_cancellation,
-            cancelled_at,
-            orderStatus,
-            orderItems
         } = request.body;
 
         const orderRepository = getRepository(OrderModel);
 
+        const orderVerify = await orderRepository.findOneOrFail(id);
+
+        if (String(orderVerify.client_id) !== String(customerId)) return response.status(403).send({ error: 'Customer not authorized!' });
+
+        const orderStatusRepository = getRepository(OrderStatusModel);
+
+        const orderStatusToSave = await orderStatusRepository.findOneOrFail({ where: { order: 5 } });
+
         const data = {
-            client_id,
-            client,
-            placed_at,
-            delivered_at,
-            sub_total,
-            cupom,
-            delivery_tax,
-            delivery_type,
-            delivery_estimated,
-            discount,
-            fee,
-            total,
-            payment,
-            payment_type,
-            paid,
-            address,
             reason_cancellation,
-            cancelled_at,
-            orderStatus,
-            orderItems
+            cancelled_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+            orderStatus: orderStatusToSave.id as any,
         };
 
         const schema = Yup.object().shape({
-            client_id: Yup.number().notRequired(),
-            client: Yup.string().required(),
-            placed_at: Yup.date().required(),
-            delivered_at: Yup.date().required(),
-            sub_total: Yup.number().notRequired(),
-            cupom: Yup.string().notRequired(),
-            delivery_tax: Yup.number().notRequired(),
-            delivery_type: Yup.string().notRequired(),
-            delivery_estimated: Yup.number().required(),
-            discount: Yup.number().notRequired(),
-            fee: Yup.number().notRequired(),
-            total: Yup.number().notRequired(),
-            payment: Yup.string().notRequired(),
-            payment_type: Yup.string().notRequired(),
-            paid: Yup.boolean().notRequired(),
-            address: Yup.string().notRequired(),
-            reason_cancellation: Yup.string().notRequired(),
+            reason_cancellation: Yup.string().required(),
             cancelled_at: Yup.date().required(),
             orderStatus: Yup.number().required(),
-            orderItems: Yup.array(
-                Yup.object().shape({
-                    amount: Yup.number().required(),
-                    name: Yup.string().required(),
-                    value: Yup.number().required(),
-                    notes: Yup.string().notRequired(),
-                    orderItemAdditionals: Yup.array(
-                        Yup.object().shape({
-                            amount: Yup.number().required(),
-                            name: Yup.string().required(),
-                            value: Yup.number().required(),
-                        })
-                    ).notRequired(),
-                })
-            ).notRequired(),
         });
 
         await schema.validate(data, {
@@ -249,13 +196,13 @@ export default {
         return response.status(204).json(order);
     },
 
-    async delete(request: Request, response: Response) {
-        const { id } = request.params;
+    // async delete(request: Request, response: Response) {
+    //     const { id } = request.params;
 
-        const orderRepository = getRepository(OrderModel);
+    //     const orderRepository = getRepository(OrderModel);
 
-        await orderRepository.delete(id);
+    //     await orderRepository.delete(id);
 
-        return response.status(204).send();
-    }
+    //     return response.status(204).send();
+    // }
 }

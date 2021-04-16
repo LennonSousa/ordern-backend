@@ -111,24 +111,24 @@ export default {
             await usersRepository.save(newUser);
 
             try {
-                mailer.sendMail({
-                    to: email,
-                    from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
-                    subject: "Bem-vindo(a)",
-                    text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tempPassword}`,
-                    html: `<h2>Olá ${name}</h2>` +
-                        `<p>Você foi convidado para ser integrante no sistema de gerenciamento do estabelecimento ${process.env.RESTAURANT_NAME}.</p>` +
-                        `<p>Clique no link a seguir para aceitar e concluir o seu cadastro.</p>` +
-                        `<p><a href="${process.env.APP_URL}/users/authenticate/new?email=${email}&token=${tempPassword}"/>Ativar registro</a></p>`,
-                }, err => {
-                    if (err) {
-                        console.log('E-mail send error: ', err);
+                // mailer.sendMail({
+                //     to: email,
+                //     from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
+                //     subject: "Bem-vindo(a)",
+                //     text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tempPassword}`,
+                //     html: `<h2>Olá ${name}</h2>` +
+                //         `<p>Você foi convidado para ser integrante no sistema de gerenciamento do estabelecimento ${process.env.RESTAURANT_NAME}.</p>` +
+                //         `<p>Clique no link a seguir para aceitar e concluir o seu cadastro.</p>` +
+                //         `<p><a href="${process.env.APP_URL}/users/authenticate/new?email=${email}&token=${tempPassword}"/>Ativar registro</a></p>`,
+                // }, err => {
+                //     if (err) {
+                //         console.log('E-mail send error: ', err);
 
-                        return response.status(500).json({ message: 'Internal server error' });
-                    }
-                    else
-                        return response.status(204).json();
-                });
+                //         return response.status(500).json({ message: 'Internal server error' });
+                //     }
+                //     else
+                //         return response.status(204).json();
+                // });
             }
             catch (err) {
                 return response.status(500).json({ message: 'Internal server error' });
@@ -141,24 +141,24 @@ export default {
             await usersRepository.update(id, newUser);
 
             try {
-                mailer.sendMail({
-                    to: email,
-                    from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
-                    subject: "Bem-vindo(a)",
-                    text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tempPassword}`,
-                    html: `<h2>Olá ${name}</h2>` +
-                        `<p>Você foi convidado para ser integrante no sistema de gerenciamento do estabelecimento ${process.env.RESTAURANT_NAME}.</p>` +
-                        `<p>Clique no link a seguir para aceitar e concluir o seu cadastro.</p>` +
-                        `<p><a href="${process.env.APP_URL}/users/authenticate/new?email=${email}&token=${tempPassword}"/>Ativar registro</a></p>`,
-                }, err => {
-                    if (err) {
-                        console.log('E-mail send error: ', err);
+                // mailer.sendMail({
+                //     to: email,
+                //     from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
+                //     subject: "Bem-vindo(a)",
+                //     text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tempPassword}`,
+                //     html: `<h2>Olá ${name}</h2>` +
+                //         `<p>Você foi convidado para ser integrante no sistema de gerenciamento do estabelecimento ${process.env.RESTAURANT_NAME}.</p>` +
+                //         `<p>Clique no link a seguir para aceitar e concluir o seu cadastro.</p>` +
+                //         `<p><a href="${process.env.APP_URL}/users/authenticate/new?email=${email}&token=${tempPassword}"/>Ativar registro</a></p>`,
+                // }, err => {
+                //     if (err) {
+                //         console.log('E-mail send error: ', err);
 
-                        return response.status(500).json({ message: 'Internal server error' });
-                    }
-                    else
-                        return response.status(204).json();
-                });
+                //         return response.status(500).json({ message: 'Internal server error' });
+                //     }
+                //     else
+                //         return response.status(204).json();
+                // });
             }
             catch (err) {
                 return response.status(500).json({ message: 'Internal server error' });

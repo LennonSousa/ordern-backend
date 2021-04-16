@@ -102,10 +102,10 @@ userAuthRoutes.delete('/highlights/landing/:id', usersAuthMiddleware, ProductsHi
 userAuthRoutes.get('/orders', usersAuthMiddleware, OrdersController.index);
 userAuthRoutes.get('/orders/:id', usersAuthMiddleware, OrdersController.show);
 userAuthRoutes.put('/orders/:id', usersAuthMiddleware, OrdersController.update);
-userAuthRoutes.delete('/orders/:id', usersAuthMiddleware, OrdersController.delete);
+//userAuthRoutes.delete('/orders/:id', usersAuthMiddleware, OrdersController.delete);
 
 userAuthRoutes.get('/customers', usersAuthMiddleware, CustomersController.index);
-userAuthRoutes.put('/customers/:id', usersAuthMiddleware, CustomersController.update);
+// userAuthRoutes.put('/customers/:id', usersAuthMiddleware, CustomersController.update); moved to customer auth routes.
 userAuthRoutes.delete('/customers/:id', usersAuthMiddleware, CustomersController.delete);
 
 userAuthRoutes.get('/customers/orders/:id', usersAuthMiddleware, CustomerOrdersController.index);

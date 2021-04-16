@@ -36,11 +36,11 @@ export default {
     },
 
     async show(request: Request, response: Response) {
-        const { id } = request.params;
+        const { customerId } = request.params;
 
         const customersRepository = getRepository(CustomersModel);
 
-        let customer = await customersRepository.findOneOrFail(id, {
+        let customer = await customersRepository.findOneOrFail(customerId, {
             relations: ['address', 'payments']
         });
 
@@ -77,8 +77,6 @@ export default {
             phone,
             email,
             password,
-            active,
-            paused,
             address,
             payments
         } = request.body;
@@ -94,8 +92,8 @@ export default {
             phone,
             email,
             password: hash,
-            active,
-            paused,
+            active: true,
+            paused: false,
             created_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             address,
             payments
@@ -146,7 +144,7 @@ export default {
     },
 
     async update(request: Request, response: Response) {
-        const { id } = request.params;
+        const { customerId } = request.params;
 
         const {
             name,
@@ -158,6 +156,10 @@ export default {
         } = request.body;
 
         const customersRepository = getRepository(CustomersModel);
+
+        const customerVerify = await customersRepository.findOneOrFail(customerId);
+
+        if (String(customerVerify.id) !== String(customerId)) return response.status(403).send({ error: 'Customer not authorized!' });
 
         const data = {
             name,
@@ -173,8 +175,6 @@ export default {
             cpf: Yup.string().notRequired(),
             birth: Yup.date().required(),
             phone: Yup.string().notRequired(),
-            active: Yup.boolean().required(),
-            paused: Yup.boolean().required()
         });
 
         await schema.validate(data, {
@@ -183,7 +183,7 @@ export default {
 
         const customer = customersRepository.create(data);
 
-        await customersRepository.update(id, customer);
+        await customersRepository.update(customerId, customer);
 
         return response.status(204).json(customer);
     },

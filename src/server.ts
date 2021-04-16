@@ -49,6 +49,9 @@ export const io = require("socket.io")(httpServer, {
 
 io.on("connection", WsItem.onConnection);
 
+// httpServer.addListener("connection", () => { httpServer.getConnections((err, count) => { console.log(count); }); });
+// httpServer.addListener("error", () => { httpServer.getConnections((err, count) => { console.log(err); }); });
+
 httpServer.listen(process.env.PORT || 3333, () => {
-    console.log(`> Server listening on port: ${process.env.PORT || 3333}`)
+    console.info(`> Server listening on port: ${process.env.PORT || 3333}`);
 });

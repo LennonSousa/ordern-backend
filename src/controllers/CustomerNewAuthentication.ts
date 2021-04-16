@@ -36,71 +36,54 @@ export default {
             ]
         });
 
-        if (!customer) {
-            const customerNewRepository = getRepository(CustomerNewModel);
+        if (customer) return response.status(400).json({ message: 'Customer already exists!' });
 
-            const tokenEmail = crypto.randomBytes(3).toString('hex');
+        const customerNewRepository = getRepository(CustomerNewModel);
 
-            const expireHour = new Date();
-            expireHour.setHours(expireHour.getHours() + 1);
+        const tokenEmail = crypto.randomBytes(3).toString('hex');
 
-            const hash = await bcrypt.hash(tokenEmail, 10);
+        const expireHour = new Date();
+        expireHour.setHours(expireHour.getHours() + 1);
 
-            const customerNewExists = await customerNewRepository.findOne({
-                where: [
-                    { email }
-                ]
-            });
+        const hash = await bcrypt.hash(tokenEmail, 10);
 
-            if (customerNewExists) {
-                const { id } = customerNewExists;
-                const customerNew = customerNewRepository.create({
-                    token: hash, expire: expireHour, activated: false
-                });
+        const customerNewExists = await customerNewRepository.findOne({
+            where: [
+                { email }
+            ]
+        });
 
-                await customerNewRepository.update(id, customerNew);
-            }
-            else {
-                const customerNew = customerNewRepository.create({
-                    email,
-                    token: hash,
-                    expire: expireHour
-                });
+        const customerNew = customerNewRepository.create({
+            email,
+            token: hash,
+            expire: expireHour,
+            activated: false
+        });
 
-                await customerNewRepository.save(customerNew);
-            }
+        console.log('Customer new: ', customerNew);
 
-            if (process.env.RESTAURANT_NAME && process.env.RESTAURANT_NAME) {
-                try {
-                    mailer.sendMail({
-                        to: email,
-                        from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
-                        subject: "Bem-vindo(a)",
-                        text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${tokenEmail}`,
-                        html: `<h2>Ficamos felizes de ver você por aqui.</h2><p>No aplicativo, use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
-                    }, err => {
-                        if (err) {
-                            console.log('E-mail send error: ', err);
+        if (customerNewExists) {
+            const { id } = customerNewExists;
 
-                            return response.status(500).json({ message: 'Internal server error' });
-                        }
-                        else
-                            return response.status(204).json();
-                    });
+            await customerNewRepository.update(id, customerNew);
 
-
-                }
-                catch (err) {
-                    return response.status(500).json({ message: 'Internal server error' });
-                }
-
-            }
-            else
-                return response.status(500).json({ message: 'Internal server error' });
-
+            console.log('New customer exists!');
         }
-        else
-            return response.status(200).json();
+        else {
+            await customerNewRepository.save(customerNew);
+
+            console.log('New customer dosen\'t exists!');
+        }
+
+        const variables = {
+            store_name: process.env.RESTAURANT_NAME,
+            name: 'Lennon',
+            token: tokenEmail
+        }
+
+        mailer.execute(email, "Bem-vindo(a)", variables, "new-user").then(() => {
+            return response.status(201).json();
+        });
     },
 
     async update(request: Request, response: Response) {

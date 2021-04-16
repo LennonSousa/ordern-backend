@@ -7,29 +7,22 @@ import CustomerPaymentsModel from '../models/CustomerPaymentsModel';
 import customerPaymentView from '../views/customerPaymentView';
 
 export default {
-    async index(request: Request, response: Response) {
-        const { id } = request.params;
-
-        const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
-
-        const customerPayments = await customerPaymentsRepository.find({
-            where: { customer: id }
-        });
-
-        return response.json(customerPaymentView.renderMany(customerPayments));
-    },
-
     async show(request: Request, response: Response) {
-        const { id } = request.params;
+        const { customerId, id } = request.params;
 
         const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
 
-        const customerPayment = await customerPaymentsRepository.findOneOrFail(id);
+        const customerPayment = await customerPaymentsRepository.findOneOrFail(id, {
+            relations: ['customer'],
+            where: { customer: customerId }
+        });
 
         return response.json(customerPaymentView.render(customerPayment));
     },
 
     async create(request: Request, response: Response) {
+        const { customerId } = request.params;
+
         const {
             card_number,
             brand,
@@ -37,7 +30,6 @@ export default {
             exp_year,
             name,
             cpf,
-            customer
         } = request.body;
 
         const cardNumberEncrypted = encrypt(card_number);
@@ -51,7 +43,7 @@ export default {
             exp_year,
             name,
             cpf,
-            customer
+            customer: customerId as any,
         };
 
         const schema = Yup.object().shape({
@@ -76,7 +68,7 @@ export default {
     },
 
     async update(request: Request, response: Response) {
-        const { id } = request.params;
+        const { customerId, id } = request.params;
 
         const {
             card_number,
@@ -84,13 +76,16 @@ export default {
             exp_month,
             exp_year,
             name,
-            cpf,
-            customer
+            cpf
         } = request.body;
 
         const cardNumberEncrypted = encrypt(card_number);
 
         const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
+
+        const paymentVerify = await customerPaymentsRepository.findOneOrFail(id, { relations: ['customer'] });
+
+        if (String(paymentVerify.customer.id) !== String(customerId)) return response.status(403).send({ error: 'Customer not authorized!' });
 
         const data = {
             card_number: cardNumberEncrypted,
@@ -98,8 +93,7 @@ export default {
             exp_month,
             exp_year,
             name,
-            cpf,
-            customer
+            cpf
         };
 
         const schema = Yup.object().shape({
@@ -109,7 +103,6 @@ export default {
             exp_year: Yup.string().required(),
             name: Yup.string().required(),
             cpf: Yup.string().required(),
-            customer: Yup.number().required()
         });
 
         await schema.validate(data, {
@@ -124,9 +117,13 @@ export default {
     },
 
     async delete(request: Request, response: Response) {
-        const { id } = request.params;
+        const { customerId, id } = request.params;
 
         const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
+
+        const paymentVerify = await customerPaymentsRepository.findOneOrFail(id, { relations: ['customer'] });
+
+        if (String(paymentVerify.customer.id) !== String(customerId)) return response.status(403).send({ error: 'Customer not authorized!' });
 
         await customerPaymentsRepository.delete(id);
 

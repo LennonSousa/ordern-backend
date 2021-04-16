@@ -45,10 +45,4 @@ export default {
                 });
         }
     },
-
-    async update(request: Request, response: Response) {
-    },
-
-    async delete(request: Request, response: Response) {
-    }
 }

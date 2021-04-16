@@ -6,6 +6,8 @@ import CustomerAddressModel from '../models/CustomerAddressModel';
 
 export default {
     async create(request: Request, response: Response) {
+        const { customerId } = request.params;
+
         const {
             zip_code,
             street,
@@ -15,7 +17,6 @@ export default {
             city,
             country,
             type,
-            customer
         } = request.body;
 
         const customerAddressRepository = getRepository(CustomerAddressModel);
@@ -29,7 +30,7 @@ export default {
             city,
             country,
             type,
-            customer
+            customer: customerId as any,
         };
 
         const schema = Yup.object().shape({
@@ -56,7 +57,7 @@ export default {
     },
 
     async update(request: Request, response: Response) {
-        const { id } = request.params;
+        const { customerId, id } = request.params;
 
         const {
             zip_code,
@@ -67,10 +68,13 @@ export default {
             city,
             country,
             type,
-            customer
         } = request.body;
 
         const customerAddressRepository = getRepository(CustomerAddressModel);
+
+        const addressVerify = await customerAddressRepository.findOneOrFail(id, { relations: ['customer'] });
+
+        if (String(addressVerify.customer.id) !== String(customerId)) return response.status(403).send({ error: 'Customer not authorized!' });
 
         const data = {
             zip_code,
@@ -81,7 +85,6 @@ export default {
             city,
             country,
             type,
-            customer
         };
 
         const schema = Yup.object().shape({
@@ -93,7 +96,6 @@ export default {
             city: Yup.string().required(),
             country: Yup.string().required(),
             type: Yup.string().required(),
-            customer: Yup.number().required()
         });
 
         await schema.validate(data, {
@@ -108,9 +110,13 @@ export default {
     },
 
     async delete(request: Request, response: Response) {
-        const { id } = request.params;
+        const { customerId, id } = request.params;
 
         const customerAddressRepository = getRepository(CustomerAddressModel);
+
+        const paymentVerify = await customerAddressRepository.findOneOrFail(id, { relations: ['customer'] });
+
+        if (String(paymentVerify.customer.id) !== String(customerId)) return response.status(403).send({ error: 'Customer not authorized!' });
 
         await customerAddressRepository.delete(id);
 
