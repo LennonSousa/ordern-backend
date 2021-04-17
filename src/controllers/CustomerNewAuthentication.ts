@@ -36,7 +36,7 @@ export default {
             ]
         });
 
-        if (customer) return response.status(400).json({ message: 'Customer already exists!' });
+        if (customer) return response.status(400).json({ error: 'Customer already exists!' });
 
         const customerNewRepository = getRepository(CustomerNewModel);
 
@@ -59,23 +59,15 @@ export default {
             activated: false
         });
 
-        console.log('Customer new: ', customerNew);
-
         if (customerNewExists) {
             const { id } = customerNewExists;
 
             await customerNewRepository.update(id, customerNew);
-
-            console.log('New customer exists!');
         }
-        else {
-            await customerNewRepository.save(customerNew);
+        else await customerNewRepository.save(customerNew);
 
-            console.log('New customer dosen\'t exists!');
-        }
-
-        await mailer.sendNewUserEmail(email, tokenEmail).then(() => {
-            return response.status(201).json();
+        await mailer.sendNewCustomerEmail(email, tokenEmail).then(() => {
+            return response.status(200).json();
         });
     },
 
@@ -100,7 +92,7 @@ export default {
 
         const customerNewAuth = await customerNewRepository.findOne({
             where: [
-                { email: email }
+                { email }
             ]
         });
 
@@ -109,14 +101,14 @@ export default {
                 error: 'Customer e-mail or token dosen\'t exists.'
             });
 
+        if (isBefore(new Date(customerNewAuth.expire), new Date()))
+            return response.status(403).json({
+                error: 'Customer activatiion token expired.'
+            });
+
         if (!await bcrypt.compare(token, customerNewAuth.token))
             return response.status(401).json({
                 error: 'Customer e-mail or token dosen\'t exists.'
-            });
-
-        if (isBefore(new Date(customerNewAuth.expire), new Date()))
-            return response.status(400).json({
-                error: 'Customer activatiion token expired.'
             });
 
         if (process.env.CUSTOMER_JWT_SECRET) {
@@ -133,6 +125,6 @@ export default {
             return response.status(200).json({ id, email, token: newToken });
         }
 
-        return response.status(400).json({ message: 'Customer can\'t be authenticated!' });
+        return response.status(500).json({ error: 'Internal server error.' });
     }
 }

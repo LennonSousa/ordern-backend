@@ -12,10 +12,10 @@ import OrdersController from '../controllers/OrdersController';
 
 const customerAuthRoutes = express.Router();
 
-customerAuthRoutes.put('/customer/:customerId/password/:id', customersAuthMiddleware, CustomerPasswordController.update);
+customerAuthRoutes.put('/customer/password/:customerId', customersAuthMiddleware, CustomerPasswordController.update);
 
 customerAuthRoutes.get('/customer/:customerId', customersAuthMiddleware, CustomersController.show);
-customerAuthRoutes.post('/customer/:customerId', customersAuthMiddleware, CustomersController.create);
+customerAuthRoutes.post('/customer/:customerId', customersAuthMiddleware, CustomersController.create); // Create a new customer.
 customerAuthRoutes.put('/customer/:customerId', customersAuthMiddleware, CustomersController.update);
 
 customerAuthRoutes.post('/customer/:customerId/address', customersAuthMiddleware, CustomerAddressController.create);

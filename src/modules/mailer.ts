@@ -36,25 +36,25 @@ class Mailer {
             subject,
             html,
             text,
-            from: `${process.env.STORE_NAME} lennonsousa@outlook.com`,
+            from: `${process.env.STORE_NAME} ${process.env.EMAIL_USER}`,
         });
     }
 
-    async sendNewUserEmail(email: string, token: string) {
+    async sendNewCustomerEmail(email: string, token: string) {
         const variables = {
             store_name: process.env.STORE_NAME,
             token,
             current_year: getYear(new Date()),
         }
 
-        const newCustomerPath = resolve(__dirname, "..", "views", "emails", "newCustomer.hbs");
+        const templatePath = resolve(__dirname, "..", "views", "emails", "newCustomer.hbs");
 
         const text = `Bem-vindo a ${process.env.STORE_NAME}.
         Para confirmar o seu e-mail,
         digite no aplicativo o código a seguir:
         ${token}`;
 
-        await this.execute(email, "Bem-vindo(a).", variables, newCustomerPath, text).then(() => {
+        await this.execute(email, "Bem-vindo(a).", variables, templatePath, text).then(() => {
             return true;
         }).catch(err => {
             console.log('Error to send new user e-mail: ', err);
@@ -62,21 +62,21 @@ class Mailer {
         });
     }
 
-    async sendConfirmedUserEmail(name: string, email: string) {
+    async sendCustomerConfirmedEmail(name: string, email: string) {
         const variables = {
             store_name: process.env.STORE_NAME,
             name,
             current_year: getYear(new Date()),
         }
 
-        const newCustomerPath = resolve(__dirname, "..", "views", "emails", "confirmedCustomer.hbs");
+        const templatePath = resolve(__dirname, "..", "views", "emails", "confirmedNewCustomer.hbs");
 
         const text = `Olá ${name},
         O seu cadastro no aplicativo foi concluído com sucesso!
         Aproveite para fazer a sua primeira compra no aplicativo.
         Estamos aguardando você!`;
 
-        await this.execute(email, "Cadastro concluído!", variables, newCustomerPath, text).then(() => {
+        await this.execute(email, "Cadastro concluído.", variables, templatePath, text).then(() => {
             return true;
         }).catch(err => {
             console.log('Error to send confirmed user e-mail: ', err);
@@ -84,7 +84,7 @@ class Mailer {
         });
     }
 
-    async sendResetUserEmail(name: string, email: string, token: string) {
+    async sendCustomerResetPassword(name: string, email: string, token: string) {
         const variables = {
             store_name: process.env.STORE_NAME,
             name,
@@ -92,7 +92,7 @@ class Mailer {
             current_year: getYear(new Date()),
         }
 
-        const newCustomerPath = resolve(__dirname, "..", "views", "emails", "resetCustomer.hbs");
+        const templatePath = resolve(__dirname, "..", "views", "emails", "resetCustomerPassword.hbs");
 
         const text = `Olá ${name},
         Recebemos a sua solicitação para trocar a sua senha,
@@ -100,10 +100,32 @@ class Mailer {
         ${token}
         Caso não tenha sido você que solicitou a troca da sua senha, ignore este e-mail.`;
 
-        await this.execute(email, "Recuperação de senha.", variables, newCustomerPath, text).then(() => {
+        await this.execute(email, "Recuperação de senha.", variables, templatePath, text).then(() => {
             return true;
         }).catch(err => {
             console.log('Error to send reset user e-mail: ', err);
+            return false
+        });
+    }
+
+    async sendCustomerConfirmedResetPassword(name: string, email: string) {
+        const variables = {
+            store_name: process.env.STORE_NAME,
+            name,
+            current_year: getYear(new Date()),
+        }
+
+        const templatePath = resolve(__dirname, "..", "views", "emails", "confirmedResetCustomerPassword.hbs");
+
+        const text = `Olá ${name}
+        A sua senha de acesso ao aplicativo foi alterada.
+        Caso não tenha sido você que solicitou a troca da senha.
+        Acesse imediatamente o aplicativo e recupere a sua senha.`;
+
+        await this.execute(email, "Senha alterada.", variables, templatePath, text).then(() => {
+            return true;
+        }).catch(err => {
+            console.log('Error to send confirmed user e-mail: ', err);
             return false
         });
     }

@@ -156,9 +156,10 @@ export default {
         const customer = customersRepository.create(data);
 
         await customersRepository.save(customer);
+        
         await customerNewRepository.delete(customerNewVerify.id);
 
-        await mailer.sendConfirmedUserEmail(customer.name.split(' ', 1)[0], customer.email);
+        await mailer.sendCustomerConfirmedEmail(customer.name.split(' ', 1)[0], customer.email);
 
         return response.status(201).send();
     },

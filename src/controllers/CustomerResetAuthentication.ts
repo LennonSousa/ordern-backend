@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
-
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { addHours, isBefore } from 'date-fns';
 
 import CustomersModel from '../models/CustomersModel';
 import CustomerResetModel from '../models/CustomerResetModel';
@@ -32,75 +32,50 @@ export default {
 
         const customer = await customerRepository.findOne({
             where: [
-                { email: email }
+                { email }
             ]
         });
 
-        if (customer) {
-            const customerResetRepository = getRepository(CustomerResetModel);
+        if (!customer) return response.status(403).json({ error: 'Customer e-mail dosen\'t exists!' });
 
-            const tokenEmail = crypto.randomBytes(3).toString('hex');
+        if (!customer.active || customer.paused) return response.status(401).json({ error: 'Customer e-mail dosen\'t exists!' });
 
-            const expireHour = new Date();
-            expireHour.setHours(expireHour.getHours() + 1);
+        const customerResetRepository = getRepository(CustomerResetModel);
 
-            const hash = await bcrypt.hash(tokenEmail, 10);
+        const tokenEmail = crypto.randomBytes(3).toString('hex');
+        const hash = await bcrypt.hash(tokenEmail, 10);
 
-            const customerResetExists = await customerResetRepository.findOne({
-                where: [
-                    { email: email }
-                ]
+        const expireHour = addHours(new Date(), 6);
+
+        const customerResetExists = await customerResetRepository.findOne({
+            where: [
+                { email }
+            ]
+        });
+
+        if (customerResetExists) {
+            const { id } = customerResetExists;
+            const customerNew = customerResetRepository.create({
+                token: hash,
+                expire: expireHour,
+                activated: false,
             });
 
-            if (customerResetExists) {
-                const { id } = customerResetExists;
-                const customerNew = customerResetRepository.create({
-                    token: hash, expire: expireHour, activated: false
-                });
-
-                await customerResetRepository.update(id, customerNew);
-            }
-            else {
-                const customerReset = customerResetRepository.create({
-                    email,
-                    token: hash,
-                    expire: expireHour
-                });
-
-                await customerResetRepository.save(customerReset);
-            }
-
-            if (process.env.EMAIL_USER && process.env.STORE_NAME) {
-                try {
-                    // mailer.sendMail({
-                    //     to: email,
-                    //     from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
-                    //     subject: "Olá",
-                    //     text: `Você solicitou a mudança da sua senha. Use o código a seguir para prosseguir: ${tokenEmail}`,
-                    //     html: `<h2>Você solicitou a mudança da sua senha.</h2><p>No aplicativo, use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
-                    // }, err => {
-                    //     if (err) {
-                    //         console.log('E-mail send error: ', err);
-
-                    //         return response.status(500).json({ message: 'Internal server error' });
-                    //     }
-                    //     else
-                    //         return response.status(200).json();
-                    // });
-
-
-                }
-                catch (err) {
-                    return response.status(500).json({ message: 'Internal server error' });
-                }
-
-            }
-            else
-                return response.status(500).json({ message: 'Internal server error' });
-
+            await customerResetRepository.update(id, customerNew);
         }
-        else
-            return response.status(204).json();
+        else {
+            const customerReset = customerResetRepository.create({
+                email,
+                token: hash,
+                expire: expireHour
+            });
+
+            await customerResetRepository.save(customerReset);
+        }
+
+        await mailer.sendCustomerResetPassword(customer.name.split(' ', 1)[0], email, tokenEmail).then(() => {
+            return response.status(200).json();
+        });
     },
 
     async update(request: Request, response: Response) {
@@ -125,13 +100,13 @@ export default {
 
         const customer = await customerRepository.findOne({
             where: [
-                { email: email }
+                { email }
             ]
         });
 
         const customerResetAuth = await customerResetRepository.findOne({
             where: [
-                { email: email }
+                { email }
             ]
         });
 
@@ -145,16 +120,19 @@ export default {
                 error: 'Customer e-mail or token dosen\'t exists.'
             });
 
-        if (!await bcrypt.compare(token, customerResetAuth.token))
-            return response.status(400).json({
-                error: 'Customer e-mail or token dosen\'t exists.'
+        if (customerResetAuth.activated)
+            return response.status(401).json({
+                error: 'Customer token was already activated.'
             });
 
-        const now = new Date();
-
-        if (customerResetAuth.expire <= now)
-            return response.status(400).json({
+        if (isBefore(new Date(customerResetAuth.expire), new Date()))
+            return response.status(403).json({
                 error: 'Customer activatiion token expired.'
+            });
+
+        if (!await bcrypt.compare(token, customerResetAuth.token))
+            return response.status(401).json({
+                error: 'Customer e-mail or token dosen\'t exists.'
             });
 
         if (process.env.CUSTOMER_JWT_SECRET) {
@@ -164,13 +142,13 @@ export default {
 
             const { id, email } = customerResetAuth;
 
-            const customerReset = customerResetRepository.create({ activated: false });
+            const customerReset = customerResetRepository.create({ activated: true });
 
             await customerResetRepository.update(id, customerReset);
 
-            return response.status(201).json({ id, email, token: resetToken, customer });
+            return response.status(200).json({ id, email, token: resetToken });
         }
-        
-        return response.status(500).json({ message: 'Internal server error' });
+
+        return response.status(500).json({ error: 'Internal server error.' });
     }
 }
