@@ -6,8 +6,11 @@ import { format } from 'date-fns';
 
 import customerView from '../views/customersView';
 import CustomersModel from '../models/CustomersModel';
+import CustomerNewModel from '../models/CustomerNewModel';
 import OrderModel from '../models/OrdersModel';
 import { decrypt } from '../utils/encryptDecrypt';
+import isBefore from 'date-fns/isBefore';
+import mailer from '../modules/mailer';
 
 export default {
     async index(request: Request, response: Response) {
@@ -70,18 +73,32 @@ export default {
     },
 
     async create(request: Request, response: Response) {
+        const { customerId } = request.params;
+
         const {
             name,
             cpf,
             birth,
             phone,
-            email,
             password,
             address,
             payments
         } = request.body;
 
         const customersRepository = getRepository(CustomersModel);
+        const customerNewRepository = getRepository(CustomerNewModel);
+
+        const customerNewVerify = await customerNewRepository.findOneOrFail(customerId); // Find the new user.
+
+        const customerVerify = await customersRepository.findOne({ where: { email: customerNewVerify.email } }); // Search for a user with tha same e-mail tha new user.
+
+        if (customerVerify) return response.status(400).send({ error: 'User already exists and activated!' }); // If already exists a user with the same e-mail, return a error.
+
+        // Verfify if the new user id is the same
+        // id on the token and if the new user 
+        // has expired.
+        if (String(customerNewVerify.id) !== String(customerId) && isBefore(new Date(customerNewVerify.expire), new Date()))
+            return response.status(403).send({ error: 'Customer not authorized!' });
 
         const hash = await bcrypt.hash(password, 10);
 
@@ -90,7 +107,7 @@ export default {
             cpf,
             birth,
             phone,
-            email,
+            email: customerNewVerify.email,
             password: hash,
             active: true,
             paused: false,
@@ -136,9 +153,12 @@ export default {
             abortEarly: false,
         });
 
-        const client = customersRepository.create(data);
+        const customer = customersRepository.create(data);
 
-        await customersRepository.save(client);
+        await customersRepository.save(customer);
+        await customerNewRepository.delete(customerNewVerify.id);
+
+        await mailer.sendConfirmedUserEmail(customer.name.split(' ', 1)[0], customer.email);
 
         return response.status(201).send();
     },

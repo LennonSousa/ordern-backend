@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
-
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { addHours, isBefore } from 'date-fns';
 
 import CustomersModel from '../models/CustomersModel';
 import CustomerNewModel from '../models/CustomerNewModel';
@@ -42,8 +42,7 @@ export default {
 
         const tokenEmail = crypto.randomBytes(3).toString('hex');
 
-        const expireHour = new Date();
-        expireHour.setHours(expireHour.getHours() + 1);
+        const expireHour = addHours(new Date(), 6);
 
         const hash = await bcrypt.hash(tokenEmail, 10);
 
@@ -75,13 +74,7 @@ export default {
             console.log('New customer dosen\'t exists!');
         }
 
-        const variables = {
-            store_name: process.env.RESTAURANT_NAME,
-            name: 'Lennon',
-            token: tokenEmail
-        }
-
-        mailer.execute(email, "Bem-vindo(a)", variables, "new-user").then(() => {
+        await mailer.sendNewUserEmail(email, tokenEmail).then(() => {
             return response.status(201).json();
         });
     },
@@ -112,18 +105,16 @@ export default {
         });
 
         if (!customerNewAuth)
-            return response.status(400).json({
+            return response.status(403).json({
                 error: 'Customer e-mail or token dosen\'t exists.'
             });
 
         if (!await bcrypt.compare(token, customerNewAuth.token))
-            return response.status(400).json({
+            return response.status(401).json({
                 error: 'Customer e-mail or token dosen\'t exists.'
             });
 
-        const now = new Date();
-
-        if (customerNewAuth.expire <= now)
+        if (isBefore(new Date(customerNewAuth.expire), new Date()))
             return response.status(400).json({
                 error: 'Customer activatiion token expired.'
             });
@@ -139,9 +130,9 @@ export default {
 
             await customerNewRepository.update(id, customerNew);
 
-            return response.status(201).json({ id, email, token: newToken });
+            return response.status(200).json({ id, email, token: newToken });
         }
 
-        return response.status(500).json({ message: 'Internal server error' });
+        return response.status(400).json({ message: 'Customer can\'t be authenticated!' });
     }
 }

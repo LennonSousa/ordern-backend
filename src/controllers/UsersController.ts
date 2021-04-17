@@ -84,21 +84,21 @@ export default {
             await usersRepository.save(newUser);
 
             try {
-                mailer.sendMail({
-                    to: email,
-                    from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
-                    subject: "Bem-vindo(a)",
-                    text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${hash}`,
-                    html: `<h2>Ficamos felizes de ver você por aqui.</h2><p>No aplicativo, use o link para prosseguir: <a> href="${process.env.HOST_API}/${hash}"</a></p>`,
-                }, err => {
-                    if (err) {
-                        console.log('E-mail send error: ', err);
+                // mailer.sendMail({
+                //     to: email,
+                //     from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
+                //     subject: "Bem-vindo(a)",
+                //     text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${hash}`,
+                //     html: `<h2>Ficamos felizes de ver você por aqui.</h2><p>No aplicativo, use o link para prosseguir: <a> href="${process.env.HOST_API}/${hash}"</a></p>`,
+                // }, err => {
+                //     if (err) {
+                //         console.log('E-mail send error: ', err);
 
-                        return response.status(500).json({ message: 'Internal server error' });
-                    }
-                    else
-                        return response.status(204).json();
-                });
+                //         return response.status(500).json({ message: 'Internal server error' });
+                //     }
+                //     else
+                //         return response.status(204).json();
+                // });
 
 
             }

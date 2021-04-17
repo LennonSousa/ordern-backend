@@ -70,23 +70,23 @@ export default {
                 await customerResetRepository.save(customerReset);
             }
 
-            if (process.env.EMAIL_USER && process.env.RESTAURANT_NAME) {
+            if (process.env.EMAIL_USER && process.env.STORE_NAME) {
                 try {
-                    mailer.sendMail({
-                        to: email,
-                        from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
-                        subject: "Olá",
-                        text: `Você solicitou a mudança da sua senha. Use o código a seguir para prosseguir: ${tokenEmail}`,
-                        html: `<h2>Você solicitou a mudança da sua senha.</h2><p>No aplicativo, use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
-                    }, err => {
-                        if (err) {
-                            console.log('E-mail send error: ', err);
+                    // mailer.sendMail({
+                    //     to: email,
+                    //     from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
+                    //     subject: "Olá",
+                    //     text: `Você solicitou a mudança da sua senha. Use o código a seguir para prosseguir: ${tokenEmail}`,
+                    //     html: `<h2>Você solicitou a mudança da sua senha.</h2><p>No aplicativo, use o código a seguir para prosseguir: <b>${tokenEmail}</b></p>`,
+                    // }, err => {
+                    //     if (err) {
+                    //         console.log('E-mail send error: ', err);
 
-                            return response.status(500).json({ message: 'Internal server error' });
-                        }
-                        else
-                            return response.status(200).json();
-                    });
+                    //         return response.status(500).json({ message: 'Internal server error' });
+                    //     }
+                    //     else
+                    //         return response.status(200).json();
+                    // });
 
 
                 }
