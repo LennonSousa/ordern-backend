@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import dayScheduleView from '../views/dayScheduleView';
-import DaySchedulesModel from '../models/DaySchedulesModel';
+import DaySchedulesModel from '../models/StoreOpenedSchedulesModel';
 
 export default {
     async index(request: Request, response: Response) {

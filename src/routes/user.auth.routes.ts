@@ -12,8 +12,8 @@ import DaySchedulesController from '../controllers/DaySchedulesController';
 import DebitBrandsController from '../controllers/DebitBrandsController';
 import OpenedDaysController from '../controllers/OpenedDaysController';
 import OrdersController from '../controllers/OrdersController';
-import PaymentsDeliveryController from '../controllers/PaymentsDeliveryController';
-import PaymentStripeController from '../controllers/PaymentStripeController';
+import PaymentsDeliveryController from '../controllers/StorePaymentsDeliveryController';
+import PaymentStripeController from '../controllers/StorePaymentStripeController';
 import ProductAdditionalsController from '../controllers/ProductAdditionalsController';
 import ProductAvailablesController from '../controllers/ProductAvailablesController';
 import ProductCategoriesAdditionalController from '../controllers/ProductCategoriesAdditionalController';
@@ -22,9 +22,9 @@ import ProductsHighlightsController from '../controllers/ProductsHighlightsContr
 import ProductValuesController from '../controllers/ProductValuesController';
 import RestaurantDeliveryGroupsController from '../controllers/RestaurantDeliveryGroupsController';
 import RestaurantsAvatarController from '../controllers/RestaurantsAvatarController';
-import RestaurantsController from '../controllers/RestaurantsController';
+import StoresController from '../controllers/StoresController';
 import RestaurantsCoverController from '../controllers/RestaurantsCoverController';
-import StoreShipmentController from '../controllers/StoreShipmentController';
+import StoreShipmentController from '../controllers/StoreShipmentsController';
 import UsersController from '../controllers/UsersController';
 import UserTypesController from '../controllers/UserTypesController';
 import usersAuthMiddleware from '../middlewares/usersAuth';
@@ -36,16 +36,14 @@ userAuthRoutes.get('/', function (request, response) {
     return response.status(202).json();
 });
 
-userAuthRoutes.post('/restaurants', usersAuthMiddleware, upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), RestaurantsController.create);
-userAuthRoutes.put('/restaurants/:id', usersAuthMiddleware, RestaurantsController.update);
-userAuthRoutes.delete('/restaurants/:id', usersAuthMiddleware, RestaurantsController.delete);
+userAuthRoutes.post('/stores', upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), StoresController.create);
+userAuthRoutes.put('/stores/:id', usersAuthMiddleware, StoresController.update);
 
-userAuthRoutes.put('/restaurant/cover/:id', usersAuthMiddleware, upload.single('cover'), RestaurantsCoverController.update);
-userAuthRoutes.put('/restaurant/avatar/:id', usersAuthMiddleware, upload.single('avatar'), RestaurantsAvatarController.update);
+userAuthRoutes.put('/store/cover/:id', usersAuthMiddleware, upload.single('cover'), RestaurantsCoverController.update);
+userAuthRoutes.put('/store/avatar/:id', usersAuthMiddleware, upload.single('avatar'), RestaurantsAvatarController.update);
 
 userAuthRoutes.get('/user/types', usersAuthMiddleware, UserTypesController.index);
 userAuthRoutes.get('/user/types/:id', usersAuthMiddleware, UserTypesController.show);
-userAuthRoutes.post('/user/types', usersAuthMiddleware, UserTypesController.create);
 
 userAuthRoutes.get('/users', usersAuthMiddleware, UsersController.index);
 userAuthRoutes.get('/users/:id', usersAuthMiddleware, UsersController.show);
@@ -53,17 +51,14 @@ userAuthRoutes.post('/users', usersAuthMiddleware, UsersController.create);
 userAuthRoutes.put('/users/:id', usersAuthMiddleware, UsersController.update);
 userAuthRoutes.delete('/users/:id', usersAuthMiddleware, UsersController.delete);
 
-userAuthRoutes.post('/restaurant/opened-days', usersAuthMiddleware, OpenedDaysController.create);
-userAuthRoutes.put('/restaurant/opened-days/:id', usersAuthMiddleware, OpenedDaysController.update);
-userAuthRoutes.delete('/restaurant/opened-days/:id', usersAuthMiddleware, OpenedDaysController.delete);
+userAuthRoutes.put('/store/opened-days/:id', usersAuthMiddleware, OpenedDaysController.update);
+userAuthRoutes.delete('/store/opened-days/:id', usersAuthMiddleware, OpenedDaysController.delete);
 
-userAuthRoutes.post('/restaurant/opened-day/schedules', usersAuthMiddleware, DaySchedulesController.create);
-userAuthRoutes.put('/restaurant/opened-day/schedules/:id', usersAuthMiddleware, DaySchedulesController.update);
-userAuthRoutes.delete('/restaurant/opened-day/schedules/:id', usersAuthMiddleware, DaySchedulesController.delete);
+userAuthRoutes.post('/store/opened-day/schedules', usersAuthMiddleware, DaySchedulesController.create);
+userAuthRoutes.put('/store/opened-day/schedules/:id', usersAuthMiddleware, DaySchedulesController.update);
+userAuthRoutes.delete('/store/opened-day/schedules/:id', usersAuthMiddleware, DaySchedulesController.delete);
 
-userAuthRoutes.post('/store/shipments', usersAuthMiddleware, StoreShipmentController.create);
 userAuthRoutes.put('/store/shipments/:id', usersAuthMiddleware, StoreShipmentController.update);
-userAuthRoutes.delete('/store/shipments/:id', usersAuthMiddleware, StoreShipmentController.delete);
 
 userAuthRoutes.post('/store/delivery-groups', usersAuthMiddleware, RestaurantDeliveryGroupsController.create);
 userAuthRoutes.put('/store/delivery-groups/:id', usersAuthMiddleware, RestaurantDeliveryGroupsController.update);
@@ -77,8 +72,8 @@ userAuthRoutes.post('/additionals', usersAuthMiddleware, AdditionalsController.c
 userAuthRoutes.put('/additionals/:id', usersAuthMiddleware, AdditionalsController.update);
 userAuthRoutes.delete('/additionals/:id', usersAuthMiddleware, AdditionalsController.delete);
 
-userAuthRoutes.post('/products', usersAuthMiddleware, upload.single('image'), ProductsController.create);
-userAuthRoutes.put('/products/:id', usersAuthMiddleware, upload.single('image'), ProductsController.update);
+userAuthRoutes.post('/products', usersAuthMiddleware, upload.array('images'), ProductsController.create);
+userAuthRoutes.put('/products/:id', usersAuthMiddleware, upload.array('images'), ProductsController.update);
 userAuthRoutes.delete('/products/:id', usersAuthMiddleware, ProductsController.delete);
 
 userAuthRoutes.post('/product/values', usersAuthMiddleware, ProductValuesController.create);
@@ -126,8 +121,6 @@ userAuthRoutes.post('/payments/stripe', usersAuthMiddleware, PaymentStripeContro
 userAuthRoutes.put('/payments/stripe/:id', usersAuthMiddleware, PaymentStripeController.update);
 userAuthRoutes.delete('/payments/stripe/:id', usersAuthMiddleware, PaymentStripeController.delete);
 
-userAuthRoutes.post('/payments/delivery', usersAuthMiddleware, PaymentsDeliveryController.create);
 userAuthRoutes.put('/payments/delivery/:id', usersAuthMiddleware, PaymentsDeliveryController.update);
-userAuthRoutes.delete('/payments/delivery/:id', usersAuthMiddleware, PaymentsDeliveryController.delete);
 
 export default userAuthRoutes;

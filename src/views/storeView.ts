@@ -1,31 +1,33 @@
+import Store from '../models/StoresModel';
+
 require('dotenv/config');
-import Restaurant from '../models/RestaurantsModel'
 
 export default {
-    render(restaurant: Restaurant) {
+    render(store: Store) {
         return {
-            id: restaurant.id,
-            title: restaurant.title,
-            phone: restaurant.phone,
-            description: restaurant.description,
-            min_order: restaurant.min_order,
-            cover: `${process.env.HOST_API}/uploads/${restaurant.cover}`,
-            avatar: `${process.env.HOST_API}/uploads/${restaurant.avatar}`,
-            zip_code: restaurant.zip_code,
-            street: restaurant.street,
-            number: restaurant.number,
-            group: restaurant.group,
-            city: restaurant.city,
-            country: restaurant.country,
-            latitude: restaurant.latitude,
-            longitude: restaurant.longitude,
-            free_shipping: restaurant.free_shipping,
-            highlights: restaurant.highlights,
-            highlights_title: restaurant.highlights_title
+            id: store.id,
+            title: store.title,
+            phone: store.phone,
+            description: store.description,
+            min_order: store.min_order,
+            cover: `${process.env.HOST_API}/uploads/${store.cover}`,
+            avatar: `${process.env.HOST_API}/uploads/${store.avatar}`,
+            zip_code: store.zip_code,
+            street: store.street,
+            number: store.number,
+            group: store.group,
+            complement: store.complement,
+            city: store.city,
+            country: store.state,
+            latitude: store.latitude,
+            longitude: store.longitude,
+            free_shipping: store.free_shipping,
+            highlights: store.highlights,
+            highlights_title: store.highlights_title,
         }
     },
 
-    renderMany(restaurants: Restaurant[]) {
-        return restaurants.map(resturant => this.render(resturant));
+    renderMany(stores: Store[]) {
+        return stores.map(store => this.render(store));
     }
 }

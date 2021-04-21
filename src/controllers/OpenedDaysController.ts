@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import openedDayView from '../views/openedDayView';
-import OpenedDaysModel from '../models/OpenedDaysModel';
+import { StoreOpenedDaysRespository } from '../repositories/StoreOpenedDaysRepository'
+import StoreOpenedDaysModel from '../models/StoreOpenedDaysModel';
 
 export default {
     async index(request: Request, response: Response) {
-        const openedDaysRepository = getRepository(OpenedDaysModel);
+        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRespository);
 
         const openedDays = await openedDaysRepository.find({
             relations: ['daySchedule']
@@ -19,7 +20,7 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const openedDaysRepository = getRepository(OpenedDaysModel);
+        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRespository);
 
         const user = await openedDaysRepository.findOneOrFail(id, {
             relations: ['daySchedule']
@@ -28,33 +29,19 @@ export default {
         return response.json(openedDayView.render(user));
     },
 
-    async create(request: Request, response: Response) {
-        const {
-            week_day,
-            opened
-        } = request.body;
+    generate() {
+        const productAvailablesRepository = getCustomRepository(StoreOpenedDaysRespository);
+        const openedDays: StoreOpenedDaysModel[] = [];
 
-        const openedDaysRepository = getRepository(OpenedDaysModel);
+        for(let x = 0; x < 7; x++){
+            const data = {
+                week_day: x,
+            }
 
-        const data = {
-            week_day,
-            opened
-        };
+            openedDays.push(productAvailablesRepository.create(data));
+        }
 
-        const schema = Yup.object().shape({
-            week_day: Yup.number().required(),
-            opened: Yup.boolean().required()
-        });
-
-        await schema.validate(data, {
-            abortEarly: false,
-        });
-
-        const openedDay = openedDaysRepository.create(data);
-
-        await openedDaysRepository.save(openedDay);
-
-        return response.status(201).send();
+        return openedDays;
     },
 
     async update(request: Request, response: Response) {
@@ -65,7 +52,7 @@ export default {
             opened
         } = request.body;
 
-        const openedDaysRepository = getRepository(OpenedDaysModel);
+        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRespository);
 
         const data = {
             week_day,
@@ -90,7 +77,7 @@ export default {
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const openedDaysRepository = getRepository(OpenedDaysModel);
+        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRespository);
 
         await openedDaysRepository.delete(id);
 

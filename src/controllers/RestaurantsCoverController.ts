@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
 
-import RestaurantsModel from '../models/RestaurantsModel';
+import StoresModel from '../models/StoresModel';
 
 export default {
     async update(request: Request, response: Response) {
@@ -10,7 +10,7 @@ export default {
 
         const cover = request.file as Express.Multer.File ;
 
-        const restaurantsRepository = getRepository(RestaurantsModel);
+        const restaurantsRepository = getRepository(StoresModel);
 
         const data = {
             cover: cover.filename

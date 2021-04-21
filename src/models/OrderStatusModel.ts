@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+
 import Order from './OrdersModel'
+import Store from './StoresModel';
 
 @Entity('order_status')
 export default class OrderStatusModel {
@@ -16,6 +18,10 @@ export default class OrderStatusModel {
     order: number;
 
     @OneToMany(() => Order, order => order.orderStatus)
-    @JoinColumn({ name: 'id' })
+    @JoinColumn({ name: 'order_status_id' })
     orders: Order[];
+
+    @ManyToOne(() => Store, store => store.orderStatus)
+    @JoinColumn({ name: 'store_id'})
+    store: Store;
 }

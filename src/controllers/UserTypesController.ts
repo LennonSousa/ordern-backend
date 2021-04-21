@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getRepository, getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import userTypeView from '../views/userTypeView';
 import UserTypesModel from '../models/UserTypesModel';
+import { UserTypesRepository } from '../repositories/UserTypesRepository';
 
 export default {
     async index(request: Request, response: Response) {
@@ -24,36 +25,31 @@ export default {
         return response.json(userTypeView.render(userType));
     },
 
-    async create(request: Request, response: Response) {
-        const {
-            type,
-            description,
-            code
-        } = request.body;
+    generate() {
+        const userTypes = [
+            {
+                type: 'Administrador',
+                description: 'Acesso total a todas as seções e edições.',
+                code: 1
+            },
+            {
+                type: 'Gerente',
+                description: 'Acesso a todas as seções, com restrições relacionadas a edição de dados da loja e financeiros.',
+                code: 2
+            },
+            {
+                type: 'Operador',
+                description: 'Acesso restrito às seções de Pedidos e Cardápio (pode somente alterar visibilidade dos produtos.',
+                code: 3
+            },
+            {
+                type: 'Entregador',
+                description: 'Acesso aos pedidos pendentes.',
+                code: 4
+            }
+        ];
 
-        const userTypesRepository = getRepository(UserTypesModel);
-
-        const data = {
-            type,
-            description,
-            code
-        };
-
-        const schema = Yup.object().shape({
-            type: Yup.string().required(),
-            description: Yup.string().required(),
-            code: Yup.number().required()
-        });
-
-        await schema.validate(data, {
-            abortEarly: false,
-        });
-
-        const userType = userTypesRepository.create(data);
-
-        await userTypesRepository.save(userType);
-
-        return response.status(201).send();
+        return userTypes;
     },
 
     async update(request: Request, response: Response) {

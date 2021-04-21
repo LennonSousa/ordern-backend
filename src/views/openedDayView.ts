@@ -1,4 +1,5 @@
-import OpenedDay from '../models/OpenedDaysModel'
+import OpenedDay from '../models/StoreOpenedDaysModel'
+import dayScheduleView from '../views/dayScheduleView';
 
 export default {
     render(openedDay: OpenedDay) {
@@ -6,7 +7,7 @@ export default {
             id: openedDay.id,
             week_day: openedDay.week_day,
             opened: openedDay.opened,
-            daySchedules: openedDay.daySchedule
+            daySchedules: openedDay.daySchedule ? dayScheduleView.renderMany(openedDay.daySchedule) : []
         }
     },
 

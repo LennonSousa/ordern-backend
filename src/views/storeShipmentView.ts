@@ -6,7 +6,8 @@ export default {
             id: storeShipment.id,
             name: storeShipment.name,
             code: storeShipment.code,
-            active: storeShipment.active
+            active: storeShipment.active,
+            default_price: storeShipment.default_price,
         }
     },
 

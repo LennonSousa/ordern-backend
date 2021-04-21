@@ -1,10 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
-import User from './UsersModel'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+
+import Store from './StoresModel';
+import User from './UsersModel';
 
 @Entity('user_types')
 export default class UserTypesModel {
     @PrimaryGeneratedColumn()
-    id: number;
+    readonly id: number;
 
     @Column()
     type: string;
@@ -15,7 +17,11 @@ export default class UserTypesModel {
     @Column()
     code: number;
 
+    @ManyToOne(() => Store, store => store.userTypes)
+    @JoinColumn({ name: 'store_id'})
+    store: Store;
+
     @OneToMany(() => User, user => user.type)
-    @JoinColumn({ name: 'id' })
-    user: User[];
+    @JoinColumn({ name: 'type_id' })
+    users: User[];
 }

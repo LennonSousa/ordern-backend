@@ -2,7 +2,7 @@ require('dotenv/config');
 import { Request, Response } from 'express';
 import * as Yup from 'yup';
 
-import PaymentStripeController from './PaymentStripeController';
+import PaymentStripeController from './StorePaymentStripeController';
 
 export default {
     async create(request: Request, response: Response) {

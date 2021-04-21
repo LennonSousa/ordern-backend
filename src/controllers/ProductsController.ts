@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import productView from '../views/productView';
-import ProductsModel from '../models/ProductsModel';
-import ProductAvailabelsModel from '../models/ProductAvailablesModel';
+import { ProductsRepository } from '../repositories/ProductsRepository';
+import ProductAvailabelsController from './ProductAvailablesController';
 
 export default {
     async index(request: Request, response: Response) {
-        const productsRepository = getRepository(ProductsModel);
+        const productsRepository = getCustomRepository(ProductsRepository);
 
         const products = await productsRepository.find({
             order: {
@@ -31,7 +31,7 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const productsRepository = getRepository(ProductsModel);
+        const productsRepository = getCustomRepository(ProductsRepository);
 
         const product = await productsRepository.findOneOrFail(id, {
             relations: [
@@ -84,17 +84,19 @@ export default {
         if (on_request)
             on_request = Yup.boolean().cast(on_request);
 
-        const productsRepository = getRepository(ProductsModel);
+        const productsRepository = getCustomRepository(ProductsRepository);
 
-        if (request.file) {
-            const requestImages = request.file as Express.Multer.File;
+        if (request.files) {
+            const requestImages = request.files as Express.Multer.File[];
 
-            const image = requestImages;
+            const images = requestImages.map(image => {
+                return { path: image.filename }
+            });
 
             const data = {
                 title,
                 description,
-                image: image.filename,
+                images,
                 maiority,
                 code,
                 price_one,
@@ -105,13 +107,18 @@ export default {
                 order,
                 available_all,
                 on_request,
-                category
+                category,
+                availables: ProductAvailabelsController.generate(),
             };
 
             const schema = Yup.object().shape({
                 title: Yup.string().required(),
                 description: Yup.string().notRequired(),
-                image: Yup.string().notRequired(),
+                images: Yup.array(
+                    Yup.object().shape({
+                        path: Yup.string().required(),
+                    })
+                ).notRequired(),
                 maiority: Yup.boolean().required(),
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
@@ -122,7 +129,12 @@ export default {
                 order: Yup.number().required(),
                 available_all: Yup.boolean().notRequired(),
                 on_request: Yup.boolean().notRequired(),
-                category: Yup.number().required()
+                category: Yup.number().required(),
+                availables: Yup.array(
+                    Yup.object().shape({
+                        week_day: Yup.number().required(),
+                    })
+                ).required(),
             });
 
             await schema.validate(data, {
@@ -132,17 +144,6 @@ export default {
             const product = productsRepository.create(data);
 
             await productsRepository.save(product);
-
-            const productAvailabelsRepository = getRepository(ProductAvailabelsModel);
-
-            for (let x = 0; x < 7; x++) {
-                const productAvailable = productAvailabelsRepository.create({
-                    week_day: x,
-                    product: product
-                });
-
-                await productAvailabelsRepository.save(productAvailable);
-            }
 
             return response.status(201).json(product.id);
         }
@@ -160,13 +161,13 @@ export default {
                 order,
                 available_all,
                 on_request,
-                category
+                category,
+                availables: ProductAvailabelsController.generate(),
             };
 
             const schema = Yup.object().shape({
                 title: Yup.string().required(),
                 description: Yup.string().notRequired(),
-                image: Yup.string().notRequired(),
                 maiority: Yup.boolean().required(),
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
@@ -177,7 +178,12 @@ export default {
                 order: Yup.number().required(),
                 available_all: Yup.boolean().notRequired(),
                 on_request: Yup.boolean().notRequired(),
-                category: Yup.number().required()
+                category: Yup.number().required(),
+                availables: Yup.array(
+                    Yup.object().shape({
+                        week_day: Yup.number().required(),
+                    })
+                ).required(),
             });
 
             await schema.validate(data, {
@@ -187,17 +193,6 @@ export default {
             const product = productsRepository.create(data);
 
             await productsRepository.save(product);
-
-            const productAvailabelsRepository = getRepository(ProductAvailabelsModel);
-
-            for (let x = 0; x < 7; x++) {
-                const productAvailable = productAvailabelsRepository.create({
-                    week_day: x,
-                    product: product
-                });
-
-                await productAvailabelsRepository.save(productAvailable);
-            }
 
             return response.status(201).json(productView.render(product));
         }
@@ -241,7 +236,7 @@ export default {
         if (on_request)
             on_request = Yup.boolean().cast(on_request);
 
-        const productsRepository = getRepository(ProductsModel);
+        const productsRepository = getCustomRepository(ProductsRepository);
 
         if (request.file) {
             const requestImages = request.file as Express.Multer.File;
@@ -341,7 +336,7 @@ export default {
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const productsRepository = getRepository(ProductsModel);
+        const productsRepository = getCustomRepository(ProductsRepository);
 
         await productsRepository.delete(id);
 

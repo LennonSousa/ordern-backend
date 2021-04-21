@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+
+import Store from './StoresModel';
 
 @Entity('store_shipments')
 export default class StoreShipmentsModel {
@@ -13,4 +15,11 @@ export default class StoreShipmentsModel {
 
     @Column()
     active: boolean;
+
+    @Column()
+    default_price: number;
+
+    @ManyToOne(() => Store, store => store.shipments)
+    @JoinColumn({ name: 'store_id'})
+    store: Store;
 }

@@ -1,10 +1,26 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
+import { ProductAvailablesRepository } from '../repositories/ProductAvailablesRepository';
 import ProductAvailablesModel from '../models/ProductAvailablesModel';
 
 export default {
+    generate() {
+        const productAvailablesRepository = getCustomRepository(ProductAvailablesRepository);
+        const productAvailables: ProductAvailablesModel[] = [];
+
+        for(let x = 0; x > 7; x++){
+            const data = {
+                week_day: x,
+            }
+
+            productAvailables.push(productAvailablesRepository.create(data));
+        }
+
+        return productAvailables;
+    },
+
     async update(request: Request, response: Response) {
         const { id } = request.params;
 
@@ -21,7 +37,7 @@ export default {
             product
         } = request.body;
 
-        const productAvailablessRepository = getRepository(ProductAvailablesModel);
+        const productAvailablessRepository = getCustomRepository(ProductAvailablesRepository);
 
         const data = {
             week_day,

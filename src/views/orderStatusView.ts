@@ -7,7 +7,6 @@ export default {
             title: orderStatus.title,
             description: orderStatus.description,
             order: orderStatus.order,
-            orders: orderStatus.orders
         }
     },
 

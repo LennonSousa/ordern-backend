@@ -4,8 +4,8 @@ import OrderItem from './OrderItemsModel';
 
 @Entity('orders')
 export default class OrdersModel {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     client_id: number;

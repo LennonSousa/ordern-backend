@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import * as Yup from 'yup';
 
-import restaurantDeliveryGroupView from '../views/restaurantDeliveryGroupView';
-import RestaurantDeliveryGroupsModel from '../models/RestaurantDeliveryGroupsModel';
+import restaurantDeliveryGroupView from '../views/storeDeliveryGroupView';
+import RestaurantDeliveryGroupsModel from '../models/StoreDeliveryGroupsModel';
 
 export default {
     async index(request: Request, response: Response) {

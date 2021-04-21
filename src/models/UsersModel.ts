@@ -3,8 +3,8 @@ import UserType from './UserTypesModel'
 
 @Entity('users')
 export default class UsersModel {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    readonly id: string;
 
     @Column()
     name: string;
@@ -33,7 +33,7 @@ export default class UsersModel {
     @Column()
     created_at: Date;
 
-    @ManyToOne(() => UserType, userType => userType.user)
+    @ManyToOne(() => UserType, userType => userType.users)
     @JoinColumn({ name: 'type_id'})
     type: UserType;
 }

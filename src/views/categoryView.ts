@@ -8,7 +8,7 @@ export default {
             title: category.title,
             paused: category.paused,
             order: category.order,
-            products: productsView.renderMany(category.products)
+            products: category.products ? productsView.renderMany(category.products) : []
         }
     },
 

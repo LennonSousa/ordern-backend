@@ -7,7 +7,7 @@ import CustomersController from '../controllers/CustomersController';
 import CustomerAddressController from '../controllers/CustomerAddressController';
 import CustomerPaymentsController from '../controllers/CustomerPaymentsController';
 import PaymentsController from '../controllers/PaymentsController';
-import PaymentStripeController from '../controllers/PaymentStripeController';
+import PaymentStripeController from '../controllers/StorePaymentStripeController';
 import OrdersController from '../controllers/OrdersController';
 
 const customerAuthRoutes = express.Router();

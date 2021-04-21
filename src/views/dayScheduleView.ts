@@ -1,4 +1,4 @@
-import DaySchedule from '../models/DaySchedulesModel'
+import DaySchedule from '../models/StoreOpenedSchedulesModel'
 
 export default {
     render(daySchedule: DaySchedule) {
