@@ -22,5 +22,5 @@ export default class StoreOpenedDaysModel {
         cascade: ['insert', 'update']
     })
     @JoinColumn({ name: 'week_day_id' })
-    daySchedule: DaySchedule[];
+    daySchedules: DaySchedule[];
 }

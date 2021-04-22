@@ -7,7 +7,7 @@ export default {
             id: openedDay.id,
             week_day: openedDay.week_day,
             opened: openedDay.opened,
-            daySchedules: openedDay.daySchedule ? dayScheduleView.renderMany(openedDay.daySchedule) : []
+            daySchedules: openedDay.daySchedules ? dayScheduleView.renderMany(openedDay.daySchedules) : []
         }
     },
 

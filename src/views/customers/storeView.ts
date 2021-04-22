@@ -4,8 +4,8 @@ import storeShipmentView from '../../views/storeShipmentView';
 import paymentDeliveryView from '../storePaymentDeliveryView';
 import orderStatusView from '../../views/orderStatusView';
 import additionalView from '../../views/additionalView';
-import categoryView from '../../views/categoryView';
 import productHighlightView from '../../views/productHighlightView';
+import categoryView from './categoryView';
 
 require('dotenv/config');
 
@@ -35,7 +35,6 @@ export default {
             shipments: storeShipmentView.renderMany(store.shipments),
             paymentsDelivery: paymentDeliveryView.renderMany(store.paymentsDelivery),
             orderStatus: orderStatusView.renderMany(store.orderStatus),
-            additionals: store.additionals ? additionalView.renderMany(store.additionals) : [],
             categories: store.categories ? categoryView.renderMany(store.categories) : [],
             productsHighlights: store.productsHighlights ? productHighlightView.renderMany(store.productsHighlights) : [],
         }

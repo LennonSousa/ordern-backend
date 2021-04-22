@@ -10,6 +10,7 @@ import OpenedDaysController from './OpenedDaysController';
 import StoreShipmentsController from './StoreShipmentsController';
 import StorePaymentsDeliveryController from './StorePaymentsDeliveryController';
 import OrderStatusController from './OrderStatusController';
+import OpenedStoreController from './OpenedStoreController';
 
 export default {
     async index(request: Request, response: Response) {
@@ -25,19 +26,34 @@ export default {
     async show(request: Request, response: Response) {
         const storeRepository = getCustomRepository(StoresRepository);
 
-        const store = await storeRepository.find({
+        const stores = await storeRepository.find({
             relations: [
                 'openedDays',
+                'openedDays.daySchedules',
                 'shipments',
                 'paymentsDelivery',
                 'orderStatus',
                 'additionals',
                 'categories',
+                'categories.products',
+                'categories.products.category',
+                'categories.products.values',
+                'categories.products.categoriesAdditional',
+                'categories.products.categoriesAdditional.productAdditional',
+                'categories.products.categoriesAdditional.productAdditional.additional',
+                'categories.products.categoriesAdditional.productAdditional.categoryAdditional',
+                'categories.products.availables',
                 'productsHighlights'
             ]
         });
 
-        if (store.length > 0) return response.json(storeCustomerView.render(store[0]));
+        if (stores.length > 0) {
+            const store = stores[0];
+
+            const isOpened = await OpenedStoreController.isOpenedStore(store.openedDays);
+
+            return response.status(200).json({ ...storeCustomerView.render(store), opened: isOpened });
+        }
 
         return response.status(400).json({ error: 'Cannot find store!' });
     },

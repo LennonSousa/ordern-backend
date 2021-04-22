@@ -18,9 +18,6 @@ export default class ProductModel {
     description: string;
 
     @Column()
-    image: string;
-
-    @Column()
     maiority: boolean;
 
     @Column()

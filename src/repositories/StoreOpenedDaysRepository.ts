@@ -3,6 +3,6 @@ import { EntityRepository, Repository } from 'typeorm';
 import StoreOpenedDaysModel from '../models/StoreOpenedDaysModel';
 
 @EntityRepository(StoreOpenedDaysModel)
-class StoreOpenedDaysRespository extends Repository<StoreOpenedDaysModel> { }
+class StoreOpenedDaysRepository extends Repository<StoreOpenedDaysModel> { }
 
-export { StoreOpenedDaysRespository };
+export { StoreOpenedDaysRepository };

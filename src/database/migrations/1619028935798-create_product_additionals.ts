@@ -16,6 +16,7 @@ export class createProductAdditionals1619028935798 implements MigrationInterface
                 {
                     name: 'pdv',
                     type: 'varchar',
+                    isNullable: true,
                 }
                 ,
                 {

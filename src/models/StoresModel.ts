@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
+
 import UserTypes from './UserTypesModel';
 import OpenedDays from './StoreOpenedDaysModel';
 import Shipments from './StoreShipmentsModel';

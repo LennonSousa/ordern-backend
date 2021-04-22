@@ -3,15 +3,15 @@ import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import openedDayView from '../views/openedDayView';
-import { StoreOpenedDaysRespository } from '../repositories/StoreOpenedDaysRepository'
+import { StoreOpenedDaysRepository } from '../repositories/StoreOpenedDaysRepository'
 import StoreOpenedDaysModel from '../models/StoreOpenedDaysModel';
 
 export default {
     async index(request: Request, response: Response) {
-        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRespository);
+        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRepository);
 
         const openedDays = await openedDaysRepository.find({
-            relations: ['daySchedule']
+            relations: ['daySchedules']
         });
 
         return response.json(openedDayView.renderMany(openedDays));
@@ -20,17 +20,17 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRespository);
+        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRepository);
 
         const user = await openedDaysRepository.findOneOrFail(id, {
-            relations: ['daySchedule']
+            relations: ['daySchedules']
         });
 
         return response.json(openedDayView.render(user));
     },
 
     generate() {
-        const productAvailablesRepository = getCustomRepository(StoreOpenedDaysRespository);
+        const productAvailablesRepository = getCustomRepository(StoreOpenedDaysRepository);
         const openedDays: StoreOpenedDaysModel[] = [];
 
         for(let x = 0; x < 7; x++){
@@ -52,7 +52,7 @@ export default {
             opened
         } = request.body;
 
-        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRespository);
+        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRepository);
 
         const data = {
             week_day,
@@ -77,7 +77,7 @@ export default {
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRespository);
+        const openedDaysRepository = getCustomRepository(StoreOpenedDaysRepository);
 
         await openedDaysRepository.delete(id);
 

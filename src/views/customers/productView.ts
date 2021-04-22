@@ -1,7 +1,8 @@
-import Product from '../models/ProductsModel';
-import productImageView from './productImageView';
-import productValueView from './productValueView';
+import Product from '../../models/ProductsModel';
+import productImageView from '../productImageView';
+import productValueView from '../productValueView';
 import productCategorieAdditionalView from './productCategorieAdditionalView';
+import AvailableProducts from '../../controllers/AvailableProduct';
 
 export default {
     render(product: Product) {
@@ -15,21 +16,20 @@ export default {
             price: product.price,
             discount: product.discount,
             discount_price: product.discount_price,
-            paused: product.paused,
             order: product.order,
-            available_all: product.available_all,
             on_request: product.on_request,
             category: product.category,
             images: product.images ? productImageView.renderMany(product.images) : [],
             values: productValueView.renderMany(product.values),
             categoriesAdditional: productCategorieAdditionalView.renderMany(product.categoriesAdditional),
-            availables: product.availables
         }
     },
 
     renderMany(products: Product[]) {
-        const productsSorted = products.sort((a, b) => a.order - b.order);
+        let updatedProducts = AvailableProducts.verifyProducstAvailable(products);
 
-        return productsSorted.map(product => this.render(product));
+        updatedProducts = updatedProducts.sort((a, b) => a.order - b.order);
+
+        return updatedProducts.map(product => this.render(product));
     }
 }

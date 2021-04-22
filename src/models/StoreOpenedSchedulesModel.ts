@@ -7,15 +7,15 @@ export default class StoreOpenedSchedules {
     readonly id: number;
 
     @Column()
-    from: string;
+    from: number;
 
     @Column()
-    to: string;
+    to: number;
 
     @Column()
     paused: string;
 
-    @ManyToOne(() => WeekDay, weekDay => weekDay.daySchedule)
+    @ManyToOne(() => WeekDay, weekDay => weekDay.daySchedules)
     @JoinColumn({ name: 'week_day_id' })
     weedDay: WeekDay;
 }

@@ -8,9 +8,11 @@ export class createStoreOpenedSchedules1619008308039 implements MigrationInterfa
             columns: [
                 {
                     name: 'id',
-                    type: 'varchar',
+                    type: 'integer',
+                    unsigned: true,
                     isPrimary: true,
-                    generationStrategy: 'uuid'
+                    isGenerated: true,
+                    generationStrategy: 'increment'
                 },
                 {
                     name: 'from',
