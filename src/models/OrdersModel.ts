@@ -8,13 +8,13 @@ export default class OrdersModel {
     id: string;
 
     @Column()
-    client_id: number;
+    customer_id: number;
 
     @Column()
     tracker: string;
 
     @Column()
-    client: string;
+    customer: string;
 
     @Column()
     ordered_at: Date;

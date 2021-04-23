@@ -93,6 +93,10 @@ export class createOrders1619032951368 implements MigrationInterface {
                     type: 'varchar',
                 },
                 {
+                    name: 'payment_type',
+                    type: 'varchar'
+                },
+                {
                     name: 'paid',
                     type: 'boolean',
                     default: false,

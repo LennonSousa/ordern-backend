@@ -38,6 +38,11 @@ export class createCustomerPayments1619030338304 implements MigrationInterface {
                     type: 'varchar'
                 },
                 {
+                    name: 'created_at',
+                    type: 'datetime',
+                    default: 'Now()',
+                },
+                {
                     name: 'customer_id',
                     type: 'varchar',
                 }

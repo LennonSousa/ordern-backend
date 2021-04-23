@@ -3,8 +3,8 @@ import Customer from './CustomersModel';
 
 @Entity('customer_payments')
 export default class ClientPaymentsModel {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     card_number: string;

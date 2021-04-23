@@ -1,39 +1,54 @@
-<style>
-    .container {
-        justify-content: center;
-        align-items: center;
-        align-content: center;
-        display: flex;
-        flex-direction: column;
-    }
+<html lang="pt-BR">
 
-    .email-head {
-        height: 100px;
-        background-color: #00d1c7;
-        color: #fff;
-        width: 100%;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        align-content: center;
-    }
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,700;1,100&display=swap"
+        rel="stylesheet">
 
-    .content {
-        margin-top: 15px;
-    }
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
-<div class="container">
-    <section class="email-head">
-        <h1>{{store_name}}</h1>
-    </section>
 
-    <section class="content">
-        <h2>Hello {{name}}</h2>
-        <p>Welcome to {{store_name}}.</p>
-        <p>Confirm your e-mail address.</p>
-        <p><a href="{{reset_link}}" />Confirm my e-mail</a></p>
-    </section>
 
-</div>
+<body style="font-family: Nunito, sans-serif;
+            font-weight: 300;
+            font-size: 14px;">
+    <div style="display: inline-block; width: 100%;">
+        <div style="min-height: 100px;
+            background-color: #dc3545;
+            color: #fff;
+            width: 100%;
+            text-align: center;
+            padding-top: 50px;">
+            <h1>Plataforma OrderN</h1>
+        </div>
+
+        <div style="margin-top: 15px; padding-right: 5px; padding-left: 5px;">
+            <h2 style="font-family: Nunito, sans-serif;
+            font-weight: 700;
+            font-size: 18px;">Olá, {{name}}</h2>
+            <p style="color: #666666;">Bem-vindo a plataforma de pedidos e entregas OrderN.</p>
+            <p style="color: #666666;">Você foi convidado para ser integrante no sistema de gerenciamento do estabelecimento {{store_name}}.</p>
+            <p style="color: #666666;">Clique no link a seguir para aceitar e concluir o seu cadastro:</p>
+            <a href="{{link}}">Ativar o meu cadastro.</a>
+        </div>
+
+        <div style="min-height: 70px;
+            display: inline-block;
+            color: #dc3545;
+            width: 100%;
+            margin-top: 25px;
+            border-top: 1px #dbdbdb solid;
+            font-family: Nunito, sans-serif;
+            font-weight: 100;
+            font-size: 10px;
+            text-align: center;
+            padding-top: 10px;">
+            <p>© {{current_year}} OrderN - Todos os direitos reservados.</p>
+            <p>Este é um e-mail automático, em caso de dúvidas consulte o administrador da plataforma.</p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -18,6 +18,11 @@ export class createProductImages1619011647543 implements MigrationInterface {
                     type: 'varchar',
                 },
                 {
+                    name: 'order',
+                    type: 'integer',
+                    default: 0,
+                },
+                {
                     name: 'product_id',
                     type: 'varchar',
                 }

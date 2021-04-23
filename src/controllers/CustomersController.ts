@@ -97,7 +97,7 @@ export default {
         // Verfify if the new user id is the same
         // id on the token and if the new user 
         // has expired.
-        if (String(customerNewVerify.id) !== String(customerId) && isBefore(new Date(customerNewVerify.expire), new Date()))
+        if (customerNewVerify.id !== customerId && isBefore(new Date(customerNewVerify.expire), new Date()))
             return response.status(403).send({ error: 'Customer not authorized!' });
 
         const hash = await bcrypt.hash(password, 10);
@@ -111,7 +111,6 @@ export default {
             password: hash,
             active: true,
             paused: false,
-            created_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             address,
             payments
         };
@@ -125,7 +124,6 @@ export default {
             password: Yup.string().required(),
             active: Yup.boolean().required(),
             paused: Yup.boolean().required(),
-            created_at: Yup.date().required(),
             address: Yup.array(
                 Yup.object().shape({
                     zip_code: Yup.string().required(),
@@ -180,7 +178,7 @@ export default {
 
         const customerVerify = await customersRepository.findOneOrFail(customerId);
 
-        if (String(customerVerify.id) !== String(customerId)) return response.status(403).send({ error: 'Customer not authorized!' });
+        if (customerVerify.id !== customerId) return response.status(403).send({ error: 'Customer not authorized!' });
 
         const data = {
             name,

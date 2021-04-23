@@ -9,7 +9,7 @@ import ProductsHighlights from './ProductsHighlightsModel';
 @Entity('products')
 export default class ProductModel {
     @PrimaryGeneratedColumn('uuid')
-    readonly id: number;
+    readonly id: string;
 
     @Column()
     title: string;

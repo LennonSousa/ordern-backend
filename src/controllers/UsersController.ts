@@ -1,17 +1,16 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import mailer from '../modules/mailer';
-import { format } from 'date-fns';
 
 import userView from '../views/userView';
-import UsersModel from '../models/UsersModel';
+import { UsersRepository } from '../repositories/UsersRepository';
 
 export default {
     async index(request: Request, response: Response) {
-        const usersRepository = getRepository(UsersModel);
+        const usersRepository = getCustomRepository(UsersRepository);
 
         const users = await usersRepository.find({
             relations: ['type']
@@ -23,7 +22,7 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const usersRepository = getRepository(UsersModel);
+        const usersRepository = getCustomRepository(UsersRepository);
 
         const user = await usersRepository.findOneOrFail(id, {
             relations: ['type']
@@ -40,13 +39,12 @@ export default {
             type
         } = request.body;
 
-        const usersRepository = getRepository(UsersModel);
+        const usersRepository = getCustomRepository(UsersRepository);
 
         const data = {
             name,
             birth,
             email,
-            created_at : format(new Date(), "yyyy-MM-dd HH:mm:ss"),
             type
         };
 
@@ -54,7 +52,6 @@ export default {
             name: Yup.string().required(),
             birth: Yup.date().required(),
             email: Yup.string().required(),
-            created_at: Yup.date().required(),
             type: Yup.number().required()
         });
 
@@ -62,53 +59,38 @@ export default {
             abortEarly: false,
         });
 
-        const findedUser = await usersRepository.findOne({
+        const tempPassword = crypto.randomBytes(10).toString('hex');
+        const hash = await bcrypt.hash(tempPassword, 10);
+
+        const newUser = usersRepository.create({
+            name,
+            birth,
+            email,
+            password: hash,
+            active: false,
+            paused: false,
+            type
+        });
+
+        const foundUser = await usersRepository.findOne({
             where: [
-                { email, active: 1 }
+                { email }
             ]
         });
 
-        if (!findedUser) {
-            const tempPassword = crypto.randomBytes(6).toString('hex');
-            const hash = await bcrypt.hash(tempPassword, 10);
+        if (foundUser && foundUser.active) return response.status(400).json({ error: 'User already exists and activated!' });
 
-            const newUser = usersRepository.create({
-                name,
-                birth,
-                email,
-                active: false,
-                paused: false,
-                type
-            });
+        // If dosen't exists, create a new user with a temporary password and send a e-mail.
+        if (!foundUser) await usersRepository.save(newUser);
+        else if (!foundUser.active) {
+            const { id } = foundUser;
 
-            await usersRepository.save(newUser);
-
-            try {
-                // mailer.sendMail({
-                //     to: email,
-                //     from: `${process.env.RESTAURANT_NAME} ${process.env.EMAIL_USER}`,
-                //     subject: "Bem-vindo(a)",
-                //     text: `Ficamos felizes de ver você por aqui. Use o código a seguir para prosseguir: ${hash}`,
-                //     html: `<h2>Ficamos felizes de ver você por aqui.</h2><p>No aplicativo, use o link para prosseguir: <a> href="${process.env.HOST_API}/${hash}"</a></p>`,
-                // }, err => {
-                //     if (err) {
-                //         console.log('E-mail send error: ', err);
-
-                //         return response.status(500).json({ message: 'Internal server error' });
-                //     }
-                //     else
-                //         return response.status(204).json();
-                // });
-
-
-            }
-            catch (err) {
-                return response.status(500).json({ message: 'Internal server error' });
-            }
-
+            await usersRepository.update(id, newUser);
         }
-        else
+
+        await mailer.sendNewUserEmail(name, email, `${process.env.APP_URL}/users/authenticate/new?email=${email}&token=${tempPassword}`).then(() => {
             return response.status(200).json();
+        });
     },
 
     async update(request: Request, response: Response) {
@@ -119,20 +101,18 @@ export default {
             cpf,
             birth,
             phone,
-            email,
             active,
             paused,
             type
         } = request.body;
 
-        const usersRepository = getRepository(UsersModel);
+        const usersRepository = getCustomRepository(UsersRepository);
 
         const data = {
             name,
             cpf,
             birth,
             phone,
-            email,
             active,
             paused,
             type
@@ -143,7 +123,6 @@ export default {
             cpf: Yup.string().notRequired(),
             birth: Yup.date().required(),
             phone: Yup.string().notRequired(),
-            email: Yup.string().required(),
             active: Yup.boolean().required(),
             paused: Yup.boolean().required(),
             type: Yup.number().required()
@@ -163,7 +142,7 @@ export default {
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const usersRepository = getRepository(UsersModel);
+        const usersRepository = getCustomRepository(UsersRepository);
 
         await usersRepository.delete(id);
 

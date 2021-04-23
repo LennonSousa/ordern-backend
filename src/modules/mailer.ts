@@ -62,6 +62,30 @@ class Mailer {
         });
     }
 
+    async sendNewUserEmail(name: string, email: string, link: string) {
+        const variables = {
+            name,
+            store_name: process.env.STORE_NAME,
+            link,
+            current_year: getYear(new Date()),
+        }
+
+        const templatePath = resolve(__dirname, "..", "views", "emails", "newUser.hbs");
+
+        const text = `Olá, ${name}
+        Bem-vindo a plataforma de pedidos e entregas OrderN.
+        Você foi convidado para ser integrante no sistema de gerenciamento do estabelecimento ${process.env.STORE_NAME}.
+        Clique no link a seguir para aceitar e concluir o seu cadastro:
+        ${link}`;
+
+        await this.execute(email, "Bem-vindo(a).", variables, templatePath, text).then(() => {
+            return true;
+        }).catch(err => {
+            console.log('Error to send new user e-mail: ', err);
+            return false
+        });
+    }
+
     async sendCustomerConfirmedEmail(name: string, email: string) {
         const variables = {
             store_name: process.env.STORE_NAME,

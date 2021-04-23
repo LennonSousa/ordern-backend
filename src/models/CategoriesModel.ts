@@ -6,7 +6,7 @@ import Store from './StoresModel';
 @Entity('categories')
 export default class CategoriesModel {
     @PrimaryGeneratedColumn('uuid')
-    readonly id: number;
+    readonly id: string;
 
     @Column()
     title: string;

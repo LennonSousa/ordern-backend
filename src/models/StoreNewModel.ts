@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('customer_new')
-export default class CustomerNewModel {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+@Entity('store_new')
+export default class StoreNewModel {
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column()
     email: string;

@@ -1,14 +1,14 @@
 require('dotenv/config');
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import categoryView from '../views/categoryView';
-import CategoriesModel from '../models/CategoriesModel';
+import { CategoriesRepository } from '../repositories/CategoriesRepository';
 
 export default {
     async index(request: Request, response: Response) {
-        const categoriesRepository = getRepository(CategoriesModel);
+        const categoriesRepository = getCustomRepository(CategoriesRepository);
 
         const categories = await categoriesRepository.find({
             order: {
@@ -32,7 +32,7 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const categoriesRepository = getRepository(CategoriesModel);
+        const categoriesRepository = getCustomRepository(CategoriesRepository);
 
         const category = await categoriesRepository.findOneOrFail(id, {
             relations: [
@@ -54,21 +54,24 @@ export default {
         const {
             title,
             paused,
-            order
+            order,
+            store
         } = request.body;
 
-        const categoriesRepository = getRepository(CategoriesModel);
+        const categoriesRepository = getCustomRepository(CategoriesRepository);
 
         const data = {
             title,
             paused,
-            order
+            order,
+            store
         };
 
         const schema = Yup.object().shape({
             title: Yup.string().required(),
             paused: Yup.boolean().required(),
-            order: Yup.number().required()
+            order: Yup.number().required(),
+            store: Yup.string().required(),
         });
 
         await schema.validate(data, {
@@ -91,7 +94,7 @@ export default {
             order
         } = request.body;
 
-        const categoriesRepository = getRepository(CategoriesModel);
+        const categoriesRepository = getCustomRepository(CategoriesRepository);
 
         const data = {
             title,
@@ -119,7 +122,7 @@ export default {
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const categoriesRepository = getRepository(CategoriesModel);
+        const categoriesRepository = getCustomRepository(CategoriesRepository);
 
         await categoriesRepository.delete(id);
 

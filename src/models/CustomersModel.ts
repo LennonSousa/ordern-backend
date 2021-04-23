@@ -5,8 +5,9 @@ import Orders from './OrdersModel';
 
 @Entity('customers')
 export default class CustomersModel {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+
     @Column()
     name: string;
 

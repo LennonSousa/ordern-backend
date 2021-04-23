@@ -2,7 +2,6 @@ import express from 'express';
 import multer from 'multer';
 
 import uploadConfig from '../config/upload';
-
 import AdditionalsController from '../controllers/AdditionalsController';
 import CategoriesController from '../controllers/CategoriesController';
 import CreditBrandsController from '../controllers/CreditBrandsController';
@@ -12,8 +11,6 @@ import DaySchedulesController from '../controllers/DaySchedulesController';
 import DebitBrandsController from '../controllers/DebitBrandsController';
 import OpenedDaysController from '../controllers/OpenedDaysController';
 import OrdersController from '../controllers/OrdersController';
-import PaymentsDeliveryController from '../controllers/StorePaymentsDeliveryController';
-import PaymentStripeController from '../controllers/StorePaymentStripeController';
 import ProductAdditionalsController from '../controllers/ProductAdditionalsController';
 import ProductAvailablesController from '../controllers/ProductAvailablesController';
 import ProductCategoriesAdditionalController from '../controllers/ProductCategoriesAdditionalController';
@@ -22,11 +19,14 @@ import ProductsHighlightsController from '../controllers/ProductsHighlightsContr
 import ProductValuesController from '../controllers/ProductValuesController';
 import RestaurantDeliveryGroupsController from '../controllers/RestaurantDeliveryGroupsController';
 import RestaurantsAvatarController from '../controllers/RestaurantsAvatarController';
-import StoresController from '../controllers/StoresController';
 import RestaurantsCoverController from '../controllers/RestaurantsCoverController';
+import PaymentsDeliveryController from '../controllers/StorePaymentsDeliveryController';
+import PaymentStripeController from '../controllers/StorePaymentStripeController';
+import StoresController from '../controllers/StoresController';
 import StoreShipmentController from '../controllers/StoreShipmentsController';
 import UsersController from '../controllers/UsersController';
-import UserTypesController from '../controllers/UserTypesController';
+import UserNewAuthenticationController from '../controllers/UserNewAuthenticationController';
+
 import usersAuthMiddleware from '../middlewares/usersAuth';
 
 const userAuthRoutes = express.Router();
@@ -36,20 +36,21 @@ userAuthRoutes.get('/', function (request, response) {
     return response.status(202).json();
 });
 
-userAuthRoutes.post('/stores', upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), StoresController.create);
+userAuthRoutes.get('/stores', usersAuthMiddleware, StoresController.index);
+
+userAuthRoutes.post('/stores', upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]), usersAuthMiddleware, StoresController.create);
 userAuthRoutes.put('/stores/:id', usersAuthMiddleware, StoresController.update);
 
 userAuthRoutes.put('/store/cover/:id', usersAuthMiddleware, upload.single('cover'), RestaurantsCoverController.update);
 userAuthRoutes.put('/store/avatar/:id', usersAuthMiddleware, upload.single('avatar'), RestaurantsAvatarController.update);
-
-userAuthRoutes.get('/user/types', usersAuthMiddleware, UserTypesController.index);
-userAuthRoutes.get('/user/types/:id', usersAuthMiddleware, UserTypesController.show);
 
 userAuthRoutes.get('/users', usersAuthMiddleware, UsersController.index);
 userAuthRoutes.get('/users/:id', usersAuthMiddleware, UsersController.show);
 userAuthRoutes.post('/users', usersAuthMiddleware, UsersController.create);
 userAuthRoutes.put('/users/:id', usersAuthMiddleware, UsersController.update);
 userAuthRoutes.delete('/users/:id', usersAuthMiddleware, UsersController.delete);
+
+userAuthRoutes.put('/users/new/:id', usersAuthMiddleware, UserNewAuthenticationController.update);
 
 userAuthRoutes.put('/store/opened-days/:id', usersAuthMiddleware, OpenedDaysController.update);
 userAuthRoutes.delete('/store/opened-days/:id', usersAuthMiddleware, OpenedDaysController.delete);

@@ -49,6 +49,11 @@ export class createCustomerAddress1619029866509 implements MigrationInterface {
                     type: 'varchar'
                 },
                 {
+                    name: 'created_at',
+                    type: 'datetime',
+                    default: 'Now()',
+                },
+                {
                     name: 'customer_id',
                     type: 'varchar',
                 }

@@ -3,8 +3,8 @@ import Customer from './CustomersModel';
 
 @Entity('customer_address')
 export default class ClientAddressModel {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     zip_code: string;

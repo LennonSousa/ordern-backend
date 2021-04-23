@@ -67,7 +67,6 @@ export default {
 
         price = Number(price);
         discount_price = discount_price && Number(discount_price);
-        category = Number(category);
 
         if (price_one)
             price_one = Yup.boolean().cast(price_one);
@@ -129,7 +128,7 @@ export default {
                 order: Yup.number().required(),
                 available_all: Yup.boolean().notRequired(),
                 on_request: Yup.boolean().notRequired(),
-                category: Yup.number().required(),
+                category: Yup.string().required(),
                 availables: Yup.array(
                     Yup.object().shape({
                         week_day: Yup.number().required(),

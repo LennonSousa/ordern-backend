@@ -39,7 +39,7 @@ export default (request: Request, response: Response, next: NextFunction) => {
 
             console.log(customerId, decodedId);
 
-            if (String(customerId) !== String(decodedId)) return response.status(403).send({ error: 'Customer not authorized!' });
+            if (customerId !== decodedId) return response.status(403).send({ error: 'Customer not authorized!' });
 
             return next();
         });
