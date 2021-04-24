@@ -3,10 +3,10 @@ import Order from '../models/OrdersModel'
 export default {
     render(order: Order) {
         return {
-            tracker: order.tracker,
             id: order.id,
-            client_id: order.client_id,
-            client: order.client,
+            tracker: order.tracker,
+            customer_id: order.customer_id,
+            customer: order.customer,
             ordered_at: order.ordered_at,
             delivery_in: order.delivery_in,
             placed_at: order.placed_at,
