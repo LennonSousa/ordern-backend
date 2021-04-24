@@ -47,7 +47,8 @@ export default {
                 'categories.products.categoriesAdditional.productAdditional.additional',
                 'categories.products.categoriesAdditional.productAdditional.categoryAdditional',
                 'categories.products.availables',
-                'productsHighlights'
+                'productsHighlights',
+                'productsHighlights.product',
             ]
         });
 

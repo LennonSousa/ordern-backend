@@ -21,9 +21,9 @@ export default {
             on_request: product.on_request,
             category: product.category,
             images: product.images ? productImageView.renderMany(product.images) : [],
-            values: productValueView.renderMany(product.values),
-            categoriesAdditional: productCategorieAdditionalView.renderMany(product.categoriesAdditional),
-            availables: product.availables
+            values: product.values ? productValueView.renderMany(product.values) : [],
+            categoriesAdditional: product.categoriesAdditional ? productCategorieAdditionalView.renderMany(product.categoriesAdditional) : [],
+            availables: product.availables ? product.availables : [],
         }
     },
 
