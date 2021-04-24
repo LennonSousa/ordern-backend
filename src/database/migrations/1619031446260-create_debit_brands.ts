@@ -22,20 +22,6 @@ export class createDebitBrands1619031446260 implements MigrationInterface {
                     name: 'code',
                     type: 'varchar(45)'
                 },
-                {
-                    name: 'store_id',
-                    type: 'varchar'
-                },
-            ],
-            foreignKeys: [
-                {
-                    name: 'StoreDebitBrands',
-                    columnNames: ['store_id'],
-                    referencedTableName: 'stores',
-                    referencedColumnNames: ['id'],
-                    onUpdate: 'CASCADE',
-                    onDelete: 'CASCADE',
-                }
             ]
         }));
     }

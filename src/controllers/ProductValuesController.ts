@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import productValueView from '../views/productValueView';
-import ProductValuesModel from '../models/ProductValuesModel';
+import { ProductValuesRepository } from '../repositories/ProductValuesRepository';
 
 export default {
     async index(request: Request, response: Response) {
-        const productValuesRepository = getRepository(ProductValuesModel);
+        const productValuesRepository = getCustomRepository(ProductValuesRepository);
 
         const productValues = await productValuesRepository.find();
 
@@ -17,7 +17,7 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const productValuesRepository = getRepository(ProductValuesModel);
+        const productValuesRepository = getCustomRepository(ProductValuesRepository);
 
         const productValue = await productValuesRepository.findOneOrFail(id);
 
@@ -32,7 +32,7 @@ export default {
             product
         } = request.body;
 
-        const productValuesRepository = getRepository(ProductValuesModel);
+        const productValuesRepository = getCustomRepository(ProductValuesRepository);
 
         const data = {
             description,
@@ -45,7 +45,7 @@ export default {
             description: Yup.string().notRequired(),
             value: Yup.number().notRequired(),
             order: Yup.number().required(),
-            product: Yup.number().required()
+            product: Yup.string().required()
         });
 
         await schema.validate(data, {
@@ -69,7 +69,7 @@ export default {
             product
         } = request.body;
 
-        const productValuesRepository = getRepository(ProductValuesModel);
+        const productValuesRepository = getCustomRepository(ProductValuesRepository);
 
         const data = {
             description,
@@ -82,7 +82,7 @@ export default {
             description: Yup.string().notRequired(),
             value: Yup.number().notRequired(),
             order: Yup.number().required(),
-            product: Yup.number().required()
+            product: Yup.string().required()
         });
 
         await schema.validate(data, {
@@ -99,7 +99,7 @@ export default {
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const productValuesRepository = getRepository(ProductValuesModel);
+        const productValuesRepository = getCustomRepository(ProductValuesRepository);
 
         await productValuesRepository.delete(id);
 

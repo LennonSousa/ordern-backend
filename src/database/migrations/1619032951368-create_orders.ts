@@ -14,6 +14,10 @@ export class createOrders1619032951368 implements MigrationInterface {
                     generationStrategy: 'uuid'
                 },
                 {
+                    name: 'tracker',
+                    type: 'varchar',
+                },
+                {
                     name: 'customer_id',
                     type: 'varchar',
                 },

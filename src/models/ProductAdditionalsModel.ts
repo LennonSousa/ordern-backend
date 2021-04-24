@@ -4,8 +4,8 @@ import CategoryAdditional from './ProductCategoriesAdditionalModel';
 
 @Entity('product_additionals')
 export default class ProductAdditionalsModel {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
     
     @Column()
     pdv: string;

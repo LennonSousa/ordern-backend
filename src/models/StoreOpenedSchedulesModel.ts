@@ -3,7 +3,7 @@ import WeekDay from './StoreOpenedDaysModel'
 
 @Entity('store_opened_schedules')
 export default class StoreOpenedSchedules {
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn()
     readonly id: number;
 
     @Column()

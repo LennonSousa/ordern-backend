@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import additionalView from '../views/additionalView';
-import AdditionalsModel from '../models/AdditionalsModel';
+import { AdditionalsRepository } from '../repositories/AdditionalsRepository';
 
 export default {
     async index(request: Request, response: Response) {
-        const additionalsRepository = getRepository(AdditionalsModel);
+        const additionalsRepository = getCustomRepository(AdditionalsRepository);
 
         const additionals = await additionalsRepository.find(
             {
@@ -21,7 +21,7 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const additionalsRepository = getRepository(AdditionalsModel);
+        const additionalsRepository = getCustomRepository(AdditionalsRepository);
 
         const additionals = await additionalsRepository.findOneOrFail(id,
             {
@@ -36,21 +36,24 @@ export default {
         const {
             title,
             code,
-            paused
+            paused,
+            store,
         } = request.body;
 
-        const additionalsRepository = getRepository(AdditionalsModel);
+        const additionalsRepository = getCustomRepository(AdditionalsRepository);
 
         const data = {
             title,
             code,
-            paused
+            paused,
+            store,
         };
 
         const schema = Yup.object().shape({
             title: Yup.string().required(),
             code: Yup.string().notRequired(),
-            paused: Yup.boolean().required()
+            paused: Yup.boolean().required(),
+            store: Yup.string().required(),
         });
 
         await schema.validate(data, {
@@ -73,7 +76,7 @@ export default {
             paused
         } = request.body;
 
-        const additionalsRepository = getRepository(AdditionalsModel);
+        const additionalsRepository = getCustomRepository(AdditionalsRepository);
 
         const data = {
             title,
@@ -101,7 +104,7 @@ export default {
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const additionalsRepository = getRepository(AdditionalsModel);
+        const additionalsRepository = getCustomRepository(AdditionalsRepository);
 
         await additionalsRepository.delete(id);
 

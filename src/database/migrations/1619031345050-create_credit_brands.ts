@@ -22,21 +22,7 @@ export class createCreditBrands1619031345050 implements MigrationInterface {
                     name: 'code',
                     type: 'varchar(45)'
                 },
-                {
-                    name: 'store_id',
-                    type: 'varchar'
-                },
             ],
-            foreignKeys: [
-                {
-                    name: 'StoreCreditBrands',
-                    columnNames: ['store_id'],
-                    referencedTableName: 'stores',
-                    referencedColumnNames: ['id'],
-                    onUpdate: 'CASCADE',
-                    onDelete: 'CASCADE',
-                }
-            ]
         }));
     }
 

@@ -1,8 +1,6 @@
 import express from 'express';
 
 import StoresController from '../controllers/StoresController';
-import StoreShipmentController from '../controllers/StoreShipmentsController';
-import RestaurantDeliveryGroupsController from '../controllers/RestaurantDeliveryGroupsController';
 import OpenedDaysController from '../controllers/OpenedDaysController';
 import DaySchedulesController from '../controllers/DaySchedulesController';
 import CategoriesController from '../controllers/CategoriesController';
@@ -13,7 +11,6 @@ import ProductCategoriesAdditionalController from '../controllers/ProductCategor
 import ProductAdditionalsController from '../controllers/ProductAdditionalsController';
 import CreditBrandsController from '../controllers/CreditBrandsController';
 import DebitBrandsController from '../controllers/DebitBrandsController';
-import PaymentsDeliveryController from '../controllers/StorePaymentsDeliveryController';
 import ProductsHighlightsController from '../controllers/ProductsHighlightsController';
 import OrderStatusController from '../controllers/OrderStatusController';
 
@@ -26,11 +23,6 @@ publicRoutes.get('/restaurant/opened-days/:id', OpenedDaysController.show);
 
 publicRoutes.get('/restaurant/opened-day/schedules', DaySchedulesController.index);
 publicRoutes.get('/restaurant/opened-day/schedules/:id', DaySchedulesController.show);
-
-publicRoutes.get('/store/shipments', StoreShipmentController.index);
-
-publicRoutes.get('/store/delivery-groups', RestaurantDeliveryGroupsController.index);
-publicRoutes.get('/store/delivery-groups/:id', RestaurantDeliveryGroupsController.show);
 
 publicRoutes.get('/categories', CategoriesController.index);
 publicRoutes.get('/categories/:id', CategoriesController.show);
@@ -59,7 +51,7 @@ publicRoutes.get('/payments/credit-brands/:id', CreditBrandsController.show);
 publicRoutes.get('/payments/debit-brands', DebitBrandsController.index);
 publicRoutes.get('/payments/debit-brands/:id', DebitBrandsController.show);
 
-publicRoutes.get('/payments/delivery', PaymentsDeliveryController.index);
+//publicRoutes.get('/payments/delivery', PaymentsDeliveryController.index);
 
 publicRoutes.get('/order-status', OrderStatusController.index);
 

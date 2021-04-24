@@ -4,12 +4,19 @@ import * as Yup from 'yup';
 import { isBefore } from 'date-fns';
 import jwt from 'jsonwebtoken';
 
+import { StoresRepository } from '../repositories/StoresRepository';
 import { StoreNewRepository } from '../repositories/StoreNewRepository';
 
 require('dotenv/config');
 
 export default {
     async create(request: Request, response: Response) {
+        const storesRepository = getCustomRepository(StoresRepository);
+
+        const store = await storesRepository.find();
+
+        if (store.length > 0) return response.status(404).json();
+
         const { email, token } = request.body;
 
         const storeNewRepository = getCustomRepository(StoreNewRepository);
@@ -34,8 +41,6 @@ export default {
             ]
         });
 
-        if (newStore && newStore.activated) return response.status(400).json({ error: 'Store already exists and activated!' });
-
         if (isBefore(new Date(newStore.expire), new Date()))
             return response.status(403).json({
                 error: 'Activatiion token expired.'
@@ -47,10 +52,6 @@ export default {
             });
 
             const { id, email } = newStore;
-
-            const updatedNewStore = storeNewRepository.create({ activated: true });
-
-            await storeNewRepository.update(id, updatedNewStore);
 
             return response.status(201).json({ id, email, token: newToken });
         }

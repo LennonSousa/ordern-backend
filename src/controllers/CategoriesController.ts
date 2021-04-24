@@ -16,6 +16,7 @@ export default {
             },
             relations: [
                 'products',
+                'products.images',
                 'products.category',
                 'products.values',
                 'products.categoriesAdditional',
@@ -37,6 +38,7 @@ export default {
         const category = await categoriesRepository.findOneOrFail(id, {
             relations: [
                 'products',
+                'products.images',
                 'products.category',
                 'products.values',
                 'products.categoriesAdditional',

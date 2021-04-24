@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import productCategorieAdditionalView from '../views/productCategorieAdditionalView';
-import ProductCategoriesAdditionalModel from '../models/ProductCategoriesAdditionalModel';
+import { ProductCategoriesAdditionalRepository } from '../repositories/ProductCategoriesAdditionalRepository';
 
 export default {
     async index(request: Request, response: Response) {
-        const productCategoriesAdditionalRepository = getRepository(ProductCategoriesAdditionalModel);
+        const productCategoriesAdditionalRepository = getCustomRepository(ProductCategoriesAdditionalRepository);
 
         const productCategoriesAdditional = await productCategoriesAdditionalRepository.find({
             relations: ['productAdditional']
@@ -19,7 +19,7 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const productCategoriesAdditionalRepository = getRepository(ProductCategoriesAdditionalModel);
+        const productCategoriesAdditionalRepository = getCustomRepository(ProductCategoriesAdditionalRepository);
 
         const productCategorieAdditional = await productCategoriesAdditionalRepository.findOneOrFail(id,
             {
@@ -40,7 +40,7 @@ export default {
             product
         } = request.body;
 
-        const productCategoriesAdditionalRepository = getRepository(ProductCategoriesAdditionalModel);
+        const productCategoriesAdditionalRepository = getCustomRepository(ProductCategoriesAdditionalRepository);
 
         const data = {
             title,
@@ -57,7 +57,7 @@ export default {
             max: Yup.number().required(),
             repeat: Yup.boolean().notRequired(),
             order: Yup.number().required(),
-            product: Yup.number().required()
+            product: Yup.string().required()
         });
 
         await schema.validate(data, {
@@ -83,7 +83,7 @@ export default {
             product
         } = request.body;
 
-        const productCategoriesAdditionalRepository = getRepository(ProductCategoriesAdditionalModel);
+        const productCategoriesAdditionalRepository = getCustomRepository(ProductCategoriesAdditionalRepository);
 
         const data = {
             title,
@@ -100,7 +100,7 @@ export default {
             max: Yup.number().required(),
             repeat: Yup.boolean().notRequired(),
             order: Yup.number().required(),
-            product: Yup.number().required()
+            product: Yup.string().required()
         });
 
         await schema.validate(data, {
@@ -117,7 +117,7 @@ export default {
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const productCategoriesAdditionalRepository = getRepository(ProductCategoriesAdditionalModel);
+        const productCategoriesAdditionalRepository = getCustomRepository(ProductCategoriesAdditionalRepository);
 
         await productCategoriesAdditionalRepository.delete(id);
 

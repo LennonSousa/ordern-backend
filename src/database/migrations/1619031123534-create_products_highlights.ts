@@ -35,10 +35,10 @@ export class createProductsHighlights1619031123534 implements MigrationInterface
                     referencedTableName: 'products',
                     referencedColumnNames: ['id'],
                     onUpdate: 'CASCADE',
-                    onDelete: 'RESTRICT',
+                    onDelete: 'CASCADE',
                 },
                 {
-                    name: 'StoreShipments',
+                    name: 'StoreHighlights',
                     columnNames: ['store_id'],
                     referencedTableName: 'stores',
                     referencedColumnNames: ['id'],

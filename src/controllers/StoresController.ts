@@ -3,6 +3,8 @@ import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import { StoresRepository } from '../repositories/StoresRepository';
+import { StoreNewRepository } from '../repositories/StoreNewRepository';
+
 import storeView from '../views/storeView';
 import storeCustomerView from '../views/customers/storeView';
 import UserTypesController from './UserTypesController';
@@ -11,6 +13,7 @@ import StoreShipmentsController from './StoreShipmentsController';
 import StorePaymentsDeliveryController from './StorePaymentsDeliveryController';
 import OrderStatusController from './OrderStatusController';
 import OpenedStoreController from './OpenedStoreController';
+import StorePaymentStripeController from './StorePaymentStripeController';
 
 export default {
     async index(request: Request, response: Response) {
@@ -37,6 +40,7 @@ export default {
                 'categories',
                 'categories.products',
                 'categories.products.category',
+                'categories.products.images',
                 'categories.products.values',
                 'categories.products.categoriesAdditional',
                 'categories.products.categoriesAdditional.productAdditional',
@@ -78,7 +82,13 @@ export default {
             highlights_title
         } = request.body;
 
+        const storeNewRepository = getCustomRepository(StoreNewRepository);
+        const storeNews = await storeNewRepository.find();
+        if (storeNews.length < 1) return response.status(404).json();
+
         const storesRepository = getCustomRepository(StoresRepository);
+        const store = await storesRepository.find();
+        if (store.length > 0) return response.status(404).json();
 
         const requestImages = request.files as { [fieldname: string]: Express.Multer.File[] };
 
@@ -88,7 +98,7 @@ export default {
             title,
             phone,
             description,
-            min_order,
+            min_order: Number(min_order),
             cover: cover[0].filename,
             avatar: avatar[0].filename,
             zip_code,
@@ -169,6 +179,13 @@ export default {
         const restaurant = storesRepository.create(data);
 
         await storesRepository.save(restaurant);
+
+        await StorePaymentStripeController.generate();
+
+        // Deleting a new store tokens.
+        storeNews.forEach(async storeNew => {
+            await storeNewRepository.delete(storeNew.id);
+        });
 
         return response.status(201).json(restaurant);
     },

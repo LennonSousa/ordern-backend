@@ -10,7 +10,7 @@ export default {
         const productAvailablesRepository = getCustomRepository(ProductAvailablesRepository);
         const productAvailables: ProductAvailablesModel[] = [];
 
-        for(let x = 0; x > 7; x++){
+        for(let x = 0; x < 7; x++){
             const data = {
                 week_day: x,
             }
@@ -62,7 +62,7 @@ export default {
             shift_02: Yup.boolean().required(),
             shift_02_from: Yup.number().notRequired(),
             shift_02_to: Yup.number().notRequired(),
-            product: Yup.number().required()
+            product: Yup.string().required()
         });
 
         await schema.validate(data, {

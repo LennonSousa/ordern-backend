@@ -60,15 +60,19 @@ export default class ProductModel {
     @OneToMany(() => Value, value => value.product, {
         cascade: ['insert', 'update', 'remove']
     })
-    @JoinColumn({ name: 'id' })
+    @JoinColumn({ name: 'product_id' })
     values: Value[];
 
-    @OneToMany(() => CategoryAdditional, category => category.product)
+    @OneToMany(() => CategoryAdditional, category => category.product, {
+        cascade: ['insert', 'update', 'remove']
+    })
     @JoinColumn({ name: 'id' })
     categoriesAdditional: CategoryAdditional[];
 
-    @OneToMany(() => Available, available => available.product)
-    @JoinColumn({ name: 'id' })
+    @OneToMany(() => Available, available => available.product, {
+        cascade: ['insert', 'update', 'remove']
+    })
+    @JoinColumn({ name: 'product_id' })
     availables: Available[];
 
     @OneToOne(() => ProductsHighlights, productHighlight => productHighlight.product, {

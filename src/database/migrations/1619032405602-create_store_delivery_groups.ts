@@ -31,21 +31,7 @@ export class createStoreDeliveryGroups1619032405602 implements MigrationInterfac
                     type: 'integer',
                     default: 0,
                 },
-                {
-                    name: 'store_id',
-                    type: 'varchar'
-                },
             ],
-            foreignKeys: [
-                {
-                    name: 'StoreDeliveryGroups',
-                    columnNames: ['store_id'],
-                    referencedTableName: 'stores',
-                    referencedColumnNames: ['id'],
-                    onUpdate: 'CASCADE',
-                    onDelete: 'CASCADE',
-                }
-            ]
         }));
     }
 

@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class createStoreNew1619135116203 implements MigrationInterface {
 
@@ -26,12 +26,6 @@ export class createStoreNew1619135116203 implements MigrationInterface {
                     name: 'expire',
                     type: 'date',
                 },
-                {
-                    name: 'activated',
-                    type: 'boolean',
-                    default: false,
-                }
-
             ]
         }));
     }

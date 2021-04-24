@@ -3,8 +3,8 @@ import Product from './ProductsModel'
 
 @Entity('product_values')
 export default class ProductValuesModel {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     description: string;

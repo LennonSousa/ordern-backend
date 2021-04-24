@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
-import { getRepository, getCustomRepository } from 'typeorm';
-import * as Yup from 'yup';
+import { getCustomRepository } from 'typeorm';
 
 import userTypeView from '../views/userTypeView';
-import UserTypesModel from '../models/UserTypesModel';
 import { UserTypesRepository } from '../repositories/UserTypesRepository';
 
 export default {
     async index(request: Request, response: Response) {
-        const userTypesRepository = getRepository(UserTypesModel);
+        const userTypesRepository = getCustomRepository(UserTypesRepository);
 
         const userTypes = await userTypesRepository.find();
 
@@ -18,7 +16,7 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const userTypesRepository = getRepository(UserTypesModel);
+        const userTypesRepository = getCustomRepository(UserTypesRepository);
 
         const userType = await userTypesRepository.findOneOrFail(id);
 
@@ -51,52 +49,4 @@ export default {
 
         return userTypes;
     },
-
-    async update(request: Request, response: Response) {
-        const { id } = request.params;
-
-        const {
-            type,
-            description,
-            code
-        } = request.body;
-
-        const userTypesRepository = getRepository(UserTypesModel);
-
-        const requestImages = request.files as { [fieldname: string]: Express.Multer.File[] };
-
-        const { cover, avatar } = requestImages;
-
-        const data = {
-            type,
-            description,
-            code
-        };
-
-        const schema = Yup.object().shape({
-            type: Yup.string().required(),
-            description: Yup.string().required(),
-            code: Yup.number().required()
-        });
-
-        await schema.validate(data, {
-            abortEarly: false,
-        });
-
-        const userType = userTypesRepository.create(data);
-
-        await userTypesRepository.update(id, userType);
-
-        return response.status(204).json(userType);
-    },
-
-    async delete(request: Request, response: Response) {
-        const { id } = request.params;
-
-        const userTypesRepository = getRepository(UserTypesModel);
-
-        await userTypesRepository.delete(id);
-
-        return response.status(204).send();
-    }
 }

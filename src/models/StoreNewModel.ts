@@ -13,7 +13,4 @@ export default class StoreNewModel {
 
     @Column()
     expire: Date;
-
-    @Column()
-    activated: boolean;
 }

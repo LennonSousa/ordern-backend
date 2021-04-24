@@ -13,7 +13,10 @@ export default {
         const usersRepository = getCustomRepository(UsersRepository);
 
         const users = await usersRepository.find({
-            relations: ['type']
+            relations: ['type'],
+            order: {
+                created_at: "ASC"
+            },
         });
 
         return response.json(userView.renderMany(users));
@@ -89,7 +92,7 @@ export default {
         }
 
         await mailer.sendNewUserEmail(name, email, `${process.env.APP_URL}/users/authenticate/new?email=${email}&token=${tempPassword}`).then(() => {
-            return response.status(200).json();
+            return response.status(201).json();
         });
     },
 

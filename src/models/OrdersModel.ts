@@ -8,10 +8,10 @@ export default class OrdersModel {
     id: string;
 
     @Column()
-    customer_id: number;
+    tracker: string;
 
     @Column()
-    tracker: string;
+    customer_id: string;
 
     @Column()
     customer: string;

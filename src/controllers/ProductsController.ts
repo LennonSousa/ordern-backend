@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 
 import productView from '../views/productView';
 import { ProductsRepository } from '../repositories/ProductsRepository';
+import { ProductImagesRepository } from '../repositories/ProductImagesRepository';
 import ProductAvailabelsController from './ProductAvailablesController';
 
 export default {
@@ -16,6 +17,7 @@ export default {
             },
             relations: [
                 'category',
+                'images',
                 'values',
                 'categoriesAdditional',
                 'categoriesAdditional.productAdditional',
@@ -36,6 +38,7 @@ export default {
         const product = await productsRepository.findOneOrFail(id, {
             relations: [
                 'category',
+                'images',
                 'values',
                 'categoriesAdditional',
                 'categoriesAdditional.productAdditional',
@@ -218,7 +221,6 @@ export default {
 
         price = Number(price);
         discount_price = discount_price && Number(discount_price);
-        category = Number(category);
 
         if (price_one)
             price_one = Yup.boolean().cast(price_one);
@@ -237,15 +239,26 @@ export default {
 
         const productsRepository = getCustomRepository(ProductsRepository);
 
-        if (request.file) {
-            const requestImages = request.file as Express.Multer.File;
+        if (request.files) {
+            const requestImages = request.files as Express.Multer.File[];
+            
+            const images = requestImages.map(image => {
+                return { path: image.filename }
+            });
 
-            const image = requestImages;
+            const productImagesRepository = getCustomRepository(ProductImagesRepository);
+
+            const productImage = await productImagesRepository.findOne();
+
+            if (productImage) {
+                const image = productImagesRepository.create({ path: images[0].path });
+
+                await productImagesRepository.update(productImage.id, image);
+            }
 
             const data = {
                 title,
                 description,
-                image: image.filename,
                 maiority,
                 code,
                 price_one,
@@ -262,7 +275,6 @@ export default {
             const schema = Yup.object().shape({
                 title: Yup.string().required(),
                 description: Yup.string().notRequired(),
-                image: Yup.string().notRequired(),
                 maiority: Yup.boolean().required(),
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
@@ -273,7 +285,7 @@ export default {
                 order: Yup.number().required(),
                 available_all: Yup.boolean().notRequired(),
                 on_request: Yup.boolean().notRequired(),
-                category: Yup.number().required(),
+                category: Yup.string().required(),
             });
 
             await schema.validate(data, {
@@ -317,7 +329,7 @@ export default {
                 order: Yup.number().required(),
                 available_all: Yup.boolean().notRequired(),
                 on_request: Yup.boolean().notRequired(),
-                category: Yup.number().required(),
+                category: Yup.string().required(),
             });
 
             await schema.validate(data, {
@@ -339,6 +351,6 @@ export default {
 
         await productsRepository.delete(id);
 
-        return response.status(204).send();
+        return response.status(204).json();
     }
 }

@@ -16,6 +16,7 @@ export default {
             },
             relations: [
                 'product',
+                'product.images',
                 'product.category',
                 'product.values',
                 'product.categoriesAdditional',
@@ -37,6 +38,7 @@ export default {
         const productHighlight = await productsHighlightsRepository.findOneOrFail(id, {
             relations: [
                 'product',
+                'product.images',
                 'product.category',
                 'product.values',
                 'product.categoriesAdditional',
@@ -53,19 +55,22 @@ export default {
     async create(request: Request, response: Response) {
         const {
             active,
-            product
+            product,
+            store,
         } = request.body;
 
         const productsHighlightsRepository = getRepository(ProductsHighlightsModel);
 
         const data = {
             active,
-            product
+            product,
+            store,
         };
 
         const schema = Yup.object().shape({
             active: Yup.boolean().notRequired(),
-            product: Yup.number().required()
+            product: Yup.string().required(),
+            store: Yup.string().required(),
         });
 
         await schema.validate(data, {
@@ -84,19 +89,19 @@ export default {
 
         const {
             active,
-            product
+            product,
         } = request.body;
 
         const productsHighlightsRepository = getRepository(ProductsHighlightsModel);
 
         const data = {
             active,
-            product
+            product,
         };
 
         const schema = Yup.object().shape({
             active: Yup.boolean().notRequired(),
-            product: Yup.number().required()
+            product: Yup.string().required(),
         });
 
         await schema.validate(data, {

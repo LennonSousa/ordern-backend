@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import paymentStripeView from '../views/storePaymentStripeView';
-import PaymentStripeModel from '../models/StorePaymentStripeModel';
+import { StorePaymentStripeRepository } from '../repositories/StorePaymentStripe';
 
 export default {
     async index(request: Request, response: Response) {
-        const paymentStripeRepository = getRepository(PaymentStripeModel);
+        const paymentStripeRepository = getCustomRepository(StorePaymentStripeRepository);
 
         const paymentStripe = await paymentStripeRepository.findOne();
 
@@ -18,7 +18,7 @@ export default {
     },
 
     async indexSecret(request: Request, response: Response) {
-        const paymentStripeRepository = getRepository(PaymentStripeModel);
+        const paymentStripeRepository = getCustomRepository(StorePaymentStripeRepository);
 
         const paymentStripe = await paymentStripeRepository.findOne();
 
@@ -29,7 +29,7 @@ export default {
     },
 
     async show() {
-        const paymentStripeRepository = getRepository(PaymentStripeModel);
+        const paymentStripeRepository = getCustomRepository(StorePaymentStripeRepository);
 
         const paymentStripe = await paymentStripeRepository.findOne();
 
@@ -39,19 +39,13 @@ export default {
             null;
     },
 
-    async create(request: Request, response: Response) {
-        const {
-            pk_live,
-            sk_live,
-            active
-        } = request.body;
-
-        const paymentStripeRepository = getRepository(PaymentStripeModel);
+    async generate() {
+        const paymentStripeRepository = getCustomRepository(StorePaymentStripeRepository);
 
         const data = {
-            pk_live,
-            sk_live,
-            active
+            pk_live: '',
+            sk_live: '',
+            active: false,
         };
 
         const schema = Yup.object().shape({
@@ -64,11 +58,9 @@ export default {
             abortEarly: false,
         });
 
-        const debitBrand = paymentStripeRepository.create(data);
+        const paymentStripe = paymentStripeRepository.create(data);
 
-        await paymentStripeRepository.save(debitBrand);
-
-        return response.status(201).json(debitBrand);
+        await paymentStripeRepository.save(paymentStripe);
     },
 
     async update(request: Request, response: Response) {
@@ -80,7 +72,7 @@ export default {
             active
         } = request.body;
 
-        const paymentStripeRepository = getRepository(PaymentStripeModel);
+        const paymentStripeRepository = getCustomRepository(StorePaymentStripeRepository);
 
         const data = {
             pk_live,
@@ -98,17 +90,17 @@ export default {
             abortEarly: false,
         });
 
-        const debitBrand = paymentStripeRepository.create(data);
+        const paymentStripe = paymentStripeRepository.create(data);
 
-        await paymentStripeRepository.update(id, debitBrand);
+        await paymentStripeRepository.update(id, paymentStripe);
 
-        return response.status(204).json(debitBrand);
+        return response.status(204).json(paymentStripe);
     },
 
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const paymentStripeRepository = getRepository(PaymentStripeModel);
+        const paymentStripeRepository = getCustomRepository(StorePaymentStripeRepository);
 
         await paymentStripeRepository.delete(id);
 

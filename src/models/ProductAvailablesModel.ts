@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 't
 import Product from './ProductsModel'
 
 @Entity('product_availables')
-export default class ProductValuesModel {
+export default class ProductAvailablesModel {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -33,7 +33,7 @@ export default class ProductValuesModel {
     @Column()
     shift_02_to: number;
 
-    @ManyToOne(() => Product, product => product.values)
+    @ManyToOne(() => Product, product => product.availables)
     @JoinColumn({ name: 'product_id'})
     product: Product;
 }

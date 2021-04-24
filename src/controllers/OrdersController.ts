@@ -165,7 +165,7 @@ export default {
 
         const orderVerify = await orderRepository.findOneOrFail(id);
 
-        if (String(orderVerify.client_id) !== String(customerId)) return response.status(403).send({ error: 'Customer not authorized!' });
+        if (orderVerify.customer_id !== customerId) return response.status(403).send({ error: 'Customer not authorized!' });
 
         const orderStatusRepository = getRepository(OrderStatusModel);
 

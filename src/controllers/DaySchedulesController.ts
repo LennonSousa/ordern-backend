@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
 import dayScheduleView from '../views/dayScheduleView';
-import DaySchedulesModel from '../models/StoreOpenedSchedulesModel';
+import { StoreOpenedSchedulesRepository } from '../repositories/StoreOpenedSchedulesRepository';
 
 export default {
     async index(request: Request, response: Response) {
-        const daySchedulesRepository = getRepository(DaySchedulesModel);
+        const daySchedulesRepository = getCustomRepository(StoreOpenedSchedulesRepository);
 
         const daySchedules = await daySchedulesRepository.find();
 
@@ -17,7 +17,7 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const daySchedulesRepository = getRepository(DaySchedulesModel);
+        const daySchedulesRepository = getCustomRepository(StoreOpenedSchedulesRepository);
 
         const daySchedule = await daySchedulesRepository.findOneOrFail(id);
 
@@ -32,7 +32,7 @@ export default {
             weedDay
         } = request.body;
 
-        const daySchedulesRepository = getRepository(DaySchedulesModel);
+        const daySchedulesRepository = getCustomRepository(StoreOpenedSchedulesRepository);
 
         const data = {
             from,
@@ -68,7 +68,7 @@ export default {
             paused
         } = request.body;
 
-        const daySchedulesRepository = getRepository(DaySchedulesModel);
+        const daySchedulesRepository = getCustomRepository(StoreOpenedSchedulesRepository);
 
         const data = {
             from,
@@ -96,7 +96,7 @@ export default {
     async delete(request: Request, response: Response) {
         const { id } = request.params;
 
-        const daySchedulesRepository = getRepository(DaySchedulesModel);
+        const daySchedulesRepository = getCustomRepository(StoreOpenedSchedulesRepository);
 
         await daySchedulesRepository.delete(id);
 
