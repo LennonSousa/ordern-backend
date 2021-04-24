@@ -43,8 +43,8 @@ export default {
         const paymentStripeRepository = getCustomRepository(StorePaymentStripeRepository);
 
         const data = {
-            pk_live: '',
-            sk_live: '',
+            pk_live: 'public_key',
+            sk_live: 'private_key',
             active: false,
         };
 
