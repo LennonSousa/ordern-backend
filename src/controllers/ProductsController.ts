@@ -88,7 +88,7 @@ export default {
 
         const productsRepository = getCustomRepository(ProductsRepository);
 
-        if (request.files) {
+        if (request.files && request.files.length >= 1) {
             const requestImages = request.files as Express.Multer.File[];
 
             const images = requestImages.map(image => {
@@ -239,7 +239,7 @@ export default {
 
         const productsRepository = getCustomRepository(ProductsRepository);
 
-        if (request.files) {
+        if (request.files && request.files.length >= 1) {
             const requestImages = request.files as Express.Multer.File[];
             
             const images = requestImages.map(image => {
