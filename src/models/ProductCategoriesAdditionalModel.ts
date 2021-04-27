@@ -22,11 +22,11 @@ export default class ProductCateoriesAdditional {
     @Column()
     order: number;
 
-    @ManyToOne(() => Product, userType => userType.categoriesAdditional)
-    @JoinColumn({ name: 'product_id'})
-    product: Product;
-
     @OneToMany(() => ProductAdditional, productAdditional => productAdditional.categoryAdditional)
     @JoinColumn({ name: 'id' })
     productAdditional: ProductAdditional[];
+
+    @ManyToOne(() => Product, userType => userType.categoriesAdditional)
+    @JoinColumn({ name: 'product_id'})
+    product: Product;
 }

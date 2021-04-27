@@ -26,10 +26,12 @@ export default {
     },
 
     renderMany(products: Product[]) {
+        console.log('productView started...');
         let updatedProducts = AvailableProducts.verifyProducstAvailable(products);
 
         updatedProducts = updatedProducts.sort((a, b) => a.order - b.order);
 
+        console.log('productView finished...');
         return updatedProducts.map(product => this.render(product));
     }
 }

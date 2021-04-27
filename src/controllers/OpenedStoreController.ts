@@ -5,6 +5,7 @@ import { convertHourToMinutes } from '../utils/convertHourToMinutes';
 
 export default {
     async isOpenedStore(openedDays: StoreOpenedDaysModel[]) {
+        console.log('isOpenedStore started...');
         let isOpened = false;
 
         const weekDay = getDay(new Date());
@@ -20,6 +21,8 @@ export default {
         todayAvailable.daySchedules.forEach(daySchedule => {
             if (!daySchedule.paused && minutesNow >= daySchedule.from && minutesNow <= daySchedule.to) isOpened = true;
         });
+
+        console.log('isOpenedStore finished...');
 
         return isOpened;
     },

@@ -13,10 +13,12 @@ export default {
     },
 
     renderMany(categories: Category[]) {
+        console.log('categoryView started...');
         let updatedCategories = categories.filter(item => {return !item.paused});
 
         updatedCategories = updatedCategories.sort((a, b) => a.order - b.order);
 
+        console.log('categoryView finished...');
         return updatedCategories.map(category => this.render(category));
     }
 }

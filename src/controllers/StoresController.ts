@@ -29,7 +29,7 @@ export default {
     async show(request: Request, response: Response) {
         const storeRepository = getCustomRepository(StoresRepository);
 
-        const stores = await storeRepository.find({
+        const store = await storeRepository.findOne({
             relations: [
                 'openedDays',
                 'openedDays.daySchedules',
@@ -46,12 +46,11 @@ export default {
                 'categories.products.availables',
                 'productsHighlights',
                 'productsHighlights.product',
-            ]
+            ],
+
         });
 
-        if (stores.length > 0) {
-            const store = stores[0];
-
+        if (store) {
             const isOpened = await OpenedStoreController.isOpenedStore(store.openedDays);
 
             return response.status(200).json({ ...storeCustomerView.render(store), opened: isOpened });
