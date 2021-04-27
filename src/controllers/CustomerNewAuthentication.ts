@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { addHours, isBefore } from 'date-fns';
+import { addDays, isBefore } from 'date-fns';
 
 import CustomersModel from '../models/CustomersModel';
 import CustomerNewModel from '../models/CustomerNewModel';
@@ -42,7 +42,7 @@ export default {
 
         const tokenEmail = crypto.randomBytes(3).toString('hex');
 
-        const expireHour = addHours(new Date(), 6);
+        const expireHour = addDays(new Date(), 2);
 
         const hash = await bcrypt.hash(tokenEmail, 10);
 

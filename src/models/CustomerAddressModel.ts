@@ -25,12 +25,12 @@ export default class ClientAddressModel {
     city: string;
 
     @Column()
-    country: string;
+    state: string;
 
     @Column()
     type: string;
 
     @ManyToOne(() => Customer, customer => customer.address)
-    @JoinColumn({ name: 'client_id' })
+    @JoinColumn({ name: 'customer_id' })
     customer: Customer;
 }

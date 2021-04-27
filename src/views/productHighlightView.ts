@@ -6,7 +6,7 @@ export default {
         return {
             id: productHighlight.id,
             active: productHighlight.active,
-            product: productsView.render(productHighlight.product)
+            product: productHighlight.product
         }
     },
 

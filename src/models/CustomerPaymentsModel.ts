@@ -25,6 +25,6 @@ export default class ClientPaymentsModel {
     cpf: string;
 
     @ManyToOne(() => Customer, customer => customer.payments)
-    @JoinColumn({ name: 'client_id' })
+    @JoinColumn({ name: 'customer_id' })
     customer: Customer;
 }

@@ -11,7 +11,7 @@ export default {
         const customerOrdersRepository = getRepository(OrderModel);
 
         const customerOrders = await customerOrdersRepository.find({
-            where: { client_id: id },
+            where: { customer_id: id },
             order: {
                 ordered_at: "DESC"
             },
@@ -51,7 +51,7 @@ export default {
         const customerOrdersRepository = getRepository(OrderModel);
 
         const customerOrders = await customerOrdersRepository.find({
-            where: { client: Like(`%${customer}%`) },
+            where: { customer: Like(`%${customer}%`) },
             order: {
                 ordered_at: "DESC"
             },

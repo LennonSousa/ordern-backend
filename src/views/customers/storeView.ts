@@ -1,9 +1,6 @@
 import Store from '../../models/StoresModel';
 import openedDayView from '../../views/openedDayView';
-import storeShipmentView from '../../views/storeShipmentView';
-import paymentDeliveryView from '../storePaymentDeliveryView';
 import orderStatusView from '../../views/orderStatusView';
-import additionalView from '../../views/additionalView';
 import productHighlightView from '../../views/productHighlightView';
 import categoryView from './categoryView';
 
@@ -32,8 +29,6 @@ export default {
             highlights: store.highlights,
             highlights_title: store.highlights_title,
             openedDays: openedDayView.renderMany(store.openedDays),
-            shipments: storeShipmentView.renderMany(store.shipments),
-            paymentsDelivery: paymentDeliveryView.renderMany(store.paymentsDelivery),
             orderStatus: orderStatusView.renderMany(store.orderStatus),
             categories: store.categories ? categoryView.renderMany(store.categories) : [],
             productsHighlights: store.productsHighlights ? productHighlightView.renderMany(store.productsHighlights) : [],

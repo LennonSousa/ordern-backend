@@ -33,10 +33,7 @@ export default {
             relations: [
                 'openedDays',
                 'openedDays.daySchedules',
-                'shipments',
-                'paymentsDelivery',
                 'orderStatus',
-                'additionals',
                 'categories',
                 'categories.products',
                 'categories.products.category',

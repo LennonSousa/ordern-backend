@@ -38,7 +38,7 @@ export default {
         let customerAuth = await customerRepository.findOne({
             relations: ['address', 'payments'],
             where: [
-                { email: email, active: 1, paused: 0 }
+                { email, active: 1, paused: 0 }
             ]
         });
 
@@ -60,7 +60,7 @@ export default {
             const customerOrdersRepository = getRepository(OrderModel);
 
             const customerOrders = await customerOrdersRepository.find({
-                where: { client_id: customerAuth.id },
+                where: { customer_id: customerAuth.id },
                 order: {
                     ordered_at: "DESC"
                 },

@@ -15,7 +15,7 @@ export default {
             group,
             complement,
             city,
-            country,
+            state,
             type,
         } = request.body;
 
@@ -28,7 +28,7 @@ export default {
             group,
             complement,
             city,
-            country,
+            state,
             type,
             customer: customerId as any,
         };
@@ -36,13 +36,13 @@ export default {
         const schema = Yup.object().shape({
             zip_code: Yup.string().required(),
             street: Yup.string().required(),
-            number: Yup.date().required(),
+            number: Yup.string().required(),
             group: Yup.string().required(),
             complement: Yup.string().notRequired(),
             city: Yup.string().required(),
-            country: Yup.string().required(),
+            state: Yup.string().required(),
             type: Yup.string().required(),
-            customer: Yup.number().required()
+            customer: Yup.string().required()
         });
 
         await schema.validate(data, {
@@ -66,7 +66,7 @@ export default {
             group,
             complement,
             city,
-            country,
+            state,
             type,
         } = request.body;
 
@@ -83,18 +83,18 @@ export default {
             group,
             complement,
             city,
-            country,
+            state,
             type,
         };
 
         const schema = Yup.object().shape({
             zip_code: Yup.string().required(),
             street: Yup.string().required(),
-            number: Yup.date().required(),
+            number: Yup.string().required(),
             group: Yup.string().required(),
             complement: Yup.string().notRequired(),
             city: Yup.string().required(),
-            country: Yup.string().required(),
+            state: Yup.string().required(),
             type: Yup.string().required(),
         });
 

@@ -50,7 +50,7 @@ export default {
         const customerOrdersRepository = getRepository(OrderModel);
 
         const customerOrders = await customerOrdersRepository.find({
-            where: { client_id: customer.id },
+            where: { customer_id: customer.id },
             order: {
                 ordered_at: "DESC"
             },

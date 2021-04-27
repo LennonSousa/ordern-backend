@@ -53,7 +53,7 @@ export default {
             exp_year: Yup.string().required(),
             name: Yup.string().required(),
             cpf: Yup.string().required(),
-            customer: Yup.number().required()
+            customer: Yup.string().required()
         });
 
         await schema.validate(data, {

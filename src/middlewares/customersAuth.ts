@@ -37,7 +37,7 @@ export default (request: Request, response: Response, next: NextFunction) => {
             const { customerId } = request.params;
             const decodedId = decoded.id;
 
-            console.log(customerId, decodedId);
+            //console.log(customerId, decodedId);
 
             if (customerId !== decodedId) return response.status(403).send({ error: 'Customer not authorized!' });
 
