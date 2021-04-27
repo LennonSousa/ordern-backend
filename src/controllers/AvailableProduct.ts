@@ -6,7 +6,7 @@ import { convertHourToMinutes } from '../utils/convertHourToMinutes';
 
 export default {
     verifyProducstAvailable(products: Product[]) {
-        console.log('verifyProductsAvailable started...');
+        //console.log('verifyProductsAvailable started...');
         let updatedProducts: Product[] = [];
 
         products.forEach(product => {
@@ -50,7 +50,7 @@ export default {
 
         });
 
-        console.log('verifyProductsAvailables finished...');
+        //console.log('verifyProductsAvailables finished...');
         return updatedProducts;
     }
 }

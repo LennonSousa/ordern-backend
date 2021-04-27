@@ -15,10 +15,10 @@ export default {
     },
 
     renderMany(categories: CategoryAdditional[]) {
-        console.log('productCategoryAdditionalView started...');
+        //console.log('productCategoryAdditionalView started...');
         const categoriesSorted = categories.sort((a, b) => a.order - b.order);
 
-        console.log('productCategoryAdditionalView finished...');
+        //console.log('productCategoryAdditionalView finished...');
         return categoriesSorted.map(category => this.render(category));
     }
 }
