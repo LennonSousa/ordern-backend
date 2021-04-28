@@ -14,9 +14,9 @@ export default {
 
     renderMany(categories: Category[]) {
         //console.log('categoryView started...');
-        const updatedCategories = categories.sort((a, b) => a.order - b.order);
+        //const updatedCategories = categories.sort((a, b) => a.order - b.order);
 
         //console.log('categoryView finished...');
-        return updatedCategories.map(category => this.render(category));
+        return categories.map(category => this.render(category));
     }
 }

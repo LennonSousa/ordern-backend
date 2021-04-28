@@ -14,6 +14,7 @@ import StorePaymentsDeliveryController from './StorePaymentsDeliveryController';
 import OrderStatusController from './OrderStatusController';
 import OpenedStoreController from './OpenedStoreController';
 import StorePaymentStripeController from './StorePaymentStripeController';
+import AvailableProducts from '../controllers/AvailableProduct';
 
 export default {
     async index(request: Request, response: Response) {
@@ -34,7 +35,7 @@ export default {
             .leftJoinAndSelect('openedDays.daySchedules', 'daySchedules')
             .leftJoinAndSelect('StoresModel.orderStatus', 'orderStatus')
             .leftJoinAndSelect('StoresModel.categories', 'category', 'category.paused=0')
-            .leftJoinAndSelect('category.products', 'product', 'product.paused=0').orderBy('product.order', 'ASC')
+            .leftJoinAndSelect('category.products', 'product', 'product.paused=0')
             .leftJoinAndSelect('product.values', 'values')
             .leftJoinAndSelect('product.images', 'image')
             .leftJoinAndSelect('product.categoriesAdditional', 'categoriesAdditional')
@@ -45,6 +46,8 @@ export default {
             .leftJoinAndSelect('StoresModel.productsHighlights', 'productsHighlights', 'productsHighlights.active=1')
             .leftJoinAndSelect('productsHighlights.product', 'highlightProduct', 'highlightProduct.paused=0')
             .getOne();
+
+
 
         // const store = await storeRepository.findOne({
         //     relations: [
@@ -69,8 +72,13 @@ export default {
 
         if (store) {
             const isOpened = await OpenedStoreController.isOpenedStore(store.openedDays);
+            let updatedStore = {
+                ...store, categories: store.categories.sort((a, b) => a.order - b.order).map(category => {
+                    return { ...category, products: AvailableProducts.verifyProducstAvailable(category.products).sort((a, b) => a.order - b.order) };
+                })
+            };
 
-            return response.status(200).json({ ...storeCustomerView.render(store), opened: isOpened });
+            return response.status(200).json({ ...storeCustomerView.render(updatedStore), opened: isOpened });
         }
 
         return response.status(400).json({ error: 'Cannot find store!' });
