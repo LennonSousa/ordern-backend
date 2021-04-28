@@ -29,31 +29,40 @@ export default {
     async show(request: Request, response: Response) {
         const storeRepository = getCustomRepository(StoresRepository);
 
-        const store = await storeRepository.findOne({
-            relations: [
-                'openedDays',
-                'openedDays.daySchedules',
-                'orderStatus',
-                'categories',
-                'categories.products',
-                'categories.products.category',
-                'categories.products.images',
-                'categories.products.values',
-                'categories.products.categoriesAdditional',
-                'categories.products.categoriesAdditional.productAdditional',
-                'categories.products.categoriesAdditional.productAdditional.additional',
-                'categories.products.categoriesAdditional.productAdditional.categoryAdditional',
-                'categories.products.availables',
-                'productsHighlights',
-                'productsHighlights.product',
-            ],
+        const store = await storeRepository.createQueryBuilder('StoresModel')
+            .leftJoinAndSelect('StoresModel.categories', 'category', 'paused=0')
+            .leftJoinAndSelect('category.products', 'product', 'product.paused=0')
+            .leftJoinAndSelect('product.images', 'image')
+            .leftJoinAndSelect('product.categoriesAdditional', 'categoriesAdditional')
+            .leftJoinAndSelect('categoriesAdditional.productAdditional', 'productAdditional')
+            .leftJoinAndSelect('productAdditional.categoryAdditional', 'categoryAdditional')
+            .getOne();
 
-        });
+        // const store = await storeRepository.findOne({
+        //     relations: [
+        //         'openedDays',
+        //         'openedDays.daySchedules',
+        //         'orderStatus',
+        //         'categories',
+        //         'categories.products',
+        //         'categories.products.category',
+        //         'categories.products.images',
+        //         'categories.products.values',
+        //         'categories.products.categoriesAdditional',
+        //         'categories.products.categoriesAdditional.productAdditional',
+        //         'categories.products.categoriesAdditional.productAdditional.additional',
+        //         'categories.products.categoriesAdditional.productAdditional.categoryAdditional',
+        //         'categories.products.availables',
+        //         'productsHighlights',
+        //         'productsHighlights.product',
+        //     ],
+
+        // });
 
         if (store) {
-            const isOpened = await OpenedStoreController.isOpenedStore(store.openedDays);
+            //const isOpened = await OpenedStoreController.isOpenedStore(store.openedDays);
 
-            return response.status(200).json({ ...storeCustomerView.render(store), opened: isOpened });
+            return response.status(200).json(store);
         }
 
         return response.status(400).json({ error: 'Cannot find store!' });
