@@ -17,9 +17,9 @@ import StorePaymentStripeController from './StorePaymentStripeController';
 
 export default {
     async index(request: Request, response: Response) {
-        const restaurantsRepository = getCustomRepository(StoresRepository);
+        const storesRepository = getCustomRepository(StoresRepository);
 
-        const store = await restaurantsRepository.find();
+        const store = await storesRepository.find();
 
         if (store.length > 0) return response.json(storeView.render(store[0]));
 
@@ -30,16 +30,20 @@ export default {
         const storeRepository = getCustomRepository(StoresRepository);
 
         const store = await storeRepository.createQueryBuilder('StoresModel')
-            .leftJoinAndSelect('StoresModel.categories', 'category', 'paused=0').orderBy('category.order', 'ASC')
-            .leftJoinAndSelect('category.products', 'product', 'product.paused=0').orderBy('product.order', 'ASC')
+            .leftJoinAndSelect('StoresModel.openedDays', 'openedDays')
+            .leftJoinAndSelect('openedDays.daySchedules', 'daySchedules')
+            .leftJoinAndSelect('StoresModel.orderStatus', 'orderStatus')
+            .leftJoinAndSelect('StoresModel.categories', 'category', 'category.paused=0')
+            .leftJoinAndSelect('category.products', 'product', 'product.paused=0')
+            .leftJoinAndSelect('product.values', 'values')
             .leftJoinAndSelect('product.images', 'image')
             .leftJoinAndSelect('product.categoriesAdditional', 'categoriesAdditional').orderBy('categoriesAdditional.order', 'ASC')
             .leftJoinAndSelect('categoriesAdditional.productAdditional', 'productAdditional').orderBy('productAdditional.order', 'ASC')
             .leftJoinAndSelect('productAdditional.additional', 'additional')
             .leftJoinAndSelect('productAdditional.categoryAdditional', 'categoryAdditional')
             .leftJoinAndSelect('product.availables', 'availables')
-            .leftJoinAndSelect('StoresModel.productsHighlights', 'productsHighlights')
-            .leftJoinAndSelect('productsHighlights.product', 'highlightProduct')
+            .leftJoinAndSelect('StoresModel.productsHighlights', 'productsHighlights', 'productsHighlights.active=1')
+            .leftJoinAndSelect('productsHighlights.product', 'highlightProduct', 'highlightProduct.paused=0')
             .getOne();
 
         // const store = await storeRepository.findOne({
@@ -64,9 +68,9 @@ export default {
         // });
 
         if (store) {
-            //const isOpened = await OpenedStoreController.isOpenedStore(store.openedDays);
+            const isOpened = await OpenedStoreController.isOpenedStore(store.openedDays);
 
-            return response.status(200).json(store);
+            return response.status(200).json({ ...storeCustomerView.render(store), opened: isOpened });
         }
 
         return response.status(400).json({ error: 'Cannot find store!' });
