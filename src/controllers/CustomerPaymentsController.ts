@@ -71,15 +71,12 @@ export default {
         const { customerId, id } = request.params;
 
         const {
-            card_number,
             brand,
             exp_month,
             exp_year,
             name,
             cpf
         } = request.body;
-
-        const cardNumberEncrypted = encrypt(card_number);
 
         const customerPaymentsRepository = getRepository(CustomerPaymentsModel);
 
@@ -88,7 +85,6 @@ export default {
         if (String(paymentVerify.customer.id) !== String(customerId)) return response.status(403).send({ error: 'Customer not authorized!' });
 
         const data = {
-            card_number: cardNumberEncrypted,
             brand,
             exp_month,
             exp_year,
@@ -97,7 +93,6 @@ export default {
         };
 
         const schema = Yup.object().shape({
-            card_number: Yup.string().required(),
             brand: Yup.string().required(),
             exp_month: Yup.string().required(),
             exp_year: Yup.string().required(),

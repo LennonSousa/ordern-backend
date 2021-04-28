@@ -55,7 +55,6 @@ export default {
 
         const {
             tracker,
-            delivery_in,
             sub_total,
             cupom,
             delivery_tax,
@@ -75,16 +74,12 @@ export default {
 
         const orderStatusRepository = getRepository(OrderStatusModel);
 
-        const orderStatusToSave = await orderStatusRepository.findOneOrFail({ where: { order: 1 } });
+        const orderStatusToSave = await orderStatusRepository.findOneOrFail({ where: { order: 0 } });
 
         const data = {
             tracker,
-            client_id: customer.id,
-            client: customer.name,
-            ordered_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-            delivery_in,
-            placed_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-            delivered_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+            customer_id: customer.id,
+            customer: customer.name,
             sub_total,
             cupom,
             delivery_tax,
@@ -97,19 +92,14 @@ export default {
             payment_type,
             paid,
             address,
-            cancelled_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
-            orderStatus: orderStatusToSave.order as any,
+            orderStatus: orderStatusToSave.id as any,
             orderItems
         };
 
         const schema = Yup.object().shape({
             tracker: Yup.string().required(),
-            client_id: Yup.number().required(),
-            client: Yup.string().required(),
-            ordered_at: Yup.date().required(),
-            delivery_in: Yup.date().required(),
-            placed_at: Yup.date().required(),
-            delivered_at: Yup.date().required(),
+            customer_id: Yup.string().required(),
+            customer: Yup.string().required(),
             sub_total: Yup.number().required(),
             cupom: Yup.string().notRequired(),
             delivery_tax: Yup.number().required(),
@@ -122,7 +112,6 @@ export default {
             payment_type: Yup.string().required(),
             paid: Yup.boolean().notRequired(),
             address: Yup.string().required(),
-            cancelled_at: Yup.date().required(),
             orderStatus: Yup.number().required(),
             orderItems: Yup.array(
                 Yup.object().shape({

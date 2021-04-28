@@ -22,7 +22,7 @@ export default {
             group: store.group,
             complement: store.complement,
             city: store.city,
-            country: store.state,
+            state: store.state,
             latitude: store.latitude,
             longitude: store.longitude,
             free_shipping: store.free_shipping,

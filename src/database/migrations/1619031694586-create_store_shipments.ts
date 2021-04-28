@@ -29,10 +29,8 @@ export class createStoreShipments1619031694586 implements MigrationInterface {
                 },
                 {
                     name: 'default_price',
-                    type: 'decimal',
-                    scale: 2,
-                    precision: 10,
-                    default: 0.00
+                    type: 'integer',
+                    default: 0
                 },
                 {
                     name: 'store_id',

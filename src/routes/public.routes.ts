@@ -45,12 +45,6 @@ publicRoutes.get('/product/additionals/:id', ProductAdditionalsController.show);
 publicRoutes.get('/highlights/landing', ProductsHighlightsController.index);
 publicRoutes.get('/highlights/landing/:id', ProductsHighlightsController.show);
 
-publicRoutes.get('/payments/credit-brands', CreditBrandsController.index);
-publicRoutes.get('/payments/credit-brands/:id', CreditBrandsController.show);
-
-publicRoutes.get('/payments/debit-brands', DebitBrandsController.index);
-publicRoutes.get('/payments/debit-brands/:id', DebitBrandsController.show);
-
 //publicRoutes.get('/payments/delivery', PaymentsDeliveryController.index);
 
 publicRoutes.get('/order-status', OrderStatusController.index);
