@@ -10,7 +10,7 @@ export default {
         let updatedProducts: Product[] = [];
 
         products.forEach(product => {
-            //if (product.paused) return; // Not paused!
+            if (product.paused) return; // Not paused!
 
             if (product.available_all) {
                 updatedProducts.push(product);

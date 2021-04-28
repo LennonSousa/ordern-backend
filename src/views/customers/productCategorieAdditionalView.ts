@@ -16,9 +16,9 @@ export default {
 
     renderMany(categories: CategoryAdditional[]) {
         //console.log('productCategoryAdditionalView started...');
-        //const categoriesSorted = categories.sort((a, b) => a.order - b.order);
+        const categoriesSorted = categories.sort((a, b) => a.order - b.order);
 
         //console.log('productCategoryAdditionalView finished...');
-        return categories.map(category => this.render(category));
+        return categoriesSorted.map(category => this.render(category));
     }
 }

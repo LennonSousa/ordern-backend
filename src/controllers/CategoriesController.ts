@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
-import categoryView from '../views/categoryView';
+import categoryView from '../views/customers/categoryView';
 import { CategoriesRepository } from '../repositories/CategoriesRepository';
 
 export default {

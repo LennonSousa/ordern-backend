@@ -14,11 +14,11 @@ export default {
 
     renderMany(productAdditionals: ProductAdditionals[]) {
         //console.log('productAdditionalView started...');
-        //let productAdditionalsSorted = productAdditionals.filter(item => {return !item.additional.paused});
+        let productAdditionalsSorted = productAdditionals.filter(item => {return !item.additional.paused});
 
-        //productAdditionalsSorted = productAdditionalsSorted.sort((a, b) => a.order - b.order);
+        productAdditionalsSorted = productAdditionalsSorted.sort((a, b) => a.order - b.order);
 
         //console.log('productAdditionalView finished...');
-        return productAdditionals.map(productAdditional => this.render(productAdditional));
+        return productAdditionalsSorted.map(productAdditional => this.render(productAdditional));
     }
 }
