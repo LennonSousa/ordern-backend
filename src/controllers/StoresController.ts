@@ -30,12 +30,16 @@ export default {
         const storeRepository = getCustomRepository(StoresRepository);
 
         const store = await storeRepository.createQueryBuilder('StoresModel')
-            .leftJoinAndSelect('StoresModel.categories', 'category', 'paused=0')
-            .leftJoinAndSelect('category.products', 'product', 'product.paused=0')
+            .leftJoinAndSelect('StoresModel.categories', 'category', 'paused=0').orderBy('category.order', 'ASC')
+            .leftJoinAndSelect('category.products', 'product', 'product.paused=0').orderBy('product.order', 'ASC')
             .leftJoinAndSelect('product.images', 'image')
-            .leftJoinAndSelect('product.categoriesAdditional', 'categoriesAdditional')
-            .leftJoinAndSelect('categoriesAdditional.productAdditional', 'productAdditional')
+            .leftJoinAndSelect('product.categoriesAdditional', 'categoriesAdditional').orderBy('categoriesAdditional.order', 'ASC')
+            .leftJoinAndSelect('categoriesAdditional.productAdditional', 'productAdditional').orderBy('productAdditional.order', 'ASC')
+            .leftJoinAndSelect('productAdditional.additional', 'additional')
             .leftJoinAndSelect('productAdditional.categoryAdditional', 'categoryAdditional')
+            .leftJoinAndSelect('product.availables', 'availables')
+            .leftJoinAndSelect('StoresModel.productsHighlights', 'productsHighlights')
+            .leftJoinAndSelect('productsHighlights.product', 'highlightProduct')
             .getOne();
 
         // const store = await storeRepository.findOne({
