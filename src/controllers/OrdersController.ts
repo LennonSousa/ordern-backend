@@ -1,19 +1,19 @@
 import { Request, Response } from 'express';
-import { Between, getRepository } from 'typeorm';
+import { Between, getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 import { format } from 'date-fns';
 
 import OrderWebSocketHandler from './OrderWebSocketHandlers';
 import orderView from '../views/orderView';
-import OrderModel from '../models/OrdersModel';
-import CustomersModel from '../models/CustomersModel';
-import OrderStatusModel from '../models/OrderStatusModel';
+import { OrdersRepository } from '../repositories/OrdersRepository';
+import { CustomersRepository } from '../repositories/CustomersRepository';
+import { OrderStatusRepository } from '../repositories/OrderStatusRepository';
 
 export default {
     async index(request: Request, response: Response) {
         const { start, end } = request.query;
 
-        const orderRepository = getRepository(OrderModel);
+        const orderRepository = getCustomRepository(OrdersRepository);
 
         const orders = await orderRepository.find({
             where: { ordered_at: Between(start, end) },
@@ -33,7 +33,7 @@ export default {
     async show(request: Request, response: Response) {
         const { id } = request.params;
 
-        const orderRepository = getRepository(OrderModel);
+        const orderRepository = getCustomRepository(OrdersRepository);
 
         const order = await orderRepository.findOneOrFail(id, {
             relations: [
@@ -49,7 +49,7 @@ export default {
     async create(request: Request, response: Response) {
         const { customerId } = request.params;
 
-        const customersRepository = getRepository(CustomersModel);
+        const customersRepository = getCustomRepository(CustomersRepository);
 
         const customer = await customersRepository.findOneOrFail(customerId);
 
@@ -70,9 +70,9 @@ export default {
             orderItems
         } = request.body;
 
-        const orderRepository = getRepository(OrderModel);
+        const orderRepository = getCustomRepository(OrdersRepository);
 
-        const orderStatusRepository = getRepository(OrderStatusModel);
+        const orderStatusRepository = getCustomRepository(OrderStatusRepository);
 
         const orderStatusToSave = await orderStatusRepository.findOneOrFail({ where: { order: 0 } });
 
@@ -144,19 +144,61 @@ export default {
     },
 
     async update(request: Request, response: Response) {
+        const { id } = request.params;
+
+        const {
+            placed_at,
+            delivered_at,
+            cancelled_at,
+            orderStatus,
+            reason_cancellation,
+        } = request.body;
+
+        const orderRepository = getCustomRepository(OrdersRepository);
+
+        const data = {
+            placed_at,
+            delivered_at,
+            reason_cancellation,
+            cancelled_at,
+            orderStatus,
+        };
+
+        const schema = Yup.object().shape({
+            placed_at: Yup.date().notRequired(),
+            delivered_at: Yup.date().notRequired(),
+            reason_cancellation: Yup.string().notRequired(),
+            cancelled_at: Yup.date().notRequired(),
+            orderStatus: Yup.number().required(),
+        });
+
+        await schema.validate(data, {
+            abortEarly: false,
+        });
+
+        const order = orderRepository.create(data);
+
+        await orderRepository.update(id, order);
+
+        OrderWebSocketHandler.update();
+
+        return response.status(204).json(order);
+    },
+
+    async cancel(request: Request, response: Response) {
         const { customerId, id } = request.params;
 
         const {
             reason_cancellation,
         } = request.body;
 
-        const orderRepository = getRepository(OrderModel);
+        const orderRepository = getCustomRepository(OrdersRepository);
 
         const orderVerify = await orderRepository.findOneOrFail(id);
 
         if (orderVerify.customer_id !== customerId) return response.status(403).send({ error: 'Customer not authorized!' });
 
-        const orderStatusRepository = getRepository(OrderStatusModel);
+        const orderStatusRepository = getCustomRepository(OrderStatusRepository);
 
         const orderStatusToSave = await orderStatusRepository.findOneOrFail({ where: { order: 5 } });
 
@@ -188,7 +230,7 @@ export default {
     // async delete(request: Request, response: Response) {
     //     const { id } = request.params;
 
-    //     const orderRepository = getRepository(OrderModel);
+    //     const orderRepository = getCustomRepository(OrdersRepository);
 
     //     await orderRepository.delete(id);
 

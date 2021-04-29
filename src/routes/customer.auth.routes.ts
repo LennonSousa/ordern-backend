@@ -47,6 +47,6 @@ customerAuthRoutes.delete('/customer/:customerId/payments/:id', customersAuthMid
 customerAuthRoutes.post('/customer/:customerId/payments/dopayments', customersAuthMiddleware, PaymentsController.create);
 
 customerAuthRoutes.post('/customer/:customerId/orders', customersAuthMiddleware, OrdersController.create);
-customerAuthRoutes.put('/customer/:customerId/orders/:id', customersAuthMiddleware, OrdersController.update);
+customerAuthRoutes.put('/customer/:customerId/orders/:id', customersAuthMiddleware, OrdersController.cancel);
 
 export default customerAuthRoutes;
