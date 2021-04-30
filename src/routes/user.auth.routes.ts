@@ -29,6 +29,7 @@ import UsersController from '../controllers/UsersController';
 import UserNewAuthenticationController from '../controllers/UserNewAuthenticationController';
 
 import usersAuthMiddleware from '../middlewares/usersAuth';
+import OrderStatusController from '../controllers/OrderStatusController';
 
 const userAuthRoutes = express.Router();
 const upload = multer(uploadConfig);
@@ -38,14 +39,12 @@ userAuthRoutes.get('/', usersAuthMiddleware, function (request, response) {
 });
 
 userAuthRoutes.get('/stores', usersAuthMiddleware, StoresController.index);
-
 userAuthRoutes.post(
     '/stores',
     upload.fields([{ name: 'cover', maxCount: 1 }, { name: 'avatar', maxCount: 1 }]),
     usersAuthMiddleware,
     StoresController.create
 );
-
 userAuthRoutes.put('/stores/:id', usersAuthMiddleware, StoresController.update);
 
 userAuthRoutes.put('/store/cover/:id', usersAuthMiddleware, upload.single('cover'), StoreCoverController.update);
@@ -77,35 +76,51 @@ userAuthRoutes.post('/store/delivery-groups', usersAuthMiddleware, StoreDelivery
 userAuthRoutes.put('/store/delivery-groups/:id', usersAuthMiddleware, StoreDeliveryGroupsController.update);
 userAuthRoutes.delete('/store/delivery-groups/:id', usersAuthMiddleware, StoreDeliveryGroupsController.delete);
 
+userAuthRoutes.get('/categories', usersAuthMiddleware, CategoriesController.index);
+userAuthRoutes.get('/categories/:id', usersAuthMiddleware, CategoriesController.show);
 userAuthRoutes.post('/categories', usersAuthMiddleware, CategoriesController.create);
 userAuthRoutes.put('/categories/:id', usersAuthMiddleware, CategoriesController.update);
 userAuthRoutes.delete('/categories/:id', usersAuthMiddleware, CategoriesController.delete);
 
+userAuthRoutes.get('/additionals', usersAuthMiddleware, AdditionalsController.index);
+userAuthRoutes.get('/additionals/:id', usersAuthMiddleware, AdditionalsController.show);
 userAuthRoutes.post('/additionals', usersAuthMiddleware, AdditionalsController.create);
 userAuthRoutes.put('/additionals/:id', usersAuthMiddleware, AdditionalsController.update);
 userAuthRoutes.delete('/additionals/:id', usersAuthMiddleware, AdditionalsController.delete);
 
+userAuthRoutes.get('/products', usersAuthMiddleware, ProductsController.index);
+userAuthRoutes.get('/products/:id', usersAuthMiddleware, ProductsController.show);
 userAuthRoutes.post('/products', usersAuthMiddleware, upload.array('images'), ProductsController.create);
 userAuthRoutes.put('/products/:id', usersAuthMiddleware, upload.array('images'), ProductsController.update);
 userAuthRoutes.delete('/products/:id', usersAuthMiddleware, ProductsController.delete);
 
+userAuthRoutes.get('/product/values', usersAuthMiddleware, ProductValuesController.index);
+userAuthRoutes.get('/product/values/:id', usersAuthMiddleware, ProductValuesController.show);
 userAuthRoutes.post('/product/values', usersAuthMiddleware, ProductValuesController.create);
 userAuthRoutes.put('/product/values/:id', usersAuthMiddleware, ProductValuesController.update);
 userAuthRoutes.delete('/product/values/:id', usersAuthMiddleware, ProductValuesController.delete);
 
+userAuthRoutes.get('/product/categories', usersAuthMiddleware, ProductCategoriesAdditionalController.index);
+userAuthRoutes.get('/product/categories/:id', usersAuthMiddleware, ProductCategoriesAdditionalController.show);
 userAuthRoutes.post('/product/categories', usersAuthMiddleware, ProductCategoriesAdditionalController.create);
 userAuthRoutes.put('/product/categories/:id', usersAuthMiddleware, ProductCategoriesAdditionalController.update);
 userAuthRoutes.delete('/product/categories/:id', usersAuthMiddleware, ProductCategoriesAdditionalController.delete);
 
+userAuthRoutes.get('/product/additionals', usersAuthMiddleware, ProductAdditionalsController.index);
+userAuthRoutes.get('/product/additionals/:id', usersAuthMiddleware, ProductAdditionalsController.show);
 userAuthRoutes.post('/product/additionals', usersAuthMiddleware, ProductAdditionalsController.create);
 userAuthRoutes.put('/product/additionals/:id', usersAuthMiddleware, ProductAdditionalsController.update);
 userAuthRoutes.delete('/product/additionals/:id', usersAuthMiddleware, ProductAdditionalsController.delete);
 
 userAuthRoutes.put('/product/availables/:id', usersAuthMiddleware, ProductAvailablesController.update);
 
+userAuthRoutes.get('/highlights/landing', usersAuthMiddleware, ProductsHighlightsController.index);
+userAuthRoutes.get('/highlights/landing/:id', usersAuthMiddleware, ProductsHighlightsController.show);
 userAuthRoutes.post('/highlights/landing', usersAuthMiddleware, ProductsHighlightsController.create);
 userAuthRoutes.put('/highlights/landing/:id', usersAuthMiddleware, ProductsHighlightsController.update);
 userAuthRoutes.delete('/highlights/landing/:id', usersAuthMiddleware, ProductsHighlightsController.delete);
+
+userAuthRoutes.get('/order-status', usersAuthMiddleware, OrderStatusController.index);
 
 userAuthRoutes.get('/orders', usersAuthMiddleware, OrdersController.index);
 userAuthRoutes.get('/orders/:id', usersAuthMiddleware, OrdersController.show);

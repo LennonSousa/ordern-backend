@@ -27,6 +27,11 @@ customerAuthRoutes.post('/customer/:customerId/address', customersAuthMiddleware
 customerAuthRoutes.put('/customer/:customerId/address/:id', customersAuthMiddleware, CustomerAddressController.update);
 customerAuthRoutes.delete('/customer/:customerId/address/:id', customersAuthMiddleware, CustomerAddressController.delete);
 
+customerAuthRoutes.get('/customer/:customerId/payment/:id', customersAuthMiddleware, CustomerPaymentsController.show);
+customerAuthRoutes.post('/customer/:customerId/payments', customersAuthMiddleware, CustomerPaymentsController.create);
+customerAuthRoutes.put('/customer/:customerId/payments/:id', customersAuthMiddleware, CustomerPaymentsController.update);
+customerAuthRoutes.delete('/customer/:customerId/payments/:id', customersAuthMiddleware, CustomerPaymentsController.delete);
+
 customerAuthRoutes.get('/customer/:customerId/store/shipments', customersAuthMiddleware, StoreShipmentsController.index);
 
 customerAuthRoutes.get('/customer/:customerId/store/delivery-groups', customersAuthMiddleware, StoreDeliveryGroupsController.index);
@@ -38,11 +43,6 @@ customerAuthRoutes.get('/customer/:customerId/payments/credit-brands', customers
 customerAuthRoutes.get('/customer/:customerId/payments/debit-brands', customersAuthMiddleware, DebitBrandsController.index);
 
 customerAuthRoutes.get('/customer/:customerId/payments/stripe', customersAuthMiddleware, PaymentStripeController.index);
-
-customerAuthRoutes.get('/customer/:customerId/payment/:id', customersAuthMiddleware, CustomerPaymentsController.show);
-customerAuthRoutes.post('/customer/:customerId/payments', customersAuthMiddleware, CustomerPaymentsController.create);
-customerAuthRoutes.put('/customer/:customerId/payments/:id', customersAuthMiddleware, CustomerPaymentsController.update);
-customerAuthRoutes.delete('/customer/:customerId/payments/:id', customersAuthMiddleware, CustomerPaymentsController.delete);
 
 customerAuthRoutes.post('/customer/:customerId/payments/dopayments', customersAuthMiddleware, PaymentsController.create);
 

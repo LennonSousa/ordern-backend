@@ -14,15 +14,14 @@ import StorePaymentsDeliveryController from './StorePaymentsDeliveryController';
 import OrderStatusController from './OrderStatusController';
 import OpenedStoreController from './OpenedStoreController';
 import StorePaymentStripeController from './StorePaymentStripeController';
-import AvailableProducts from '../controllers/AvailableProduct';
 
 export default {
     async index(request: Request, response: Response) {
         const storesRepository = getCustomRepository(StoresRepository);
 
-        const store = await storesRepository.find();
+        const store = await storesRepository.findOne();
 
-        if (store.length > 0) return response.json(storeView.render(store[0]));
+        if (store) return response.json(storeView.render(store));
 
         return response.status(400).json({ error: 'Cannot find store!' });
     },
