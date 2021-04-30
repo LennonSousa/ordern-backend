@@ -3,7 +3,8 @@ import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
 
-import categoryView from '../views/customers/categoryView';
+import categoryView from '../views/categoryView';
+import categoryCustomerView from '../views/customers/categoryView';
 import { CategoriesRepository } from '../repositories/CategoriesRepository';
 
 export default {
@@ -31,11 +32,12 @@ export default {
     },
 
     async show(request: Request, response: Response) {
-        const { id } = request.params;
-
         const categoriesRepository = getCustomRepository(CategoriesRepository);
 
-        const category = await categoriesRepository.findOneOrFail(id, {
+        const categories = await categoriesRepository.find({
+            order: {
+                order: "ASC"
+            },
             relations: [
                 'products',
                 'products.images',
@@ -49,7 +51,7 @@ export default {
             ]
         });
 
-        return response.json(categoryView.render(category));
+        return response.json(categoryCustomerView.renderMany(categories));
     },
 
     async create(request: Request, response: Response) {

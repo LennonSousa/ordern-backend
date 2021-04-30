@@ -180,7 +180,7 @@ export default {
                 order: Yup.number().required(),
                 available_all: Yup.boolean().notRequired(),
                 on_request: Yup.boolean().notRequired(),
-                category: Yup.number().required(),
+                category: Yup.string().required(),
                 availables: Yup.array(
                     Yup.object().shape({
                         week_day: Yup.number().required(),
@@ -196,7 +196,7 @@ export default {
 
             await productsRepository.save(product);
 
-            return response.status(201).json(productView.render(product));
+            return response.status(201).json(product.id);
         }
     },
 
@@ -241,19 +241,24 @@ export default {
 
         if (request.files && request.files.length >= 1) {
             const requestImages = request.files as Express.Multer.File[];
-            
+
             const images = requestImages.map(image => {
                 return { path: image.filename }
             });
 
             const productImagesRepository = getCustomRepository(ProductImagesRepository);
 
-            const productImage = await productImagesRepository.findOne();
+            const productImage = await productImagesRepository.findOne({ where: { product: id } });
 
             if (productImage) {
                 const image = productImagesRepository.create({ path: images[0].path });
 
                 await productImagesRepository.update(productImage.id, image);
+            }
+            else {
+                const image = productImagesRepository.create({ path: images[0].path, product: id as any });
+
+                await productImagesRepository.save(image);
             }
 
             const data = {
@@ -296,7 +301,7 @@ export default {
 
             await productsRepository.update(id, product);
 
-            return response.status(204).json(product);
+            return response.status(204).json();
         }
         else {
             const data = {
@@ -318,7 +323,6 @@ export default {
             const schema = Yup.object().shape({
                 title: Yup.string().required(),
                 description: Yup.string().notRequired(),
-                image: Yup.string().notRequired(),
                 maiority: Yup.boolean().required(),
                 code: Yup.string().notRequired(),
                 price_one: Yup.boolean().required(),
@@ -340,7 +344,7 @@ export default {
 
             await productsRepository.update(id, product);
 
-            return response.status(204).json(product);
+            return response.status(204).json();
         }
     },
 

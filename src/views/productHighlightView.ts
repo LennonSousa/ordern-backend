@@ -1,12 +1,12 @@
 import ProductsHighlights from '../models/ProductsHighlightsModel';
-import productsView from '../views/productView';
+import productsCustomersView from '../views/customers/productView';
 
 export default {
     render(productHighlight: ProductsHighlights) {
         return {
             id: productHighlight.id,
             active: productHighlight.active,
-            product: productHighlight.product
+            product: productsCustomersView.render(productHighlight.product)
         }
     },
 

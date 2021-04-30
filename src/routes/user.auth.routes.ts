@@ -77,7 +77,6 @@ userAuthRoutes.put('/store/delivery-groups/:id', usersAuthMiddleware, StoreDeliv
 userAuthRoutes.delete('/store/delivery-groups/:id', usersAuthMiddleware, StoreDeliveryGroupsController.delete);
 
 userAuthRoutes.get('/categories', usersAuthMiddleware, CategoriesController.index);
-userAuthRoutes.get('/categories/:id', usersAuthMiddleware, CategoriesController.show);
 userAuthRoutes.post('/categories', usersAuthMiddleware, CategoriesController.create);
 userAuthRoutes.put('/categories/:id', usersAuthMiddleware, CategoriesController.update);
 userAuthRoutes.delete('/categories/:id', usersAuthMiddleware, CategoriesController.delete);
